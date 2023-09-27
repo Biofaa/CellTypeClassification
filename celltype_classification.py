@@ -1,5 +1,4 @@
 # %% Libraries and functions
-#prova
 import sys
 sys.path.append('G:/My Drive/PhD/CAPTUR3D_personal/03 Software e utilities/v0.2.0/Libraries')
 import pandas as pd
@@ -1131,6 +1130,60 @@ X_train, Y_train = oversample.fit_resample(X_train, Y_train)
 
 # %% Supervised learning
 
+# %% XGBoost optimized
+from xgboost import XGBClassifier
+from sklearn.model_selection import cross_val_score
+import optuna
+
+
+#define an objective function to minimize loss using optuna
+def objective(trial):
+        """
+        Objective function for Optuna study.
+        """
+
+        params = {
+            #'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear', 'dart']),
+            'eta': trial.suggest_float('eta',0.01,1),
+            'learning_rate': trial.suggest_float('learning_rate', 0.001, 0.3),
+            'n_estimators': trial.suggest_int('n_estimators', 500,2000,log=True),
+            'max_depth': trial.suggest_int('max_depth', 1, 20),
+            'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
+            'subsample': trial.suggest_float('subsample', 0.5, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
+            'gamma': trial.suggest_float('gamma', 0.0, 1.0),
+            'lambda': trial.suggest_float('lambda',0.5,3),
+            'num_parallel_tree': 5,
+            }
+        
+        model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42, **params)
+        
+        score = cross_val_score(model_xgb, X_train, Y_train, cv=cv, scoring=make_scorer(roc_auc_score)).mean()
+        
+        return score
+    
+# define the optuna study
+study = optuna.create_study(direction='maximize')
+study.optimize(objective, n_trials=300)
+
+#get best parameters
+best_params = study.best_params
+
+#train model with best parameters
+model_xgb_optim = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42, **best_params)
+
+model_xgb_optim.fit(X_train, Y_train)
+
+#performance evaluation
+print('XGBoost')
+print('training')
+score=performance_scores(model_xgb_optim, X_train, Y_train, compact=compact_score)
+print(score)
+
+print('\ntest')
+score=performance_scores(model_xgb_optim, X_test, Y_test, compact=compact_score)
+print(score)
+
 # %%% Logistic Regression
 from sklearn.linear_model import LogisticRegression
 #### cross validation
@@ -1239,6 +1292,8 @@ print(score)
 print('\ntest')
 score=performance_scores(model_xgb, X_test, Y_test, compact=compact_score)
 print(score)
+
+        
 
 # %%% SVM
 from sklearn.svm import SVC
