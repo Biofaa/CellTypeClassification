@@ -1156,7 +1156,7 @@ def objective(trial):
             'num_parallel_tree': 5,
             }
         
-        model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42, **params)
+        model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", n_jobs=-2, random_state=42, **params)
         
         score = cross_val_score(model_xgb, X_train, Y_train, cv=cv, scoring=make_scorer(roc_auc_score)).mean()
         
