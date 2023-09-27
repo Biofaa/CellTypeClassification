@@ -1,6 +1,7 @@
 # %% Libraries and functions
 import sys
-sys.path.append('G:/My Drive/PhD/CAPTUR3D_personal/03 Software e utilities/v0.2.0/Libraries')
+from pathlib import Path
+path_root=Path.cwd()
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -939,7 +940,8 @@ reduce_dataset=True
 #----------------------------------------------
 
 # filename=flim.decode.getfile('dat')
-filename='G:/My Drive/PhD/CAPTUR3D_personal/00 Progetti/beta cell recognize/HI_features.dat'
+# filename='G:/My Drive/PhD/CAPTUR3D_personal/00 Progetti/beta cell recognize/HI_features.dat'
+filename=path_root/'data'/'HI_features.dat'
 df=load_dat(filename)
 
 # # create new dataset
@@ -949,7 +951,8 @@ df=load_dat(filename)
 # # clean dataset by hand
 if reduce_dataset:
     # load rows to exclude from csv/xlsx file
-    filename_todrop="G:/My Drive/PhD/CAPTUR3D_personal/00 Progetti/beta cell recognize/Results/99 Error Analysis/ErrorAnalysis_rowstodrop.csv"
+    # filename_todrop="G:/My Drive/PhD/CAPTUR3D_personal/00 Progetti/beta cell recognize/Results/99 Error Analysis/ErrorAnalysis_rowstodrop.csv"
+    filename_todrop=path_root/'data'/'ErrorAnalysis_rowstodrop.csv'
     df_todrop=pd.read_csv(filename_todrop)
     df=pd.concat([df, df_todrop]).drop_duplicates(subset=list(df_todrop.columns), keep=False)
 
@@ -1156,7 +1159,7 @@ def objective(trial):
             'num_parallel_tree': 5,
             }
         
-        model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42, **params)
+        model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", n_jobs=-2, random_state=42, **params)
         
         score = cross_val_score(model_xgb, X_train, Y_train, cv=cv, scoring=make_scorer(roc_auc_score)).mean()
         
@@ -1184,217 +1187,217 @@ print('\ntest')
 score=performance_scores(model_xgb_optim, X_test, Y_test, compact=compact_score)
 print(score)
 
-# %%% Logistic Regression
-from sklearn.linear_model import LogisticRegression
-#### cross validation
-params_lr = [{
-    'solver': ['newton-cg', 'lbfgs', 'sag'],
-    'C': [0.3, 0.5, 0.7, 1, 10, 100, 1000],
-    'penalty': ['l2']
-    },{
-    'solver': ['liblinear','saga'],
-    'C': [0.3, 0.5, 0.7, 1, 10, 100, 1000],
-    'penalty': ['l1','l2']
-}]
+# # %%% Logistic Regression
+# from sklearn.linear_model import LogisticRegression
+# #### cross validation
+# params_lr = [{
+#     'solver': ['newton-cg', 'lbfgs', 'sag'],
+#     'C': [0.3, 0.5, 0.7, 1, 10, 100, 1000],
+#     'penalty': ['l2']
+#     },{
+#     'solver': ['liblinear','saga'],
+#     'C': [0.3, 0.5, 0.7, 1, 10, 100, 1000],
+#     'penalty': ['l1','l2']
+# }]
 
-#### assess chosen hyperparameter effect on precision
-# score_alpha_train=[]
-# score_beta_train=[]
-# score_alpha_test=[]
-# score_beta_test=[]
-# # C_range=[0.001, 0.1, 1, 10, 100, 1000, 10000, 100000]
-# C_range=range(500, 5000, 100)
+# #### assess chosen hyperparameter effect on precision
+# # score_alpha_train=[]
+# # score_beta_train=[]
+# # score_alpha_test=[]
+# # score_beta_test=[]
+# # # C_range=[0.001, 0.1, 1, 10, 100, 1000, 10000, 100000]
+# # C_range=range(500, 5000, 100)
 
-# for i in C_range:
-#     model_lr = LogisticRegression(C=i, class_weight='balanced', random_state=42, max_iter=1000)
-#     model_lr.fit(X_train, Y_train)
-#     score_alpha_train.append(precision_score(Y_train, model_lr.predict(X_train), average=None)[0])
-#     score_beta_train.append(precision_score(Y_train, model_lr.predict(X_train), average=None)[1])
-#     score_alpha_test.append(precision_score(Y_test, model_lr.predict(X_test), average=None)[0])
-#     score_beta_test.append(precision_score(Y_test, model_lr.predict(X_test), average=None)[1])
+# # for i in C_range:
+# #     model_lr = LogisticRegression(C=i, class_weight='balanced', random_state=42, max_iter=1000)
+# #     model_lr.fit(X_train, Y_train)
+# #     score_alpha_train.append(precision_score(Y_train, model_lr.predict(X_train), average=None)[0])
+# #     score_beta_train.append(precision_score(Y_train, model_lr.predict(X_train), average=None)[1])
+# #     score_alpha_test.append(precision_score(Y_test, model_lr.predict(X_test), average=None)[0])
+# #     score_beta_test.append(precision_score(Y_test, model_lr.predict(X_test), average=None)[1])
  
-# df_score=pd.DataFrame({'alpha_train':score_alpha_train, 'beta_train':score_beta_train, 'alpha_test':score_alpha_test, 'beta_test':score_beta_test})
-# df_score.index=C_range
+# # df_score=pd.DataFrame({'alpha_train':score_alpha_train, 'beta_train':score_beta_train, 'alpha_test':score_alpha_test, 'beta_test':score_beta_test})
+# # df_score.index=C_range
 
-# df_score.plot(logx=True, style=['--r', '--g', 'r', 'g'])
-# plt.xlabel('C')
-# plt.ylabel('Precision')
+# # df_score.plot(logx=True, style=['--r', '--g', 'r', 'g'])
+# # plt.xlabel('C')
+# # plt.ylabel('Precision')
 
-#### model initialization
-model_lr = LogisticRegression(class_weight='balanced', random_state=42, solver='sag', max_iter=1000)
+# #### model initialization
+# model_lr = LogisticRegression(class_weight='balanced', random_state=42, solver='sag', max_iter=1000)
 
-#### grid search
-cv_grid_lr = GridSearchCV(
-    estimator=model_lr,
-    param_grid=params_lr,
-    n_jobs=-2,
-    cv = cv, #cross validation
-    scoring=make_scorer(roc_auc_score)
-)
+# #### grid search
+# cv_grid_lr = GridSearchCV(
+#     estimator=model_lr,
+#     param_grid=params_lr,
+#     n_jobs=-2,
+#     cv = cv, #cross validation
+#     scoring=make_scorer(roc_auc_score)
+# )
 
-#### train model
-model_lr = cv_grid_lr.fit(X_train, Y_train)
-# model_lr.fit(X_train, Y_train)
+# #### train model
+# model_lr = cv_grid_lr.fit(X_train, Y_train)
+# # model_lr.fit(X_train, Y_train)
 
-#### performance evaluation
-print('Logistic Regression')
-print('training')
-# performance_testing(model_lr, X_test, Y_test)
-# performance_testing(model_lr_cv, X_test, Y_test)
-score=performance_scores(model_lr, X_train, Y_train, compact=compact_score)
-print(score)
+# #### performance evaluation
+# print('Logistic Regression')
+# print('training')
+# # performance_testing(model_lr, X_test, Y_test)
+# # performance_testing(model_lr_cv, X_test, Y_test)
+# score=performance_scores(model_lr, X_train, Y_train, compact=compact_score)
+# print(score)
 
-print('\ntest')
-score=performance_scores(model_lr, X_test, Y_test, compact=compact_score)
-print(score)
-# %%% XGBoost
+# print('\ntest')
+# score=performance_scores(model_lr, X_test, Y_test, compact=compact_score)
+# print(score)
+# # %%% XGBoost
 
-#### cross validation
-# Hyper-parameters set 
-params_xgb = {
-    'max_depth': range(2, 8, 1),
-    'n_estimators': range(1, np.size(X_train.columns)),
-    'learning_rate': [0.0001, 0.001, 0.01, 0.1, 0.2, 0.3]
-    }
+# #### cross validation
+# # Hyper-parameters set 
+# params_xgb = {
+#     'max_depth': range(2, 8, 1),
+#     'n_estimators': range(1, np.size(X_train.columns)),
+#     'learning_rate': [0.0001, 0.001, 0.01, 0.1, 0.2, 0.3]
+#     }
 
-#### model initialization
-from xgboost import XGBClassifier
-model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42)
+# #### model initialization
+# from xgboost import XGBClassifier
+# model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42)
 
-#### grid search
-cv_grid_xgb = GridSearchCV(
-    estimator=model_xgb,
-    param_grid=params_xgb,
-    n_jobs=-2,
-    cv = cv,
-    verbose=True,
-    scoring=make_scorer(roc_auc_score)
-)
+# #### grid search
+# cv_grid_xgb = GridSearchCV(
+#     estimator=model_xgb,
+#     param_grid=params_xgb,
+#     n_jobs=-2,
+#     cv = cv,
+#     verbose=True,
+#     scoring=make_scorer(roc_auc_score)
+# )
 
-#### train model
+# #### train model
+# # model_xgb = cv_grid_xgb.fit(X_train, Y_train)
+# # model_xgb=model_xgb.fit(X_train, Y_train)
+
+# #### restrict features and model re-training
+# model_xgb=load_model()
+# cols=list(X_train.iloc[:,model_xgb.best_estimator_.feature_importances_!=0].columns)
+# # cols=model_xgb.best_estimator_.features
+# X_train=X_train[cols]
+# X_test=X_test[cols]
 # model_xgb = cv_grid_xgb.fit(X_train, Y_train)
-# model_xgb=model_xgb.fit(X_train, Y_train)
 
-#### restrict features and model re-training
-model_xgb=load_model()
-cols=list(X_train.iloc[:,model_xgb.best_estimator_.feature_importances_!=0].columns)
-# cols=model_xgb.best_estimator_.features
-X_train=X_train[cols]
-X_test=X_test[cols]
-model_xgb = cv_grid_xgb.fit(X_train, Y_train)
+# #### performance evaluation
+# print('XGBoost')
+# print('training')
+# score=performance_scores(model_xgb, X_train, Y_train, compact=compact_score)
+# print(score)
 
-#### performance evaluation
-print('XGBoost')
-print('training')
-score=performance_scores(model_xgb, X_train, Y_train, compact=compact_score)
-print(score)
-
-print('\ntest')
-score=performance_scores(model_xgb, X_test, Y_test, compact=compact_score)
-print(score)
+# print('\ntest')
+# score=performance_scores(model_xgb, X_test, Y_test, compact=compact_score)
+# print(score)
 
         
 
-# %%% SVM
-from sklearn.svm import SVC
-
-#### model initialization
-model_svc = SVC(kernel='linear', C=1, class_weight='balanced', random_state=42)
-
-#### grid search
-params_svc = [
-                {'C':np.arange(1,4,0.2), 'kernel':['rbf'], 'gamma':np.arange(0.1, 0.6, 0.02)},
-                {'C':np.arange(20,50, 2), 'kernel':['poly'], 'degree': [2] ,'gamma':np.concatenate((np.arange(0.001, 0.009, 0.002),np.arange(0.1, 0.6, 0.05)))} 
-              ]
-
-#### feature selection
-# # RFE
-# model_svc = RFE(
-#     estimator=model_svc,
-#     step=1,
-# )
-
-
-
-cv_grid_svc = GridSearchCV(estimator = model_svc,  
-                            param_grid = params_svc,
-                            scoring=make_scorer(roc_auc_score),
-                            cv = cv,
-                            verbose=0,
-                            n_jobs=-2
-                            )
-
-
-# cv_rnd_svc = RandomizedSearchCV(estimator = model_svc,  
-#                             param_grid = params_svc,
-#                             scoring=make_scorer(f1_score),
-#                             cv = cv,
-#                             verbose=0)
-
-
-# cols= ['glucose', 'BMI', 'insulin_SI', 'g_barycenter', 's_barycenter', 'g_barycenter_std', 's_barycenter_std', 'cell_area', 'cell_perimeter', 'cell_circularity', 'oxphos', 'lipofuscin_area_rel', 'g_har2_barycenter', 's_har2_barycenter', 'g_har2_barycenter_std', 's_har2_barycenter_std', 'g_min', 'g_max', 'g_mean', 'g_mode', 'g_CV', 'g_25', 'g_50', 'g_75', 'g_99', 'g_IQR', 'g_whisker_low', 'g_whisker_high', 'g_CI_67_min', 'g_CI_67_max', 'g_CI_95_min', 'g_CI_95_max', 'g_CI_99_min', 'g_CI_99_max', 's_min', 's_max', 's_mode', 's_CV', 's_50', 's_75', 's_99', 's_IQR', 's_whisker_high', 's_CI_67_min', 's_CI_67_max', 's_CI_95_min', 's_CI_95_max', 's_CI_99_min', 's_CI_99_max', 'g_har2min', 'g_har2max', 'g_har2mode', 'g_har2CV', 'g_har225', 'g_har250', 'g_har275', 'g_har299', 'g_har2IQR', 'g_har2whisker_low', 'g_har2whisker_high', 'g_har2CI_67_min', 'g_har2CI_67_max', 'g_har2CI_95_min', 'g_har2CI_95_max', 'g_har2CI_99_min', 'g_har2CI_99_max', 's_har2min', 's_har2max', 's_har2mean', 's_har2mode', 's_har2CV', 's_har225', 's_har250', 's_har275', 's_har299', 's_har2IQR', 's_har2whisker_low', 's_har2whisker_high', 's_har2CI_67_max', 's_har2CI_95_min', 's_har2CI_95_max', 's_har2CI_99_min', 's_har2CI_99_max', 'intensity_all_rel_min', 'intensity_all_rel_max', 'intensity_all_rel_mean', 'intensity_all_rel_mode', 'intensity_all_rel_CV', 'intensity_all_rel_25', 'intensity_all_rel_50', 'intensity_all_rel_75', 'intensity_all_rel_99', 'intensity_all_rel_IQR', 'intensity_all_rel_whisker_low', 'intensity_all_rel_whisker_high', 'intensity_all_rel_CI_67_min', 'intensity_all_rel_CI_67_max', 'intensity_all_rel_CI_95_min', 'intensity_all_rel_CI_95_max', 'intensity_all_rel_CI_99_min', 'intensity_cytoplasm_rel_mean', 'intensity_cytoplasm_rel_std', 'intensity_cytoplasm_rel_CV', 'intensity_cytoplasm_rel_25', 'intensity_cytoplasm_rel_75', 'intensity_cytoplasm_rel_IQR', 'intensity_cytoplasm_rel_whisker_low', 'intensity_cytoplasm_rel_whisker_high', 'intensity_cytoplasm_rel_CI_67_min', 'intensity_cytoplasm_rel_CI_67_max', 'intensity_cytoplasm_rel_CI_95_max', 'intensity_cytoplasm_rel_CI_99_min', 'intensity_cytoplasm_rel_CI_99_max', 'intensity_lipofuscin_rel_mean', 'intensity_lipofuscin_rel_mode', 'intensity_lipofuscin_rel_std', 'intensity_lipofuscin_rel_CV', 'intensity_lipofuscin_rel_25', 'intensity_lipofuscin_rel_50', 'intensity_lipofuscin_rel_IQR', 'intensity_lipofuscin_rel_whisker_low', 'intensity_lipofuscin_rel_whisker_high', 'intensity_lipofuscin_rel_CI_67_min', 'intensity_lipofuscin_rel_CI_67_max', 'intensity_lipofuscin_rel_CI_99_min']
-# X_train=X_train[cols]
-# X_test=X_test[cols]
-
-#### train model
-# model_svc = model_svc.fit(X_train, Y_train)
-model_svc = cv_grid_svc.fit(X_train, Y_train)
-# model_svc = cv_rnd_svc.fit(X_train, Y_train)
-
-
-# model_svc=model_svc.fit(X_train, Y_train)   
-
-#### performance evaluation
-print('Support Vector Machine')
-print('training')
-score=performance_scores(model_svc, X_train, Y_train, compact=compact_score)
-print(score)
-
-print('\ntest')
-score=performance_scores(model_svc, X_test, Y_test, compact=compact_score)
-print(score)
-
-
-
-# %%%% assess chosen hyperparameter effect on precision
+# # %%% SVM
 # from sklearn.svm import SVC
-# score_alpha_train=[]
-# score_beta_train=[]
-# score_alpha_test=[]
-# score_beta_test=[]
-# gamma_range = np.concatenate((
-#     np.arange(0.001, 0.009, 0.001), 
-#     np.arange(0.01, 0.09, 0.01), 
-#     np.arange(0.1, 0.9, 0.1),
-#     np.arange(1, 9, 1),
-#     np.arange(10, 90, 10),
-#     [100, 1000])
-#     )
 
-# # C_range = np.concatenate((np.arange(0.01, 0.09, 0.01), 
-# #                   np.arange(0.1, 0.9, 0.1),
-# #                   np.arange(1, 9, 1),
-# #                   np.arange(10, 90, 10),
-# #                   [100, 1000])
-# #                   )
+# #### model initialization
+# model_svc = SVC(kernel='linear', C=1, class_weight='balanced', random_state=42)
 
-# for i in gamma_range:
-#     model_svc = SVC(C=30, gamma=i, kernel='poly', degree=2, random_state=42)
-#     model_svc.fit(X_train, Y_train)
-#     score_alpha_train.append(precision_score(Y_train, model_svc.predict(X_train), average=None)[0])
-#     score_beta_train.append(precision_score(Y_train, model_svc.predict(X_train), average=None)[1])
-#     score_alpha_test.append(precision_score(Y_test, model_svc.predict(X_test), average=None)[0])
-#     score_beta_test.append(precision_score(Y_test, model_svc.predict(X_test), average=None)[1])
+# #### grid search
+# params_svc = [
+#                 {'C':np.arange(1,4,0.2), 'kernel':['rbf'], 'gamma':np.arange(0.1, 0.6, 0.02)},
+#                 {'C':np.arange(20,50, 2), 'kernel':['poly'], 'degree': [2] ,'gamma':np.concatenate((np.arange(0.001, 0.009, 0.002),np.arange(0.1, 0.6, 0.05)))} 
+#               ]
+
+# #### feature selection
+# # # RFE
+# # model_svc = RFE(
+# #     estimator=model_svc,
+# #     step=1,
+# # )
+
+
+
+# cv_grid_svc = GridSearchCV(estimator = model_svc,  
+#                             param_grid = params_svc,
+#                             scoring=make_scorer(roc_auc_score),
+#                             cv = cv,
+#                             verbose=0,
+#                             n_jobs=-2
+#                             )
+
+
+# # cv_rnd_svc = RandomizedSearchCV(estimator = model_svc,  
+# #                             param_grid = params_svc,
+# #                             scoring=make_scorer(f1_score),
+# #                             cv = cv,
+# #                             verbose=0)
+
+
+# # cols= ['glucose', 'BMI', 'insulin_SI', 'g_barycenter', 's_barycenter', 'g_barycenter_std', 's_barycenter_std', 'cell_area', 'cell_perimeter', 'cell_circularity', 'oxphos', 'lipofuscin_area_rel', 'g_har2_barycenter', 's_har2_barycenter', 'g_har2_barycenter_std', 's_har2_barycenter_std', 'g_min', 'g_max', 'g_mean', 'g_mode', 'g_CV', 'g_25', 'g_50', 'g_75', 'g_99', 'g_IQR', 'g_whisker_low', 'g_whisker_high', 'g_CI_67_min', 'g_CI_67_max', 'g_CI_95_min', 'g_CI_95_max', 'g_CI_99_min', 'g_CI_99_max', 's_min', 's_max', 's_mode', 's_CV', 's_50', 's_75', 's_99', 's_IQR', 's_whisker_high', 's_CI_67_min', 's_CI_67_max', 's_CI_95_min', 's_CI_95_max', 's_CI_99_min', 's_CI_99_max', 'g_har2min', 'g_har2max', 'g_har2mode', 'g_har2CV', 'g_har225', 'g_har250', 'g_har275', 'g_har299', 'g_har2IQR', 'g_har2whisker_low', 'g_har2whisker_high', 'g_har2CI_67_min', 'g_har2CI_67_max', 'g_har2CI_95_min', 'g_har2CI_95_max', 'g_har2CI_99_min', 'g_har2CI_99_max', 's_har2min', 's_har2max', 's_har2mean', 's_har2mode', 's_har2CV', 's_har225', 's_har250', 's_har275', 's_har299', 's_har2IQR', 's_har2whisker_low', 's_har2whisker_high', 's_har2CI_67_max', 's_har2CI_95_min', 's_har2CI_95_max', 's_har2CI_99_min', 's_har2CI_99_max', 'intensity_all_rel_min', 'intensity_all_rel_max', 'intensity_all_rel_mean', 'intensity_all_rel_mode', 'intensity_all_rel_CV', 'intensity_all_rel_25', 'intensity_all_rel_50', 'intensity_all_rel_75', 'intensity_all_rel_99', 'intensity_all_rel_IQR', 'intensity_all_rel_whisker_low', 'intensity_all_rel_whisker_high', 'intensity_all_rel_CI_67_min', 'intensity_all_rel_CI_67_max', 'intensity_all_rel_CI_95_min', 'intensity_all_rel_CI_95_max', 'intensity_all_rel_CI_99_min', 'intensity_cytoplasm_rel_mean', 'intensity_cytoplasm_rel_std', 'intensity_cytoplasm_rel_CV', 'intensity_cytoplasm_rel_25', 'intensity_cytoplasm_rel_75', 'intensity_cytoplasm_rel_IQR', 'intensity_cytoplasm_rel_whisker_low', 'intensity_cytoplasm_rel_whisker_high', 'intensity_cytoplasm_rel_CI_67_min', 'intensity_cytoplasm_rel_CI_67_max', 'intensity_cytoplasm_rel_CI_95_max', 'intensity_cytoplasm_rel_CI_99_min', 'intensity_cytoplasm_rel_CI_99_max', 'intensity_lipofuscin_rel_mean', 'intensity_lipofuscin_rel_mode', 'intensity_lipofuscin_rel_std', 'intensity_lipofuscin_rel_CV', 'intensity_lipofuscin_rel_25', 'intensity_lipofuscin_rel_50', 'intensity_lipofuscin_rel_IQR', 'intensity_lipofuscin_rel_whisker_low', 'intensity_lipofuscin_rel_whisker_high', 'intensity_lipofuscin_rel_CI_67_min', 'intensity_lipofuscin_rel_CI_67_max', 'intensity_lipofuscin_rel_CI_99_min']
+# # X_train=X_train[cols]
+# # X_test=X_test[cols]
+
+# #### train model
+# # model_svc = model_svc.fit(X_train, Y_train)
+# model_svc = cv_grid_svc.fit(X_train, Y_train)
+# # model_svc = cv_rnd_svc.fit(X_train, Y_train)
+
+
+# # model_svc=model_svc.fit(X_train, Y_train)   
+
+# #### performance evaluation
+# print('Support Vector Machine')
+# print('training')
+# score=performance_scores(model_svc, X_train, Y_train, compact=compact_score)
+# print(score)
+
+# print('\ntest')
+# score=performance_scores(model_svc, X_test, Y_test, compact=compact_score)
+# print(score)
+
+
+
+# # %%%% assess chosen hyperparameter effect on precision
+# # from sklearn.svm import SVC
+# # score_alpha_train=[]
+# # score_beta_train=[]
+# # score_alpha_test=[]
+# # score_beta_test=[]
+# # gamma_range = np.concatenate((
+# #     np.arange(0.001, 0.009, 0.001), 
+# #     np.arange(0.01, 0.09, 0.01), 
+# #     np.arange(0.1, 0.9, 0.1),
+# #     np.arange(1, 9, 1),
+# #     np.arange(10, 90, 10),
+# #     [100, 1000])
+# #     )
+
+# # # C_range = np.concatenate((np.arange(0.01, 0.09, 0.01), 
+# # #                   np.arange(0.1, 0.9, 0.1),
+# # #                   np.arange(1, 9, 1),
+# # #                   np.arange(10, 90, 10),
+# # #                   [100, 1000])
+# # #                   )
+
+# # for i in gamma_range:
+# #     model_svc = SVC(C=30, gamma=i, kernel='poly', degree=2, random_state=42)
+# #     model_svc.fit(X_train, Y_train)
+# #     score_alpha_train.append(precision_score(Y_train, model_svc.predict(X_train), average=None)[0])
+# #     score_beta_train.append(precision_score(Y_train, model_svc.predict(X_train), average=None)[1])
+# #     score_alpha_test.append(precision_score(Y_test, model_svc.predict(X_test), average=None)[0])
+# #     score_beta_test.append(precision_score(Y_test, model_svc.predict(X_test), average=None)[1])
  
-# df_score=pd.DataFrame({'alpha_train':score_alpha_train, 'beta_train':score_beta_train, 'alpha_test':score_alpha_test, 'beta_test':score_beta_test})
-# df_score.index=gamma_range
+# # df_score=pd.DataFrame({'alpha_train':score_alpha_train, 'beta_train':score_beta_train, 'alpha_test':score_alpha_test, 'beta_test':score_beta_test})
+# # df_score.index=gamma_range
 
-# df_score.plot(logx=True, style=['--r', '--g', 'r', 'g'])
-# plt.xlabel('gamma')
-# plt.ylabel('Precision')
+# # df_score.plot(logx=True, style=['--r', '--g', 'r', 'g'])
+# # plt.xlabel('gamma')
+# # plt.ylabel('Precision')
 
 
-# %%% KNN
+# # %%% KNN
 from sklearn.neighbors import KNeighborsClassifier
 
 # initialize model
@@ -1425,7 +1428,9 @@ score=performance_scores(model_KNN, X_test, Y_test, compact=compact_score)
 print(score)
 
 # %% save/load model
-# save_model(model_svc)
+model_path=path_root/'models'/'xgb_optuna.pkl'
+model=model_xgb_optim
+save_model(model=model_xgb_optim, filename=model_path)
 # model_xgb=load_model()
 
 # %% Error analysis
@@ -1504,96 +1509,96 @@ print(score)
 # print(score)
 
 # %% quick score computing
-model_xgb=load_model()
+# model_xgb=load_model()
  
-#### performance evaluation
-print('XGBoost')
-print('training')
-ascore=performance_scores(model_xgb, X_train, Y_train, compact=compact_score).T
-print(ascore)
+# #### performance evaluation
+# print('XGBoost')
+# print('training')
+# ascore=performance_scores(model_xgb, X_train, Y_train, compact=compact_score).T
+# print(ascore)
 
-print('\ntest')
-ascore=performance_scores(model_xgb, X_test, Y_test, compact=compact_score).T
-print(ascore)
+# print('\ntest')
+# ascore=performance_scores(model_xgb, X_test, Y_test, compact=compact_score).T
+# print(ascore)
 
 # %% barplot of feature importance
-threshold=0.01 #with 0.01, selects the 10 best features
+# threshold=0.01 #with 0.01, selects the 10 best features
 
-print('choose a model to load (.pkl)')
-model_xgb=load_model()
-x_axis=list(X_train.iloc[:,model_xgb.best_estimator_.feature_importances_>threshold].columns)
-y_axis=model_xgb.best_estimator_.feature_importances_[model_xgb.best_estimator_.feature_importances_>threshold]
-a=pd.Series(y_axis, index=x_axis)
-a.sort_values(ascending=False, inplace=True)
-a.plot(kind='bar', rot=30, figsize=(10,2))
-flim.decode.savefigure(transparent=False)
-print(np.sum(a.values))
+# print('choose a model to load (.pkl)')
+# model_xgb=load_model()
+# x_axis=list(X_train.iloc[:,model_xgb.best_estimator_.feature_importances_>threshold].columns)
+# y_axis=model_xgb.best_estimator_.feature_importances_[model_xgb.best_estimator_.feature_importances_>threshold]
+# a=pd.Series(y_axis, index=x_axis)
+# a.sort_values(ascending=False, inplace=True)
+# a.plot(kind='bar', rot=30, figsize=(10,2))
+# flim.decode.savefigure(transparent=False)
+# print(np.sum(a.values))
 
 # %% plot of cumulative feature importance vs number of features
 
 
 # %% debug lipofuscin area calculus
-g,s,intensity, filename=flim.decode.import_R64()
-thr=[]
-intensity_thr=[]
-thr=flim.LipofuscinThresholdCalculus(intensity)
-for i in range(0, np.size(filename)):
-    intensity_thr_tmp=np.where(intensity[i,:,:]<thr[i], intensity[i,:,:], 0)
-    intensity_thr.append(intensity_thr_tmp)
-    # build image
-    plt.subplot(121)
-    plt.imshow(intensity[i,:,:], cmap='gray')
-    plt.subplot(122)
-    plt.imshow(intensity_thr_tmp, cmap='gray')
-    flim.decode.savefigure(name=filename[i], save=-1)
-    print('figure ', i, ' of ', np.size(filename))
+# g,s,intensity, filename=flim.decode.import_R64()
+# thr=[]
+# intensity_thr=[]
+# thr=flim.LipofuscinThresholdCalculus(intensity)
+# for i in range(0, np.size(filename)):
+#     intensity_thr_tmp=np.where(intensity[i,:,:]<thr[i], intensity[i,:,:], 0)
+#     intensity_thr.append(intensity_thr_tmp)
+#     # build image
+#     plt.subplot(121)
+#     plt.imshow(intensity[i,:,:], cmap='gray')
+#     plt.subplot(122)
+#     plt.imshow(intensity_thr_tmp, cmap='gray')
+#     flim.decode.savefigure(name=filename[i], save=-1)
+#     print('figure ', i, ' of ', np.size(filename))
 
-# %% EDA figures
-sns.barplot(y='lipofuscin_area_rel', x='cell_type', data=df)
-sns.boxplot(y='lipofuscin_area_rel', x='cell_type', data=df)
-# scatterplot: size vs autofluo 
-sns.scatterplot(y='intensity_all_rel_mean', x='cell_area', hue='cell_type',data=df)
-flim.decode.savefigure('size_vs_autofluo', save=-1)
+# # %% EDA figures
+# sns.barplot(y='lipofuscin_area_rel', x='cell_type', data=df)
+# sns.boxplot(y='lipofuscin_area_rel', x='cell_type', data=df)
+# # scatterplot: size vs autofluo 
+# sns.scatterplot(y='intensity_all_rel_mean', x='cell_area', hue='cell_type',data=df)
+# flim.decode.savefigure('size_vs_autofluo', save=-1)
 
-# assess lipofuscin quantity
-sns.barplot(y='lipofuscin_area_rel', x='islet', hue='cell_type',data=df)
-sns.boxplot(y='lipofuscin_area_rel', x='cell_type',data=df)
+# # assess lipofuscin quantity
+# sns.barplot(y='lipofuscin_area_rel', x='islet', hue='cell_type',data=df)
+# sns.boxplot(y='lipofuscin_area_rel', x='cell_type',data=df)
 
-#violin plot
-x_label='date'
-y_label='lipofuscin_area_rel'
-sns.violinplot(x=x_label, y=y_label, data=df, hue='cell_type', split=True)
-flim.decode.savefigure('violin_'+y_label, save=-1)
+# #violin plot
+# x_label='date'
+# y_label='lipofuscin_area_rel'
+# sns.violinplot(x=x_label, y=y_label, data=df, hue='cell_type', split=True)
+# flim.decode.savefigure('violin_'+y_label, save=-1)
 
-# pairplot
-cols=['cell_type','g_IQR', 'g_CV', 'g_barycenter_std', 'g_std', 'intensity_all_rel_std', 'intensity_cytoplasm_rel_CV']
-sns.pairplot(data=df[cols], hue='cell_type')
-flim.decode.savefigure('pairplot', save=-1)
+# # pairplot
+# cols=['cell_type','g_IQR', 'g_CV', 'g_barycenter_std', 'g_std', 'intensity_all_rel_std', 'intensity_cytoplasm_rel_CV']
+# sns.pairplot(data=df[cols], hue='cell_type')
+# flim.decode.savefigure('pairplot', save=-1)
 
-y_label=['cell_area', 'cell_perimeter', 'cell_circularity']
-j=0
-fig, ax = plt.subplots(3,1, figsize=(3,10))
-for i in y_label:
-    sns.boxplot(y=i, x='cell_type', data=df, ax=ax[j])
-    j=j+1
-flim.decode.savefigure('boxplot_morphology', save=-1)
+# y_label=['cell_area', 'cell_perimeter', 'cell_circularity']
+# j=0
+# fig, ax = plt.subplots(3,1, figsize=(3,10))
+# for i in y_label:
+#     sns.boxplot(y=i, x='cell_type', data=df, ax=ax[j])
+#     j=j+1
+# flim.decode.savefigure('boxplot_morphology', save=-1)
 
-# 2 vs 16 mM: scatterplot
-# create x without scaling
-# plot
-df2=df.iloc[:,9:]
-df2=df2.drop(index=76)
-df2['glucose']=df['glucose']
-xvals=df2[df2.glucose=='2mM'].drop(labels='glucose', axis=1)
-yvals=df2[df2.glucose=='16mM'].drop(labels='glucose', axis=1)
-plt.scatter(x=xvals, y=yvals)
-plt.plot([-4000, 6000], [-4000, 6000], c='k') # plot bisector line
+# # 2 vs 16 mM: scatterplot
+# # create x without scaling
+# # plot
+# df2=df.iloc[:,9:]
+# df2=df2.drop(index=76)
+# df2['glucose']=df['glucose']
+# xvals=df2[df2.glucose=='2mM'].drop(labels='glucose', axis=1)
+# yvals=df2[df2.glucose=='16mM'].drop(labels='glucose', axis=1)
+# plt.scatter(x=xvals, y=yvals)
+# plt.plot([-4000, 6000], [-4000, 6000], c='k') # plot bisector line
 
-# 2 vs 16 mM: heatmap
+# # 2 vs 16 mM: heatmap
 
-# assess scaled values
-x_n, y_n=DataTransform(x, y)
-x_n=pd.DataFrame(scaler.transform(x), columns=x.columns)
-xvals_n=x_n[x_n.glucose==0].drop(labels='glucose', axis=1)
-yvals_n=x_n[x_n.glucose==1].drop(labels='glucose', axis=1)
+# # assess scaled values
+# x_n, y_n=DataTransform(x, y)
+# x_n=pd.DataFrame(scaler.transform(x), columns=x.columns)
+# xvals_n=x_n[x_n.glucose==0].drop(labels='glucose', axis=1)
+# yvals_n=x_n[x_n.glucose==1].drop(labels='glucose', axis=1)
     
