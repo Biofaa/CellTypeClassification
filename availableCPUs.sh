@@ -3,7 +3,7 @@
 message='--Resources--'
 
 # Loop over the list of nodes
-for node in daneel01 daneel02 daneel03; do
+for node in hal01 hal02 daneel01 daneel02 daneel03; do
     # Extract the available and assigned resources
     available_ncpus=$(pbsnodes $node | awk '/resources_available.ncpus/ {print $3}')
     available_ngpus=$(pbsnodes $node | awk '/resources_available.ngpus/ {print $3}')
