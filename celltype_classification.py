@@ -1398,34 +1398,34 @@ print(score)
 
 
 # # %%% KNN
-from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.neighbors import KNeighborsClassifier
 
-# initialize model
-model_KNN = KNeighborsClassifier()
+# # initialize model
+# model_KNN = KNeighborsClassifier()
 
-# set hyperparameters
-params_KNN = [{'n_neighbors': np.arange(5, 100, 2), 'weights': ['uniform', 'distance']}]
+# # set hyperparameters
+# params_KNN = [{'n_neighbors': np.arange(5, 100, 2), 'weights': ['uniform', 'distance']}]
 
-# initialize grid search
-cv_grid_KNN = GridSearchCV(estimator = model_KNN,  
-                            param_grid = params_KNN,
-                            scoring=make_scorer(roc_auc_score),
-                            cv = cv,
-                            verbose=0)
+# # initialize grid search
+# cv_grid_KNN = GridSearchCV(estimator = model_KNN,  
+#                             param_grid = params_KNN,
+#                             scoring=make_scorer(roc_auc_score),
+#                             cv = cv,
+#                             verbose=0)
 
-# train model
-model_KNN = cv_grid_KNN.fit(X_train, Y_train)
+# # train model
+# model_KNN = cv_grid_KNN.fit(X_train, Y_train)
 
 
-# performance evaluation
-print('Support Vector Machine')
-print('training')
-score=performance_scores(model_KNN, X_train, Y_train, compact=compact_score)
-print(score)
+# # performance evaluation
+# print('Support Vector Machine')
+# print('training')
+# score=performance_scores(model_KNN, X_train, Y_train, compact=compact_score)
+# print(score)
 
-print('\ntest')
-score=performance_scores(model_KNN, X_test, Y_test, compact=compact_score)
-print(score)
+# print('\ntest')
+# score=performance_scores(model_KNN, X_test, Y_test, compact=compact_score)
+# print(score)
 
 # %% save/load model
 model_path=path_root/'models'/'xgb_optuna.pkl'
