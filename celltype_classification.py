@@ -932,11 +932,14 @@ def load_model(filename=-1):
     return model
     
     
-# %% Load data
-# config variables
+#%% config variables
 compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
 reduce_dataset=True
+xgb_feature_selection=True
+save_model_bool=True
+model_name='xgb_optuna_FeatureSelection_div0.pkl'
 
+# %% Load data
 #----------------------------------------------
 
 # filename=flim.decode.getfile('dat')
@@ -1049,7 +1052,7 @@ X_test=pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
 
 #### cross validation
 from sklearn.model_selection import RepeatedStratifiedKFold
-cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
 
 #### Feature Selection
 # Multicollinearity
@@ -1138,7 +1141,19 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import cross_val_score
 import optuna
 
-
+if xgb_feature_selection:
+    # load original xgb model
+    model_path=path_root/'models'/'xgb_optuna.pkl'
+    model_xgb_old=load_model(model_path)
+    
+    # select most important features
+    xgb_features=pd.DataFrame(model_xgb_old.feature_importances_, index=list(x.columns))
+    xgb_best_features=list(xgb_features[xgb_features.values!=0].index)
+    
+    # cut dataset features
+    for i in [x, X_train, X_test]:
+        i=i[xgb_best_features]
+    
 #define an objective function to minimize loss using optuna
 def objective(trial):
         """
@@ -1146,7 +1161,7 @@ def objective(trial):
         """
 
         params = {
-            #'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear', 'dart']),
+            'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear', 'dart']),
             'eta': trial.suggest_float('eta',0.01,1),
             'learning_rate': trial.suggest_float('learning_rate', 0.001, 0.3),
             'n_estimators': trial.suggest_int('n_estimators', 500,2000,log=True),
@@ -1428,10 +1443,9 @@ print(score)
 # print(score)
 
 # %% save/load model
-model_path=path_root/'models'/'xgb_optuna_10fold.pkl'
-model=model_xgb_optim
-save_model(model=model_xgb_optim, filename=model_path)
-# model_xgb=load_model()
+if save_model_bool:
+    model_path=path_root/'models'/model_name
+    save_model(model=model_xgb_optim, filename=model_path)
 
 # %% Error analysis
 # model=model_xgb

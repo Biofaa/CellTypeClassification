@@ -868,7 +868,7 @@ class MyElasticNet:
         
         for (alpha, l1_ratio) in idx:
             elastics.append(ElasticNet(alpha = alpha, l1_ratio=l1_ratio, max_iter=5000))
-            cv_elastic.append(cross_val_score(elastics[-1], X_train, Y_train, cv=cv, scoring='roc_auc').mean())
+            cv_elastic.append(cross_val_score(elastics[-1], X, Y, cv=cv, scoring='roc_auc').mean())
         
         # plot results to find best alpha and l1_ratio     
         # plt.figure(figsize=(10,2))
@@ -882,8 +882,8 @@ class MyElasticNet:
         # l1_ratio=0.5
     
         elastic=ElasticNet(alpha = 0.01, l1_ratio=0.5)
-        elastic.fit(X_train, Y_train)
-        coefs=pd.Series(elastic.coef_, index = X_train.columns)
+        elastic.fit(X, Y)
+        coefs=pd.Series(elastic.coef_, index = X.columns)
         coefs=list(coefs[np.abs(coefs)>0].index)
         return coefs
     
