@@ -1428,7 +1428,7 @@ print(score)
 # print(score)
 
 # %% save/load model
-model_path=path_root/'models'/'xgb_optuna.pkl'
+model_path=path_root/'models'/'xgb_optuna_10fold.pkl'
 model=model_xgb_optim
 save_model(model=model_xgb_optim, filename=model_path)
 # model_xgb=load_model()
