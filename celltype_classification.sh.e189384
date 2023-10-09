@@ -1,0 +1,1344 @@
+[I 2023-10-05 12:24:27,599] A new study created in memory with name: no-name-c950ce5a-ec23-49c5-96a9-46cd3a6eeb73
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:27] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:29] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:31] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:34] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:36] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:38] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:40] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:44] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:46] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:47] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:49] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:51] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:53] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-05 12:24:55,382] Trial 0 finished with value: 0.8041237113402064 and parameters: {'booster': 'gblinear', 'eta': 0.5986426589676237, 'learning_rate': 0.12315166431066239, 'n_estimators': 1891, 'max_depth': 8, 'min_child_weight': 1, 'subsample': 0.739153956809232, 'colsample_bytree': 0.8734750756671574, 'gamma': 0.7893244370278144, 'lambda': 2.2219123027897094}. Best is trial 0 with value: 0.8041237113402064.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:24:55] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:25:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:25:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:25:51] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:26:09] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:26:27] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:26:44] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:27:00] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:27:19] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:27:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:27:46] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:28:01] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:28:17] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:28:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:28:49] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-05 12:29:03,791] Trial 1 finished with value: 0.8859106529209624 and parameters: {'booster': 'gbtree', 'eta': 0.768716636993037, 'learning_rate': 0.0019362447413710199, 'n_estimators': 1281, 'max_depth': 17, 'min_child_weight': 5, 'subsample': 0.6138519061894194, 'colsample_bytree': 0.5415389513406053, 'gamma': 0.6816714940832065, 'lambda': 0.7624456016767401}. Best is trial 1 with value: 0.8859106529209624.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:03] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:04] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:05] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:05] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:06] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:07] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:07] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:08] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:09] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:10] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:10] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:11] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:12] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:12] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:13] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-05 12:29:14,253] Trial 2 finished with value: 0.8044673539518903 and parameters: {'booster': 'gblinear', 'eta': 0.45077361581455055, 'learning_rate': 0.10027424399609522, 'n_estimators': 746, 'max_depth': 14, 'min_child_weight': 1, 'subsample': 0.9353725428201566, 'colsample_bytree': 0.6701053428178807, 'gamma': 0.38479091435890167, 'lambda': 2.6465588478510975}. Best is trial 1 with value: 0.8859106529209624.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:15] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:16] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:16] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:17] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:18] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:19] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:19] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:20] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:21] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:21] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:22] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:23] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:24] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-05 12:29:24,648] Trial 3 finished with value: 0.8051546391752579 and parameters: {'booster': 'gblinear', 'eta': 0.1635525304472102, 'learning_rate': 0.12318815725303761, 'n_estimators': 758, 'max_depth': 14, 'min_child_weight': 4, 'subsample': 0.8120203030560451, 'colsample_bytree': 0.7251897257245222, 'gamma': 0.30345574606279135, 'lambda': 1.6617155213848849}. Best is trial 1 with value: 0.8859106529209624.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:29:24] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:34:20] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:40:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:45:18] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:49:57] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:55:16] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:59:59] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:05:51] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:10:53] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:16:46] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:22:02] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:26:28] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:31:46] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:37:25] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:43:25] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-05 13:55:15,624] Trial 4 finished with value: 0.9233676975945019 and parameters: {'booster': 'dart', 'eta': 0.9244415492426179, 'learning_rate': 0.2520896407823196, 'n_estimators': 549, 'max_depth': 3, 'min_child_weight': 8, 'subsample': 0.9667212228156883, 'colsample_bytree': 0.9797215119718847, 'gamma': 0.9807020759491113, 'lambda': 0.9738919572687855}. Best is trial 4 with value: 0.9233676975945019.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:15] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:16] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:16] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:17] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:18] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:19] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:19] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:20] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:21] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:21] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:22] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:22] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:23] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:23] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:24] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-05 13:55:24,675] Trial 5 finished with value: 0.8051546391752579 and parameters: {'booster': 'gblinear', 'eta': 0.6463692332096533, 'learning_rate': 0.19602242026191952, 'n_estimators': 608, 'max_depth': 12, 'min_child_weight': 10, 'subsample': 0.8606564984615404, 'colsample_bytree': 0.9803464167709561, 'gamma': 0.2998635230002473, 'lambda': 1.7078951215682607}. Best is trial 4 with value: 0.9233676975945019.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:24] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:32] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:38] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:46] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:55:53] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:56:07] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:56:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:56:22] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:56:28] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:56:35] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:56:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:57:11] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:57:19] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:57:26] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:57:34] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-05 13:57:42,077] Trial 6 finished with value: 0.9257731958762888 and parameters: {'booster': 'gbtree', 'eta': 0.09578359570811515, 'learning_rate': 0.01916383628554035, 'n_estimators': 634, 'max_depth': 5, 'min_child_weight': 7, 'subsample': 0.8851979122805298, 'colsample_bytree': 0.5570548093183201, 'gamma': 0.11586810273107384, 'lambda': 1.402814657141392}. Best is trial 6 with value: 0.9257731958762888.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:57:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:57:57] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:58:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:58:31] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:58:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:59:04] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:59:20] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:59:37] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:59:53] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:00:09] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:00:26] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:00:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:00:57] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:01:10] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:01:22] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-05 14:01:33,968] Trial 7 finished with value: 0.9312714776632304 and parameters: {'booster': 'gbtree', 'eta': 0.04270166125056501, 'learning_rate': 0.019335789603508333, 'n_estimators': 964, 'max_depth': 10, 'min_child_weight': 3, 'subsample': 0.9654537813879032, 'colsample_bytree': 0.9440942186091654, 'gamma': 0.0560106695640511, 'lambda': 1.9229782815212304}. Best is trial 7 with value: 0.9312714776632304.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:01:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:01:35] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:01:36] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:01:37] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:01:38] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:01:39] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:16] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:17] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:18] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:20] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:21] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:23] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:24] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:25] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:26] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight", "colsample_bytree", "gamma", "max_depth", "min_child_weight", "num_parallel_tree", "subsample" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-05 14:02:28,621] Trial 8 finished with value: 0.807216494845361 and parameters: {'booster': 'gblinear', 'eta': 0.6022417808615631, 'learning_rate': 0.15833873893426123, 'n_estimators': 1273, 'max_depth': 9, 'min_child_weight': 6, 'subsample': 0.7021474023812717, 'colsample_bytree': 0.7963631382681444, 'gamma': 0.36478113432378567, 'lambda': 0.8125528061324081}. Best is trial 7 with value: 0.9312714776632304.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:02:28] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:52:02] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [15:44:36] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [16:38:12] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [17:23:02] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [18:05:31] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [19:03:03] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [19:46:19] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [20:23:58] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [21:03:35] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [21:46:59] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [22:29:29] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [23:17:30] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [00:05:26] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [00:48:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 01:37:23,733] Trial 9 finished with value: 0.9219931271477665 and parameters: {'booster': 'dart', 'eta': 0.21118111602105968, 'learning_rate': 0.2604054359560773, 'n_estimators': 1642, 'max_depth': 9, 'min_child_weight': 10, 'subsample': 0.9314287053373889, 'colsample_bytree': 0.7958818810674122, 'gamma': 0.6379614485405333, 'lambda': 1.345334477121507}. Best is trial 7 with value: 0.9312714776632304.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:37:23] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:37:31] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:37:39] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:37:47] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:37:54] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:38:02] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:38:10] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:38:17] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:38:25] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:38:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:38:40] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:38:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:38:55] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:39:03] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:39:11] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 01:39:19,474] Trial 10 finished with value: 0.9319587628865981 and parameters: {'booster': 'gbtree', 'eta': 0.37290955431806827, 'learning_rate': 0.06006881227530102, 'n_estimators': 966, 'max_depth': 20, 'min_child_weight': 3, 'subsample': 0.9951671370791115, 'colsample_bytree': 0.8892323425147945, 'gamma': 0.03453832224760138, 'lambda': 2.1459254246285253}. Best is trial 10 with value: 0.9319587628865981.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:39:19] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:39:27] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:39:40] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:39:49] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:39:57] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:40:04] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:40:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:41:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:41:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:41:50] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:41:57] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:42:05] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:42:13] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:42:21] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:42:29] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 01:42:37,208] Trial 11 finished with value: 0.9316151202749142 and parameters: {'booster': 'gbtree', 'eta': 0.012534976645977476, 'learning_rate': 0.05160874752005453, 'n_estimators': 942, 'max_depth': 18, 'min_child_weight': 3, 'subsample': 0.9926609104987276, 'colsample_bytree': 0.8973582711305675, 'gamma': 0.05753074071289431, 'lambda': 2.126846410852891}. Best is trial 10 with value: 0.9319587628865981.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:42:37] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:42:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:42:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:42:53] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:42:59] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:43:05] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:43:10] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:43:15] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:43:21] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:43:26] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:43:36] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:43:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:43:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:43:54] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:44:00] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 01:44:05,466] Trial 12 finished with value: 0.9309278350515465 and parameters: {'booster': 'gbtree', 'eta': 0.3517113095682564, 'learning_rate': 0.08056168606351682, 'n_estimators': 959, 'max_depth': 20, 'min_child_weight': 3, 'subsample': 0.9992136689122771, 'colsample_bytree': 0.8828269958056033, 'gamma': 0.10517583192231365, 'lambda': 2.4085630382984533}. Best is trial 10 with value: 0.9319587628865981.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:44:05] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:44:12] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:44:20] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:44:28] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:44:35] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:44:43] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:44:50] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:44:58] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:45:05] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:45:13] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:45:20] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:45:28] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:45:35] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:45:43] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:45:51] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 01:45:58,512] Trial 13 finished with value: 0.9309278350515465 and parameters: {'booster': 'gbtree', 'eta': 0.31751593773908576, 'learning_rate': 0.058460850788935016, 'n_estimators': 842, 'max_depth': 20, 'min_child_weight': 3, 'subsample': 0.997531828361869, 'colsample_bytree': 0.8716819579964201, 'gamma': 0.011484877394222506, 'lambda': 2.9279985935230233}. Best is trial 10 with value: 0.9319587628865981.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:45:58] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:46:05] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:46:12] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:46:19] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:46:26] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:46:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:46:40] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:46:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:46:55] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:47:02] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:47:09] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:47:16] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:47:23] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:47:31] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:47:37] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 01:47:44,462] Trial 14 finished with value: 0.9336769759450173 and parameters: {'booster': 'gbtree', 'eta': 0.01583188491000237, 'learning_rate': 0.06775967306041901, 'n_estimators': 1184, 'max_depth': 17, 'min_child_weight': 2, 'subsample': 0.8138795518395865, 'colsample_bytree': 0.9185215663911869, 'gamma': 0.19067569672210127, 'lambda': 2.112567464085685}. Best is trial 14 with value: 0.9336769759450173.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:47:44] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:47:51] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:47:57] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:48:03] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:48:10] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:48:16] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:48:23] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:48:29] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:48:36] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:48:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:48:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:48:55] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:49:01] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:49:08] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:49:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 01:49:20,797] Trial 15 finished with value: 0.9333333333333335 and parameters: {'booster': 'gbtree', 'eta': 0.24248084812118892, 'learning_rate': 0.07235753968838951, 'n_estimators': 1174, 'max_depth': 16, 'min_child_weight': 1, 'subsample': 0.8100764951774512, 'colsample_bytree': 0.9935032750145585, 'gamma': 0.20274116072623305, 'lambda': 2.432736544962106}. Best is trial 14 with value: 0.9336769759450173.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:49:20] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [02:12:03] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [02:37:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [02:57:02] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [03:16:51] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [03:37:34] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [03:56:25] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [04:29:03] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [04:50:35] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [05:10:26] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [05:39:13] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [06:07:56] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [06:28:20] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [06:52:04] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [07:34:50] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 07:56:04,620] Trial 16 finished with value: 0.934364261168385 and parameters: {'booster': 'dart', 'eta': 0.2060112701240204, 'learning_rate': 0.09171423564244163, 'n_estimators': 1160, 'max_depth': 15, 'min_child_weight': 1, 'subsample': 0.790454378913235, 'colsample_bytree': 0.9799908101116737, 'gamma': 0.1758673062841544, 'lambda': 2.424732101719831}. Best is trial 16 with value: 0.934364261168385.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [07:56:04] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [08:16:41] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [08:39:10] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [08:59:49] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [09:19:47] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [09:43:51] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [10:17:08] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [10:42:38] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [11:07:51] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [11:33:53] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:01:10] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:25:57] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [12:50:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:14:32] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [13:40:18] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 14:05:42,076] Trial 17 finished with value: 0.9340206185567012 and parameters: {'booster': 'dart', 'eta': 0.13960726818693314, 'learning_rate': 0.11774747040228327, 'n_estimators': 1200, 'max_depth': 15, 'min_child_weight': 2, 'subsample': 0.6787159504326266, 'colsample_bytree': 0.9463830244917111, 'gamma': 0.20571758267847895, 'lambda': 2.914222004967457}. Best is trial 16 with value: 0.934364261168385.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:05:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [14:42:43] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [15:19:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [15:56:57] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [16:33:18] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [17:06:59] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [17:38:38] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [18:12:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [18:47:58] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [19:19:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [19:50:30] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [20:23:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [20:52:18] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [21:23:14] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [21:52:09] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-06 22:21:54,210] Trial 18 finished with value: 0.920962199312715 and parameters: {'booster': 'dart', 'eta': 0.19038397672470983, 'learning_rate': 0.1671772017279512, 'n_estimators': 1474, 'max_depth': 13, 'min_child_weight': 5, 'subsample': 0.5256202830244087, 'colsample_bytree': 0.9990170718608162, 'gamma': 0.5220042354800507, 'lambda': 2.9964407045532373}. Best is trial 16 with value: 0.934364261168385.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [22:21:54] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [22:37:35] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [22:53:25] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [23:09:38] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [23:25:56] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [23:42:02] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [23:58:26] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [00:14:34] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [00:30:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [00:46:46] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:02:41] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:19:45] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:35:09] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [01:52:13] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [02:07:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-07 02:23:30,128] Trial 19 finished with value: 0.934364261168385 and parameters: {'booster': 'dart', 'eta': 0.1421565368206592, 'learning_rate': 0.11659969431891602, 'n_estimators': 1081, 'max_depth': 15, 'min_child_weight': 2, 'subsample': 0.6892273589698578, 'colsample_bytree': 0.9403422884346668, 'gamma': 0.20538551606999383, 'lambda': 2.6845479402017935}. Best is trial 16 with value: 0.934364261168385.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [02:23:30] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [02:39:01] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [02:54:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [03:10:24] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [03:26:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [03:43:05] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [03:59:50] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [04:15:34] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [04:31:33] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [04:48:25] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [05:04:24] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [05:21:57] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [05:39:42] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [05:57:27] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [06:13:34] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-07 06:31:12,722] Trial 20 finished with value: 0.9309278350515465 and parameters: {'booster': 'dart', 'eta': 0.26701077512232574, 'learning_rate': 0.19574626820407873, 'n_estimators': 1097, 'max_depth': 12, 'min_child_weight': 2, 'subsample': 0.6448078022741986, 'colsample_bytree': 0.836847842175277, 'gamma': 0.44226679997552953, 'lambda': 2.681005550440934}. Best is trial 16 with value: 0.934364261168385.
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [06:31:12] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [06:48:22] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [07:04:03] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [07:21:09] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [07:37:03] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [07:53:10] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [08:09:15] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [08:25:48] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [08:42:05] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [08:59:39] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [09:17:31] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [09:34:37] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [09:51:56] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [10:08:22] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/home/fazzarello/miniforge3/envs/celltype_classification/lib/python3.8/site-packages/xgboost/core.py:160: UserWarning: [10:25:17] WARNING: /workspace/src/learner.cc:742: 
+Parameters: { "class_weight" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+[I 2023-10-07 10:41:23,415] Trial 21 finished with value: 0.9329896907216496 and parameters: {'booster': 'dart', 'eta': 0.13462865531105508, 'learning_rate': 0.10595906847920752, 'n_estimators': 1085, 'max_depth': 15, 'min_child_weight': 2, 'subsample': 0.7055903868502853, 'colsample_bytree': 0.9401089693075674, 'gamma': 0.22287553227272083, 'lambda': 2.711288434526795}. Best is trial 16 with value: 0.934364261168385.
+=>> PBS: job killed: walltime 172903 exceeded limit 172800
