@@ -954,7 +954,6 @@ df=load_dat(filename)
 # # clean dataset by hand
 if reduce_dataset:
     # load rows to exclude from csv/xlsx file
-    # filename_todrop="G:/My Drive/PhD/CAPTUR3D_personal/00 Progetti/beta cell recognize/Results/99 Error Analysis/ErrorAnalysis_rowstodrop.csv"
     filename_todrop=path_root/'data'/'ErrorAnalysis_rowstodrop.csv'
     df_todrop=pd.read_csv(filename_todrop)
     df=pd.concat([df, df_todrop]).drop_duplicates(subset=list(df_todrop.columns), keep=False)
@@ -1181,7 +1180,7 @@ def objective(trial):
         return score
     
 # define the optuna study
-study = optuna.create_study(direction='maximize')
+study = optuna.create_study(direction='maximize', pruner=optuna.pruners.BasePruner)
 study.optimize(objective, n_trials=300)
 
 #get best parameters
@@ -1412,7 +1411,7 @@ print(score)
 # # plt.ylabel('Precision')
 
 
-# # %%% KNN
+# %%% KNN
 # from sklearn.neighbors import KNeighborsClassifier
 
 # # initialize model
@@ -1430,10 +1429,10 @@ print(score)
 
 # # train model
 # model_KNN = cv_grid_KNN.fit(X_train, Y_train)
-
+# model_KNN.fit(X_train, Y_train)
 
 # # performance evaluation
-# print('Support Vector Machine')
+# print('KNN')
 # print('training')
 # score=performance_scores(model_KNN, X_train, Y_train, compact=compact_score)
 # print(score)
