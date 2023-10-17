@@ -1160,7 +1160,8 @@ def objective(trial):
         """
 
         params = {
-            'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear', 'dart']),
+            # 'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear', 'dart']),
+            'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear']),
             'eta': trial.suggest_float('eta',0.01,1),
             'learning_rate': trial.suggest_float('learning_rate', 0.001, 0.3),
             'n_estimators': trial.suggest_int('n_estimators', 500,2000,log=True),
