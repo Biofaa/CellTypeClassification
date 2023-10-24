@@ -934,10 +934,10 @@ def load_model(filename=-1):
     
 #%% config variables
 compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
-reduce_dataset=False
+reduce_dataset=True
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_noClean_FeatureSelection_div0.pkl'
+model_name='xgb_optuna_FeatureSelection_0.005.pkl'
 
 # %% Load data
 #----------------------------------------------
@@ -1147,7 +1147,7 @@ if xgb_feature_selection:
     
     # select most important features
     xgb_features=pd.DataFrame(model_xgb_old.feature_importances_, index=list(x.columns))
-    xgb_best_features=list(xgb_features[xgb_features.values!=0].index)
+    xgb_best_features=list(xgb_features[xgb_features.values>=0.005].index)
     
     # cut dataset features
     for i in [x, X_train, X_test]:
