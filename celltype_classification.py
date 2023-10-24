@@ -937,7 +937,7 @@ compact_score=False #if false, you'll obtain a separate score for alpha and beta
 reduce_dataset=True
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_0.003.pkl'
+model_name='xgb_optuna_FeatureSelection_0.001.pkl'
 
 # %% Load data
 #----------------------------------------------
@@ -1147,7 +1147,7 @@ if xgb_feature_selection:
     
     # select most important features
     xgb_features=pd.DataFrame(model_xgb_old.feature_importances_, index=list(x.columns))
-    xgb_best_features=list(xgb_features[xgb_features.values>=0.003].index)
+    xgb_best_features=list(xgb_features[xgb_features.values>=0.001].index)
     
     # cut dataset features
     for i in [x, X_train, X_test]:
