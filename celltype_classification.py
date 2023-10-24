@@ -934,10 +934,10 @@ def load_model(filename=-1):
     
 #%% config variables
 compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
-reduce_dataset=True
+reduce_dataset=False
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_div0.pkl'
+model_name='xgb_optuna_noClean_FeatureSelection_div0.pkl'
 
 # %% Load data
 #----------------------------------------------

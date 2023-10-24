@@ -934,8 +934,15 @@ def load_model(filename=-1):
     
 # %% config variables
 compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
+model_name='xgb_optuna.pkl'
 
 # %% Load data
+
+# load model
+model_path=path_root/'models'/model_name
+model_xgb = load_model(model_path)
+
+# load dataframe
 filename_dropped=path_root/'data'/'ErrorAnalysis_rowstodrop.csv'
 df=pd.read_csv(filename_dropped)
 
@@ -944,6 +951,8 @@ df_tmp=load_dat(filename_tmp)
 
 # keep only values from df
 df=pd.merge(df, df_tmp)
+cols=model_xgb.get_booster().feature_names
+
 
 # pairplot
 # df_pp=df.sort_values(by='cell_type', ascending=False)
@@ -1019,6 +1028,9 @@ x_tmp['glucose']=df_tmp['glucose']
 x, y = DataTransform(x, y)
 x_tmp, y_tmp = DataTransform(x_tmp, y_tmp)
 
+x=x[cols]
+x_tmp=x_tmp[cols]
+
 # MinMaxScaler
 from sklearn.preprocessing import MinMaxScaler
 scaler=MinMaxScaler()
@@ -1029,9 +1041,7 @@ x=pd.DataFrame(scaler.transform(x), columns=x.columns)
 from sklearn.model_selection import RepeatedStratifiedKFold
 cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
 
-# %% load model
-model_path=path_root/'models'/'xgb_optuna.pkl'
-model_xgb = load_model(model_path)
+
 
 # %% compute score
 print('XGBoost')
