@@ -937,8 +937,8 @@ compact_score=False #if false, you'll obtain a separate score for alpha and beta
 reduce_dataset=True
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_div0.pkl'
-feature_threshold=0
+model_name='xgb_optuna_FeatureSelection_0.003.pkl'
+feature_threshold=0.003
 
 # %% Load data
 #----------------------------------------------

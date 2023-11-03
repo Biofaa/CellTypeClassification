@@ -937,8 +937,8 @@ compact_score=False #if false, you'll obtain a separate score for alpha and beta
 reduce_dataset=True
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_0.005.pkl'
-feature_threshold=0.005
+model_name='xgb_optuna_FeatureSelection_0.001.pkl'
+feature_threshold=None
 
 # %% Load data
 
@@ -1024,6 +1024,8 @@ if xgb_feature_selection:
     xgb_features=pd.DataFrame(model_xgb_old.feature_importances_, index=list(x.columns))
     if feature_threshold==0:
         xgb_best_features=list(xgb_features[xgb_features.values!=0].index)
+    elif feature_threshold==None:
+        xgb_best_features=list(xgb_features.index)
     else:        
         xgb_best_features=list(xgb_features[xgb_features.values>=feature_threshold].index)
     
@@ -1033,8 +1035,9 @@ if xgb_feature_selection:
     X_test=X_test[xgb_best_features]
 
 # compute score
-print('\n'+model_name)
-print('training')
+print('\nnumber of features: ', np.shape(X_train)[1])
+print('model: '+model_name)
+print('\ntraining')
 score=performance_scores(model, X_train, Y_train, compact=compact_score)
 print(score)
 
