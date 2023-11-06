@@ -1,0 +1,16 @@
+select .dat file:
+choose a saved model to open (.pkl)
+XGBoost
+training
+             0    1
+precision  1.0  1.0
+recall     1.0  1.0
+f1         1.0  1.0
+roc_auc    1.0  1.0
+
+test
+              0     1
+precision  0.75  0.94
+recall     0.81  0.91
+f1         0.78  0.92
+roc_auc    0.86  0.86
