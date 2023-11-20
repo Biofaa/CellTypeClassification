@@ -937,7 +937,7 @@ compact_score=False #if false, you'll obtain a separate score for alpha and beta
 reduce_dataset=True
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_0.001.pkl'
+model_name='xgb_optuna_FeatureSelection_div0.pkl'
 feature_threshold=0.001
 
 # %% Load data
@@ -949,7 +949,11 @@ df=load_dat(filename)
 model_path=path_root/'models'/model_name
 model = load_model(model_path)
 
-# clean dataset by hand
+# # create new dataset
+# df=load_R64(use_donor_DB=True)
+# save_dat(df, filename)
+
+# # clean dataset by hand
 if reduce_dataset:
     # load rows to exclude from csv/xlsx file
     filename_todrop=path_root/'data'/'ErrorAnalysis_rowstodrop.csv'
@@ -964,11 +968,11 @@ x=x.iloc[:,3:]
 x=x.drop(labels='sex', axis=1)
 
 #### dataset splitting
-X_train, X_test, Y_train, Y_test = train_test_split(x, y)
+# X_train, X_test, Y_train, Y_test = train_test_split(x, y)
 
 #### transform data: scaling, categorical features encoding etc
-X_train, Y_train = DataTransform(X_train, Y_train)
-X_test, Y_test = DataTransform(X_test, Y_test)
+X, Y= DataTransform(x, y)
+
 
 #### drop almost all features
 # cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std']
@@ -985,8 +989,8 @@ X_test, Y_test = DataTransform(X_test, Y_test)
 # MinMaxScaler
 from sklearn.preprocessing import MinMaxScaler
 scaler=MinMaxScaler()
-X_train=pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
-X_test=pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
+X=pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
+# X_test=pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
 
 #### cross validation
 from sklearn.model_selection import RepeatedStratifiedKFold
@@ -1010,44 +1014,33 @@ cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
 
 #### Balance classes
 # SMOTE
-oversample = imblearn.over_sampling.SMOTE()
-X_train, Y_train = oversample.fit_resample(X_train, Y_train)
+# oversample = imblearn.over_sampling.SMOTE()
+# X_train, Y_train = oversample.fit_resample(X_train, Y_train)
 
-# %% performance evaluation
 
-if xgb_feature_selection:
-    # load original xgb model
-    model_path=path_root/'models'/'xgb_optuna.pkl'
-    model_xgb_old=load_model(model_path)
+
+# %% k-Means
+
+# elbow method
+from sklearn.cluster import KMeans
+from sklearn import metrics
+from scipy.spatial.distance import cdist
+
+N_centroids = range(1, 100000, 1000)
+roc_auc=[]
+
+distortions=[]
+inertias=[]
+
+for i in N_centroids:
+    kmeans=KMeans().fit(X)
+    roc_auc.append(roc_auc_score(Y, kmeans.labels_))
+    distortions.append(sum(np.min(cdist(X, kmeans.cluster_centers_,
+                                    'euclidean'), axis=1)) / X.shape[0])
+    inertias.append(kmeans.inertia_)
+
     
-    # select most important features
-    xgb_features=pd.DataFrame(model_xgb_old.feature_importances_, index=list(x.columns))
-    if feature_threshold==0:
-        xgb_best_features=list(xgb_features[xgb_features.values!=0].index)
-    elif feature_threshold==None:
-        xgb_best_features=list(xgb_features.index)
-    else:        
-        xgb_best_features=list(xgb_features[xgb_features.values>=feature_threshold].index)
-    
-    # cut dataset features
-    x=x[xgb_best_features]
-    X_train=X_train[xgb_best_features]
-    X_test=X_test[xgb_best_features]
+plt.plot(N_centroids, inertias)
 
-# compute score
-print('\nnumber of features: ', np.shape(X_train)[1])
-print('model: '+model_name)
-print('\ntraining')
-score=performance_scores(model, X_train, Y_train, compact=compact_score)
-print(score)
 
-print('\ntest')
-score=performance_scores(model, X_test, Y_test, compact=compact_score)
-print(score)
 
-# %% plot feature importance
-xgb_features.columns=['importance score']
-xgb_features.sort_values(by='importance score', ascending=False, inplace=True)
-xgb_features.iloc[:9,:].plot(kind='bar', figsize=(11,2), width=0.3)
-plt.ylabel('feature importance (%)')
-plt.savefig(path_root/'results'/'optimal number of features'/'feature_importance.svg', bbox_inches='tight')

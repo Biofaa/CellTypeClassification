@@ -937,117 +937,40 @@ compact_score=False #if false, you'll obtain a separate score for alpha and beta
 reduce_dataset=True
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_0.001.pkl'
-feature_threshold=0.001
+model_name='xgb_optuna.pkl'
+feature_threshold=None
 
 # %% Load data
+# load excel
+path_xlsx=path_root/'data'/'test_OptimalNumberOfFeatures.xlsx'
+df_alpha_train=pd.read_excel(path_xlsx, 'training_alpha')
+df_alpha_test=pd.read_excel(path_xlsx, 'test_alpha')
 
-# load dataset
-filename=path_root/'data'/'HI_features.dat'
-df=load_dat(filename)
-# load model
-model_path=path_root/'models'/model_name
-model = load_model(model_path)
+df_beta_train=pd.read_excel(path_xlsx, 'training_beta')
+df_beta_test=pd.read_excel(path_xlsx, 'test_beta')
 
-# clean dataset by hand
-if reduce_dataset:
-    # load rows to exclude from csv/xlsx file
-    filename_todrop=path_root/'data'/'ErrorAnalysis_rowstodrop.csv'
-    df_todrop=pd.read_csv(filename_todrop)
-    df=pd.concat([df, df_todrop]).drop_duplicates(subset=list(df_todrop.columns), keep=False)
+# %% plot
+# black plot
+plt.plot(df_alpha_test['number of features'].values, df_alpha_test['roc_auc'].values, '-ko')
+plt.plot(df_alpha_train['number of features'].values, df_alpha_train['roc_auc'].values, '--ko')
+plt.xlabel('number of features')
+plt.ylabel('ROC AUC')
+plt.legend('test', 'training')
+plt.savefig(path_root/'results'/'optimal number of features'/'N vs roc_auc.svg')
+plt.show()
 
-# %% pre-processing
+# plot alpha
+plt.plot(df_alpha_test['number of features'].values, df_alpha_test['roc_auc'].values, color='#c00000', marker='o')
+plt.plot(df_alpha_train['number of features'].values, df_alpha_train['roc_auc'].values, color='#c00000', marker='o', linestyle='dashed')
+plt.title('alpha cells')    
+plt.xlabel('number of features')
+plt.ylabel('ROC AUC')
+plt.show()
 
-#### get x and y (extract only features)
-x,y=Get_XY_FromDataFrame(df, 'cell_type')
-x=x.iloc[:,3:]
-x=x.drop(labels='sex', axis=1)
-
-#### dataset splitting
-X_train, X_test, Y_train, Y_test = train_test_split(x, y)
-
-#### transform data: scaling, categorical features encoding etc
-X_train, Y_train = DataTransform(X_train, Y_train)
-X_test, Y_test = DataTransform(X_test, Y_test)
-
-#### drop almost all features
-# cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std']
-# cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std', 'cell_circularity', 'g_99', 'g_CI_95_max', 'g_max', 'g_mean', 'g_mode', 'g_whisker_high', 'intensity_cytoplasm_rel_CV', 'lipofuscin_area_rel', 's_mode']
-# X_train=X_train[cols]
-# X_test=X_test[cols]
-
-#### scaling
-# Zscore
-# x=scaling.Zscore(x)
-# x=x.dropna()
-# y=y.loc[x.index]
-
-# MinMaxScaler
-from sklearn.preprocessing import MinMaxScaler
-scaler=MinMaxScaler()
-X_train=pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
-X_test=pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
-
-#### cross validation
-from sklearn.model_selection import RepeatedStratifiedKFold
-cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
-
-#### Feature Selection
-# Multicollinearity
-# to_drop=MultiCollinearity.fit(X_train, 0.90)
-# X_train=MultiCollinearity.transform(X_train, to_drop)
-# X_test=MultiCollinearity.transform(X_test, to_drop)
-
-# Elastic Net
-# coefs=MyElasticNet.fit(X_train, Y_train, cv)
-# X_train=MyElasticNet.transform(X_train, coefs)
-# X_test=MyElasticNet.transform(X_test, coefs)
-
-# LASSO
-# coefs=MyLasso.fit(X_train, Y_train, cv)
-# X_train=MyLasso.transform(X_train, coefs)
-# X_test=MyLasso.transform(X_test, coefs)
-
-#### Balance classes
-# SMOTE
-oversample = imblearn.over_sampling.SMOTE()
-X_train, Y_train = oversample.fit_resample(X_train, Y_train)
-
-# %% performance evaluation
-
-if xgb_feature_selection:
-    # load original xgb model
-    model_path=path_root/'models'/'xgb_optuna.pkl'
-    model_xgb_old=load_model(model_path)
-    
-    # select most important features
-    xgb_features=pd.DataFrame(model_xgb_old.feature_importances_, index=list(x.columns))
-    if feature_threshold==0:
-        xgb_best_features=list(xgb_features[xgb_features.values!=0].index)
-    elif feature_threshold==None:
-        xgb_best_features=list(xgb_features.index)
-    else:        
-        xgb_best_features=list(xgb_features[xgb_features.values>=feature_threshold].index)
-    
-    # cut dataset features
-    x=x[xgb_best_features]
-    X_train=X_train[xgb_best_features]
-    X_test=X_test[xgb_best_features]
-
-# compute score
-print('\nnumber of features: ', np.shape(X_train)[1])
-print('model: '+model_name)
-print('\ntraining')
-score=performance_scores(model, X_train, Y_train, compact=compact_score)
-print(score)
-
-print('\ntest')
-score=performance_scores(model, X_test, Y_test, compact=compact_score)
-print(score)
-
-# %% plot feature importance
-xgb_features.columns=['importance score']
-xgb_features.sort_values(by='importance score', ascending=False, inplace=True)
-xgb_features.iloc[:9,:].plot(kind='bar', figsize=(11,2), width=0.3)
-plt.ylabel('feature importance (%)')
-plt.savefig(path_root/'results'/'optimal number of features'/'feature_importance.svg', bbox_inches='tight')
+# plot alpha
+plt.plot(df_beta_test['number of features'].values, df_beta_test['roc_auc'].values, color='#00b050', marker='o')
+plt.plot(df_beta_train['number of features'].values, df_beta_train['roc_auc'].values, color='#00b050', marker='o', linestyle='dashed')
+plt.title('beta cells')    
+plt.xlabel('number of features')
+plt.ylabel('ROC AUC')
+plt.show()

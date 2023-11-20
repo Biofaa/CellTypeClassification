@@ -937,8 +937,9 @@ compact_score=False #if false, you'll obtain a separate score for alpha and beta
 reduce_dataset=True
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_0.001.pkl'
-feature_threshold=0.001
+salzberg=True
+model_name='xgb_Salzberg_0.003.pkl'
+feature_threshold=0.003
 
 # %% Load data
 #----------------------------------------------
@@ -1032,6 +1033,9 @@ X_train, X_test, Y_train, Y_test = train_test_split(x, y)
 X_train, Y_train = DataTransform(X_train, Y_train)
 X_test, Y_test = DataTransform(X_test, Y_test)
 
+if salzberg == True:
+    Y_train=np.random.shuffle(Y_train)
+
 #### drop almost all features
 # cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std']
 # cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std', 'cell_circularity', 'g_99', 'g_CI_95_max', 'g_max', 'g_mean', 'g_mode', 'g_whisker_high', 'intensity_cytoplasm_rel_CV', 'lipofuscin_area_rel', 's_mode']
@@ -1079,60 +1083,7 @@ X_train, Y_train = oversample.fit_resample(X_train, Y_train)
 # cols=['glucose', 'BMI', 'insulin_SI', 'g_barycenter_std', 'cell_circularity', 'g_min', 'g_max', 'g_std', 'g_CV', 'g_99', 'g_IQR', 'g_CI_95_max', 's_CI_95_min', 'g_har2min', 'g_har2CV', 'g_har250', 'g_har2CI_95_min', 's_har2max', 's_har2whisker_low', 's_har2CI_95_min', 's_har2CI_99_max', 'intensity_all_rel_mean', 'intensity_all_rel_50', 'intensity_all_rel_75', 'intensity_all_rel_CI_67_max', 'intensity_cytoplasm_rel_mean', 'intensity_cytoplasm_rel_std', 'intensity_cytoplasm_rel_CV', 'intensity_cytoplasm_rel_25', 'intensity_cytoplasm_rel_50', 'intensity_cytoplasm_rel_75', 'intensity_cytoplasm_rel_99', 'intensity_cytoplasm_rel_whisker_low', 'intensity_cytoplasm_rel_whisker_high', 'intensity_cytoplasm_rel_CI_67_max', 'intensity_cytoplasm_rel_CI_95_max', 'intensity_cytoplasm_rel_CI_99_max', 'intensity_lipofuscin_rel_mean', 'intensity_lipofuscin_rel_CV', 'intensity_lipofuscin_rel_25', 'intensity_lipofuscin_rel_50']  
 
 # %% Unsupervised learning
-#### PCA #######
-# # normalize by z-score
-# from sklearn.preprocessing import StandardScaler
-# scaler=StandardScaler()
-# df_scaled=df.iloc[:,5:]
-# df_scaled=scaler.fit_transform(df_scaled)
-# df_scaled=pd.DataFrame(df_scaled, columns=df.iloc[:,5:].columns)
 
-# # choose number of components
-# from sklearn.decomposition import PCA
-# n_components=np.size(df_scaled, axis=1)
-# pca10=PCA(n_components=n_components)
-# pc_fit = pca10.fit_transform(df_scaled.values)
-
-# # plot explained variance as function of number of components
-# plt.figure(1, figsize=(14, 7))
-# plt.bar(range(1,n_components+1,1), pca10.explained_variance_ratio_, alpha=0.5, align='center',
-#         label='individual explained variance')
-# plt.step(range(1,n_components+1,1),pca10.explained_variance_ratio_.cumsum(), where='mid',
-#          label='cumulative explained variance')
-# plt.ylabel('Explained variance ratio')
-# plt.xlabel('Principal components')
-# plt.title("Around 95% of variance is explained by the Fisrt 10 components ");
-# plt.legend(loc='best')
-# plt.axhline(y=0.7, color='r', linestyle='-') # 70% of  explained variance
-# plt.tight_layout()  
-
-# # perform PCA
-# n_components=3
-# pca=PCA(n_components=n_components)
-# pc = pca.fit_transform(df_scaled.values)
-# columns=[]
-# for i in range(1, n_components+1):
-#     columns.append('PC'+str(i))
-# pc_df=pd.DataFrame(pc, columns=columns)  
-# pc_df['cell_type']=df['cell_type']
-# # sns.scatterplot(x='PC1', y='PC2', data=pc2_df, hue='cell_type')
-
-# # 3D plot
-# from mpl_toolkits.mplot3d import Axes3D # 3D scatter plot
-# fig = plt.figure(figsize=(12,7))
-# ax = Axes3D(fig) 
-
-# cmap = {'alpha':'orange','beta':'green'}
-# ax.scatter(pc[:,0], pc[:,1], pc[:,2], c=[cmap[c] for c in  pc_df['cell_type'].values],
-#            marker='o', s=20)
-
-# ax.set_xlabel('PC1')
-# ax.set_ylabel('PC2')
-# ax.set_zlabel('PC3')
-# ax.view_init(30,-110)
-# plt.show()
-
-#### clustering ####
 
 # %% Supervised learning
 
@@ -1417,7 +1368,7 @@ print(score)
 # # plt.ylabel('Precision')
 
 
-# %%% KNN
+# %% KNN
 # from sklearn.neighbors import KNeighborsClassifier
 
 # # initialize model
@@ -1482,19 +1433,6 @@ if save_model_bool:
 # m_alpha=Y_error[Y_error['pred']==1].iloc[:,-1].count()/np.size(Y_error, axis=0)
 # m_beta=Y_error[Y_error['pred']==0].iloc[:,-1].count()/np.size(Y_error, axis=0)
 
-# %% Salzberg test
-# model=load_model()
-# # generate Y_rnd
-# Y_rnd = np.random.permutation(Y_train)
-# model.fit(X_train, Y_rnd)
-# print('Salzberg test results:\n')
-# print('training')
-# score=performance_scores(model, X_train, Y_train, compact=compact_score)
-# print(score)
-
-# print('\ntest')
-# score=performance_scores(model, X_test, Y_test, compact=compact_score)
-# print(score)
 
 # %% ensemble voting classfier
 # load xgb and svc models

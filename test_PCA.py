@@ -18,7 +18,7 @@ from sklearn.metrics import f1_score, balanced_accuracy_score, roc_auc_score, av
 from sklearn.feature_selection import RFE, RFECV
 from sklearn.linear_model import ElasticNet
 import joblib
-import imblearn
+from sklearn.decomposition import PCA
 
 def load_R64_bkp(use_donor_DB=False):
     '''
@@ -933,23 +933,20 @@ def load_model(filename=-1):
     
     
 #%% config variables
-compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
-reduce_dataset=True
-xgb_feature_selection=True
-save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_0.001.pkl'
-feature_threshold=0.001
+reduce_dataset=False
+n_components=2 #plot does not work for !=2
 
 # %% Load data
 
 # load dataset
 filename=path_root/'data'/'HI_features.dat'
 df=load_dat(filename)
-# load model
-model_path=path_root/'models'/model_name
-model = load_model(model_path)
 
-# clean dataset by hand
+# # create new dataset
+# df=load_R64(use_donor_DB=True)
+# save_dat(df, filename)
+
+# # clean dataset by hand
 if reduce_dataset:
     # load rows to exclude from csv/xlsx file
     filename_todrop=path_root/'data'/'ErrorAnalysis_rowstodrop.csv'
@@ -969,12 +966,7 @@ X_train, X_test, Y_train, Y_test = train_test_split(x, y)
 #### transform data: scaling, categorical features encoding etc
 X_train, Y_train = DataTransform(X_train, Y_train)
 X_test, Y_test = DataTransform(X_test, Y_test)
-
-#### drop almost all features
-# cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std']
-# cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std', 'cell_circularity', 'g_99', 'g_CI_95_max', 'g_max', 'g_mean', 'g_mode', 'g_whisker_high', 'intensity_cytoplasm_rel_CV', 'lipofuscin_area_rel', 's_mode']
-# X_train=X_train[cols]
-# X_test=X_test[cols]
+X,Y=DataTransform(x, y)
 
 #### scaling
 # Zscore
@@ -985,12 +977,11 @@ X_test, Y_test = DataTransform(X_test, Y_test)
 # MinMaxScaler
 from sklearn.preprocessing import MinMaxScaler
 scaler=MinMaxScaler()
-X_train=pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
-X_test=pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
+X=pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
 
 #### cross validation
-from sklearn.model_selection import RepeatedStratifiedKFold
-cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
+# from sklearn.model_selection import RepeatedStratifiedKFold
+# cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
 
 #### Feature Selection
 # Multicollinearity
@@ -1010,44 +1001,79 @@ cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
 
 #### Balance classes
 # SMOTE
-oversample = imblearn.over_sampling.SMOTE()
-X_train, Y_train = oversample.fit_resample(X_train, Y_train)
+# oversample = imblearn.over_sampling.SMOTE()
+# X_train, Y_train = oversample.fit_resample(X_train, Y_train)
 
-# %% performance evaluation
+# %% PCA: choose number of components
+# n_components=np.size(X, axis=1)
+pca10_components=10
+pca10=PCA(n_components=pca10_components)
+pc_fit = pca10.fit_transform(X.values)
 
-if xgb_feature_selection:
-    # load original xgb model
-    model_path=path_root/'models'/'xgb_optuna.pkl'
-    model_xgb_old=load_model(model_path)
-    
-    # select most important features
-    xgb_features=pd.DataFrame(model_xgb_old.feature_importances_, index=list(x.columns))
-    if feature_threshold==0:
-        xgb_best_features=list(xgb_features[xgb_features.values!=0].index)
-    elif feature_threshold==None:
-        xgb_best_features=list(xgb_features.index)
-    else:        
-        xgb_best_features=list(xgb_features[xgb_features.values>=feature_threshold].index)
-    
-    # cut dataset features
-    x=x[xgb_best_features]
-    X_train=X_train[xgb_best_features]
-    X_test=X_test[xgb_best_features]
+# plot explained variance as function of number of components
+plt.figure(1, figsize=(14, 7))
+plt.bar(range(1,pca10_components+1,1), pca10.explained_variance_ratio_, alpha=0.5, align='center',
+        label='individual explained variance')
+plt.step(range(1,pca10_components+1,1),pca10.explained_variance_ratio_.cumsum(), where='mid',
+          label='cumulative explained variance')
+plt.ylabel('Explained variance ratio')
+plt.xlabel('Principal components')
+plt.legend(loc='best')
+plt.axhline(y=0.7, color='r', linestyle='-') # 70% of  explained variance
+plt.tight_layout()
+plt.savefig(path_root/'results'/'PCA'/'OptimalComponents.svg', bbox_inches='tight')
+plt.show()
 
-# compute score
-print('\nnumber of features: ', np.shape(X_train)[1])
-print('model: '+model_name)
-print('\ntraining')
-score=performance_scores(model, X_train, Y_train, compact=compact_score)
-print(score)
+# %% PCA: perform PCA
+pca=PCA(n_components=n_components)
+pc = pca.fit_transform(X.values)
+columns=[]
+for i in range(1, n_components+1):
+    columns.append('PC'+str(i))
+pc_df=pd.DataFrame(pc, columns=columns)  
+pc_df['cell_type']=df['cell_type']
+sns.scatterplot(x='PC1', y='PC2', data=pc_df, hue='cell_type', alpha=0.70)
+plt.savefig(path_root/'results'/'PCA'/'PCA2.svg', bbox_inches='tight')
+plt.show()
 
-print('\ntest')
-score=performance_scores(model, X_test, Y_test, compact=compact_score)
-print(score)
+# %% 3D plot
+# from mpl_toolkits.mplot3d import Axes3D # 3D scatter plot
+# fig = plt.figure(figsize=(12,7))
+# ax = Axes3D(fig) 
 
-# %% plot feature importance
-xgb_features.columns=['importance score']
-xgb_features.sort_values(by='importance score', ascending=False, inplace=True)
-xgb_features.iloc[:9,:].plot(kind='bar', figsize=(11,2), width=0.3)
-plt.ylabel('feature importance (%)')
-plt.savefig(path_root/'results'/'optimal number of features'/'feature_importance.svg', bbox_inches='tight')
+# cmap = {'alpha':'orange','beta':'green'}
+# ax.scatter(pc[:,0], pc[:,1], pc[:,2], c=[cmap[c] for c in  pc_df['cell_type'].values],
+#            marker='o', s=20)
+
+# ax.set_xlabel('PC1')
+# ax.set_ylabel('PC2')
+# ax.set_zlabel('PC3')
+# ax.view_init(30,-110)
+# plt.show()
+
+# %% composite kde+pca plot
+
+# Creating a figure with two subplots that share the x-axis
+fig, (ax_kde, ax_scatter) = plt.subplots(2, 1, figsize=(8, 6), dpi=400, 
+                                         sharex=True, gridspec_kw={'height_ratios': [1, 4]})
+
+# Scatter plot with points, increased transparency, and shared x-axis
+sns.scatterplot(x='PC1', y='PC2', hue='cell_type', data=pc_df, alpha=0.70, ax=ax_scatter, marker='o')
+ax_scatter.set_ylabel('PC2')
+ax_scatter.legend(title='Cell Type', bbox_to_anchor=(1.05, 1), loc=2)
+
+# KDE plot for each cell type on PC1 without legend, title, and x label
+for cell_type in pc_df['cell_type'].unique():
+    sns.kdeplot(pc_df[pc_df['cell_type'] == cell_type]['PC1'], ax=ax_kde)
+
+ax_kde.set_ylabel('Density')
+
+# Setting an overall title for the figure
+# fig.suptitle('PCA Analysis: Scatter and KDE Plots', fontsize=16)
+
+# Adjusting layout for tightness
+fig.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust the rect to make space for the figure title
+plt.savefig(path_root/'results'/'PCA'/'pca_kde.svg', bbox_inches='tight')
+
+# Show the plots
+plt.show()

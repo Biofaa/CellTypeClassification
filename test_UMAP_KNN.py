@@ -937,7 +937,7 @@ compact_score=False #if false, you'll obtain a separate score for alpha and beta
 reduce_dataset=True
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_0.001.pkl'
+model_name='xgb_optuna_FeatureSelection_div0.pkl'
 feature_threshold=0.001
 
 # %% Load data
@@ -949,7 +949,11 @@ df=load_dat(filename)
 model_path=path_root/'models'/model_name
 model = load_model(model_path)
 
-# clean dataset by hand
+# # create new dataset
+# df=load_R64(use_donor_DB=True)
+# save_dat(df, filename)
+
+# # clean dataset by hand
 if reduce_dataset:
     # load rows to exclude from csv/xlsx file
     filename_todrop=path_root/'data'/'ErrorAnalysis_rowstodrop.csv'
@@ -1010,44 +1014,163 @@ cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
 
 #### Balance classes
 # SMOTE
-oversample = imblearn.over_sampling.SMOTE()
-X_train, Y_train = oversample.fit_resample(X_train, Y_train)
+# oversample = imblearn.over_sampling.SMOTE()
+# X_train, Y_train = oversample.fit_resample(X_train, Y_train)
 
-# %% performance evaluation
 
-if xgb_feature_selection:
-    # load original xgb model
-    model_path=path_root/'models'/'xgb_optuna.pkl'
-    model_xgb_old=load_model(model_path)
-    
-    # select most important features
-    xgb_features=pd.DataFrame(model_xgb_old.feature_importances_, index=list(x.columns))
-    if feature_threshold==0:
-        xgb_best_features=list(xgb_features[xgb_features.values!=0].index)
-    elif feature_threshold==None:
-        xgb_best_features=list(xgb_features.index)
-    else:        
-        xgb_best_features=list(xgb_features[xgb_features.values>=feature_threshold].index)
-    
-    # cut dataset features
-    x=x[xgb_best_features]
-    X_train=X_train[xgb_best_features]
-    X_test=X_test[xgb_best_features]
+# %% UMAP
+import umap
 
-# compute score
-print('\nnumber of features: ', np.shape(X_train)[1])
-print('model: '+model_name)
-print('\ntraining')
-score=performance_scores(model, X_train, Y_train, compact=compact_score)
-print(score)
+local_path = Path.cwd()
+# data = pd.read_csv(local_path / 'data' /  'HI_features.dat').drop(['cell_number','sex','BMI','age','insulin_SI'],axis=1)
+data = pd.read_csv(local_path / 'data' /  'HI_features.dat').drop(['cell_number','sex'],axis=1)
 
-print('\ntest')
-score=performance_scores(model, X_test, Y_test, compact=compact_score)
-print(score)
+#strip mM from glucose column
+data['glucose'] = data['glucose'].str.strip('mM')
+data['glucose'] = data['glucose'].astype(float)
 
-# %% plot feature importance
-xgb_features.columns=['importance score']
-xgb_features.sort_values(by='importance score', ascending=False, inplace=True)
-xgb_features.iloc[:9,:].plot(kind='bar', figsize=(11,2), width=0.3)
-plt.ylabel('feature importance (%)')
-plt.savefig(path_root/'results'/'optimal number of features'/'feature_importance.svg', bbox_inches='tight')
+cell_types = data.pop('cell_type')
+date = data.pop('date')
+islet = data.pop('islet')
+glucose = data.pop('glucose')
+age = data.pop('age')
+bmi = data.pop('BMI')
+insulin_si = data.pop('insulin_SI')
+
+columns = list(data.columns)
+
+#scale data
+scaler = MinMaxScaler()
+data = scaler.fit_transform(data)
+
+#new dataframe
+data = pd.DataFrame(data, columns=columns)
+data = data.fillna(0)
+
+umap_obj = umap.UMAP()
+reduced = umap_obj.fit_transform(data)
+
+reduced_df = pd.DataFrame(reduced, columns=['UMAP1','UMAP2'])
+
+reduced_df['cell_type'] = cell_types
+reduced_df['date'] = date
+reduced_df['islet'] = islet
+reduced_df['glucose'] = glucose
+reduced_df['age'] = age
+reduced_df['BMI'] = bmi
+reduced_df['insulin_SI'] = insulin_si
+
+#%% k-Means: elbow method
+
+# elbow method
+from sklearn.cluster import KMeans
+from sklearn import metrics
+from scipy.spatial.distance import cdist
+
+N_centroids = range(1, 60)
+roc_auc=[]
+
+distortions=[]
+inertias=[]
+
+X=reduced_df[['UMAP1', 'UMAP2']]
+Y=cell_types.replace(['alpha', 'beta'], [0, 1])
+Y_kmeans={}
+kmeans_labels={}
+j=0
+
+for i in N_centroids:
+    kmeans=KMeans(n_clusters=i, random_state=42).fit(X)
+    kmeans_labels[str(i)]=kmeans.labels_
+    a1=np.multiply(kmeans.labels_, Y)
+    a2=np.where(a1!=0,1,0)
+    Y_kmeans[str(i)]=a2
+    roc_auc.append(roc_auc_score(Y, Y_kmeans[str(i)]))
+    j=j+1
+    distortions.append(sum(np.min(cdist(X, kmeans.cluster_centers_,
+                                    'euclidean'), axis=1)) / X.shape[0])
+    inertias.append(kmeans.inertia_)
+
+# plot elbow
+plt.figure(figsize=(10,2))
+plt.plot(N_centroids, distortions)
+# xlabels=np.arange(N_centroids[0], N_centroids[-1], 5)
+# plt.xticks(xlabels, xlabels+1)
+plt.title('elbow method')
+plt.xlabel('number of centroids')
+plt.ylabel('WCSS')
+c=10 #number of desired centroids
+plt.plot(c, distortions[c-1], 'or')
+plt.savefig(path_root/'results'/'kmeans'/'elbow.svg', bbox_inches='tight')
+plt.show()
+
+#%% k-means: calculate Gini purity for each centroid
+centroids=20 #initialize the number of centroids you want to analyse
+df_labels=pd.Series(kmeans_labels[str(centroids)])
+
+def GiniImpurity(X):
+    labels=X.unique()
+    gini=0
+    for i in labels:
+        gini=gini+(np.divide(np.sum(X==i), np.size(X))**2)
+    gini=1-gini
+    return gini
+
+gini={}
+
+for cluster in range(0,centroids):
+    labels=df_labels[df_labels==cluster]
+    Y_tmp=Y.loc[labels.index]
+    gini[str(cluster)]=GiniImpurity(Y_tmp)
+
+gini=pd.Series(gini)
+gini.plot(kind='bar', figsize=(10,2)).set_xticklabels(np.arange(1, centroids+1))
+plt.xlabel('cluster')
+plt.ylabel('Gini index')
+plt.title('Cluster heterogeneity')
+plt.savefig(path_root/'results'/'kmeans'/'gini vs cluster.svg', bbox_inches='tight')
+plt.show()
+
+print('Gini avg: ', np.round(np.mean(gini), 2))
+print('Gini std: ', np.round(np.std(gini), 2))
+ 
+# plt.plot(N_centroids, roc_auc)
+# plt.xlabel('number of centroids')
+# plt.ylabel('ROC AUC')
+# plt.show()
+# sns.scatterplot('UMAP1', 'UMAP2', data=X, hue=Y_kmeans['42'])
+
+# %% KNN on UMAP
+
+# from sklearn.neighbors import KNeighborsClassifier
+
+# cell_types.replace(['alpha', 'beta'], [0, 1], inplace=True)
+
+# # initialize model
+# model_KNN = KNeighborsClassifier()
+
+# # set hyperparameters
+# params_KNN = [{'n_neighbors': np.arange(3, 21, 1), 'weights': ['uniform', 'distance']}]
+
+# # initialize grid search
+# cv_grid_KNN = GridSearchCV(estimator = model_KNN,  
+#                             param_grid = params_KNN,
+#                             scoring=make_scorer(roc_auc_score),
+#                             cv = cv,
+#                             verbose=0)
+
+# # split dataset
+
+# # train model
+# model_KNN = cv_grid_KNN.fit(reduced_df[['UMAP1', 'UMAP2']], cell_types)
+# # model_KNN.fit(X_train, Y_train)
+
+# # performance evaluation
+# print('KNN')
+# print('training')
+# score=performance_scores(model_KNN, reduced_df[['UMAP1', 'UMAP2']], cell_types, compact=compact_score)
+# print(score)
+
+# print('\ntest')
+# score=performance_scores(model_KNN, reduced_df[['UMAP1', 'UMAP2']], cell_types, compact=compact_score)
+# print(score)

@@ -934,7 +934,7 @@ def load_model(filename=-1):
     
 # %% config variables
 compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
-model_name='xgb_optuna.pkl'
+model_name='xgb_optuna_FeatureSelection_0.001.pkl'
 
 # %% Load data
 
