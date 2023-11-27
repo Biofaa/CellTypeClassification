@@ -1,5 +1,4 @@
 # %% Libraries and functions
-import sys
 from pathlib import Path
 path_root=Path.cwd()
 import pandas as pd
@@ -935,7 +934,7 @@ def load_model(filename=-1):
 #%% config variables
 compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
 reduce_dataset=True
-xgb_feature_selection=True
+xgb_feature_selection=False
 save_model_bool=True
 salzberg=True
 model_name='xgb_Salzberg_0.003.pkl'
@@ -1033,9 +1032,6 @@ X_train, X_test, Y_train, Y_test = train_test_split(x, y)
 X_train, Y_train = DataTransform(X_train, Y_train)
 X_test, Y_test = DataTransform(X_test, Y_test)
 
-if salzberg == True:
-    Y_train=np.random.shuffle(Y_train)
-
 #### drop almost all features
 # cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std']
 # cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std', 'cell_circularity', 'g_99', 'g_CI_95_max', 'g_max', 'g_mean', 'g_mode', 'g_whisker_high', 'intensity_cytoplasm_rel_CV', 'lipofuscin_area_rel', 's_mode']
@@ -1081,6 +1077,9 @@ X_train, Y_train = oversample.fit_resample(X_train, Y_train)
 
 # SMOTE result
 # cols=['glucose', 'BMI', 'insulin_SI', 'g_barycenter_std', 'cell_circularity', 'g_min', 'g_max', 'g_std', 'g_CV', 'g_99', 'g_IQR', 'g_CI_95_max', 's_CI_95_min', 'g_har2min', 'g_har2CV', 'g_har250', 'g_har2CI_95_min', 's_har2max', 's_har2whisker_low', 's_har2CI_95_min', 's_har2CI_99_max', 'intensity_all_rel_mean', 'intensity_all_rel_50', 'intensity_all_rel_75', 'intensity_all_rel_CI_67_max', 'intensity_cytoplasm_rel_mean', 'intensity_cytoplasm_rel_std', 'intensity_cytoplasm_rel_CV', 'intensity_cytoplasm_rel_25', 'intensity_cytoplasm_rel_50', 'intensity_cytoplasm_rel_75', 'intensity_cytoplasm_rel_99', 'intensity_cytoplasm_rel_whisker_low', 'intensity_cytoplasm_rel_whisker_high', 'intensity_cytoplasm_rel_CI_67_max', 'intensity_cytoplasm_rel_CI_95_max', 'intensity_cytoplasm_rel_CI_99_max', 'intensity_lipofuscin_rel_mean', 'intensity_lipofuscin_rel_CV', 'intensity_lipofuscin_rel_25', 'intensity_lipofuscin_rel_50']  
+
+if salzberg == True:
+    np.random.shuffle(Y_train.values)
 
 # %% Unsupervised learning
 
