@@ -939,6 +939,7 @@ xgb_feature_selection=True
 save_model_bool=True
 model_name='xgb_optuna.pkl'
 feature_threshold=None
+plt.rcParams["font.family"] = "Arial"
 
 # %% Load data
 # load excel
@@ -955,22 +956,23 @@ plt.plot(df_alpha_test['number of features'].values, df_alpha_test['roc_auc'].va
 plt.plot(df_alpha_train['number of features'].values, df_alpha_train['roc_auc'].values, '--ko')
 plt.xlabel('number of features')
 plt.ylabel('ROC AUC')
-plt.legend('test', 'training')
-plt.savefig(path_root/'results'/'optimal number of features'/'N vs roc_auc.svg')
+plt.gca().set_box_aspect(0.9)
+plt.legend(['test', 'training'])
+plt.savefig(path_root/'results'/'optimal number of features'/'N vs roc_auc.svg', bbox_inches='tight')
 plt.show()
 
-# plot alpha
-plt.plot(df_alpha_test['number of features'].values, df_alpha_test['roc_auc'].values, color='#c00000', marker='o')
-plt.plot(df_alpha_train['number of features'].values, df_alpha_train['roc_auc'].values, color='#c00000', marker='o', linestyle='dashed')
-plt.title('alpha cells')    
-plt.xlabel('number of features')
-plt.ylabel('ROC AUC')
-plt.show()
+# # plot alpha
+# plt.plot(df_alpha_test['number of features'].values, df_alpha_test['roc_auc'].values, color='#c00000', marker='o')
+# plt.plot(df_alpha_train['number of features'].values, df_alpha_train['roc_auc'].values, color='#c00000', marker='o', linestyle='dashed')
+# plt.title('alpha cells')    
+# plt.xlabel('number of features')
+# plt.ylabel('ROC AUC')
+# plt.show()
 
-# plot alpha
-plt.plot(df_beta_test['number of features'].values, df_beta_test['roc_auc'].values, color='#00b050', marker='o')
-plt.plot(df_beta_train['number of features'].values, df_beta_train['roc_auc'].values, color='#00b050', marker='o', linestyle='dashed')
-plt.title('beta cells')    
-plt.xlabel('number of features')
-plt.ylabel('ROC AUC')
-plt.show()
+# # plot alpha
+# plt.plot(df_beta_test['number of features'].values, df_beta_test['roc_auc'].values, color='#00b050', marker='o')
+# plt.plot(df_beta_train['number of features'].values, df_beta_train['roc_auc'].values, color='#00b050', marker='o', linestyle='dashed')
+# plt.title('beta cells')    
+# plt.xlabel('number of features')
+# plt.ylabel('ROC AUC')
+# plt.show()

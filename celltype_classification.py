@@ -774,6 +774,17 @@ def describe(x):
     df=np.round(df, 2)
     return df
 
+def DatasetCleaning(x, y):
+    #### categorical features encoding
+    dict_glucose={'2mM':0, '16mM':1}
+    x['glucose']=x['glucose'].replace(dict_glucose)
+    y=y.replace(['alpha', 'beta'], [0,1])
+    
+    #### missing values handling
+    x=x.fillna(0)
+    
+    return x, y
+
 def DataTransform(x, y):
     '''performs data transformation
         - encoding of categorical features
@@ -783,13 +794,7 @@ def DataTransform(x, y):
     '''
     #### manual feature selection
     
-    #### categorical features encoding
-    dict_glucose={'2mM':0, '16mM':1}
-    x['glucose']=x['glucose'].replace(dict_glucose)
-    y=y.replace(['alpha', 'beta'], [0,1])
-    
-    #### missing values handling
-    x=x.fillna(0)
+
     
     #### outliers handling
     # # find outliers with zscore
@@ -936,15 +941,14 @@ compact_score=False #if false, you'll obtain a separate score for alpha and beta
 reduce_dataset=True
 xgb_feature_selection=False
 save_model_bool=True
-salzberg=True
-model_name='xgb_Salzberg_0.003.pkl'
+salzberg=False
+# model_name='xgb_Salzberg_0.003.pkl'
+model_name='xgb_optuna.pkl'
 feature_threshold=0.003
 
 # %% Load data
 #----------------------------------------------
 
-# filename=flim.decode.getfile('dat')
-# filename='G:/My Drive/PhD/CAPTUR3D_personal/00 Progetti/beta cell recognize/HI_features.dat'
 filename=path_root/'data'/'HI_features.dat'
 df=load_dat(filename)
 
@@ -1024,13 +1028,14 @@ if reduce_dataset:
 x,y=Get_XY_FromDataFrame(df, 'cell_type')
 x=x.iloc[:,3:]
 x=x.drop(labels='sex', axis=1)
+x,y=DatasetCleaning(x, y)
 
 #### dataset splitting
 X_train, X_test, Y_train, Y_test = train_test_split(x, y)
 
 #### transform data: scaling, categorical features encoding etc
 X_train, Y_train = DataTransform(X_train, Y_train)
-X_test, Y_test = DataTransform(X_test, Y_test)
+# X_test, Y_test = DataTransform(X_test, Y_test)
 
 #### drop almost all features
 # cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std']
@@ -1115,7 +1120,6 @@ def objective(trial):
         """
 
         params = {
-            # 'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear', 'dart']),
             'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear']),
             'eta': trial.suggest_float('eta',0.01,1),
             'learning_rate': trial.suggest_float('learning_rate', 0.001, 0.3),
@@ -1129,7 +1133,7 @@ def objective(trial):
             'num_parallel_tree': 5,
             }
         
-        model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42, **params)
+        model_xgb = XGBClassifier(use_label_encoder=False, objective="binary:logistic", random_state=42, **params)
         
         score = cross_val_score(model_xgb, X_train, Y_train, cv=cv, scoring=make_scorer(roc_auc_score)).mean()
         
@@ -1157,44 +1161,10 @@ print('\ntest')
 score=performance_scores(model_xgb_optim, X_test, Y_test, compact=compact_score)
 print(score)
 
-# # %%% Logistic Regression
-# from sklearn.linear_model import LogisticRegression
-# #### cross validation
-# params_lr = [{
-#     'solver': ['newton-cg', 'lbfgs', 'sag'],
-#     'C': [0.3, 0.5, 0.7, 1, 10, 100, 1000],
-#     'penalty': ['l2']
-#     },{
-#     'solver': ['liblinear','saga'],
-#     'C': [0.3, 0.5, 0.7, 1, 10, 100, 1000],
-#     'penalty': ['l1','l2']
-# }]
-
-# #### assess chosen hyperparameter effect on precision
-# # score_alpha_train=[]
-# # score_beta_train=[]
-# # score_alpha_test=[]
-# # score_beta_test=[]
-# # # C_range=[0.001, 0.1, 1, 10, 100, 1000, 10000, 100000]
-# # C_range=range(500, 5000, 100)
-
-# # for i in C_range:
-# #     model_lr = LogisticRegression(C=i, class_weight='balanced', random_state=42, max_iter=1000)
-# #     model_lr.fit(X_train, Y_train)
-# #     score_alpha_train.append(precision_score(Y_train, model_lr.predict(X_train), average=None)[0])
-# #     score_beta_train.append(precision_score(Y_train, model_lr.predict(X_train), average=None)[1])
-# #     score_alpha_test.append(precision_score(Y_test, model_lr.predict(X_test), average=None)[0])
-# #     score_beta_test.append(precision_score(Y_test, model_lr.predict(X_test), average=None)[1])
- 
-# # df_score=pd.DataFrame({'alpha_train':score_alpha_train, 'beta_train':score_beta_train, 'alpha_test':score_alpha_test, 'beta_test':score_beta_test})
-# # df_score.index=C_range
-
-# # df_score.plot(logx=True, style=['--r', '--g', 'r', 'g'])
-# # plt.xlabel('C')
-# # plt.ylabel('Precision')
-
+# %% Logistic Regression
+from sklearn.linear_model import LogisticRegression
 # #### model initialization
-# model_lr = LogisticRegression(class_weight='balanced', random_state=42, solver='sag', max_iter=1000)
+model_lr = LogisticRegression(class_weight='balanced', random_state=42, solver='sag', max_iter=1000)
 
 # #### grid search
 # cv_grid_lr = GridSearchCV(
@@ -1207,20 +1177,21 @@ print(score)
 
 # #### train model
 # model_lr = cv_grid_lr.fit(X_train, Y_train)
-# # model_lr.fit(X_train, Y_train)
+model_lr.fit(X_train, Y_train)
 
 # #### performance evaluation
-# print('Logistic Regression')
-# print('training')
-# # performance_testing(model_lr, X_test, Y_test)
-# # performance_testing(model_lr_cv, X_test, Y_test)
-# score=performance_scores(model_lr, X_train, Y_train, compact=compact_score)
-# print(score)
+print('Logistic Regression')
+print('training')
+# performance_testing(model_lr, X_test, Y_test)
+# performance_testing(model_lr_cv, X_test, Y_test)
+score=performance_scores(model_lr, X_train, Y_train, compact=compact_score)
+print(score)
 
-# print('\ntest')
-# score=performance_scores(model_lr, X_test, Y_test, compact=compact_score)
-# print(score)
-# # %%% XGBoost
+print('\ntest')
+score=performance_scores(model_lr, X_test, Y_test, compact=compact_score)
+print(score)
+
+# # %% XGBoost
 
 # #### cross validation
 # # Hyper-parameters set 
@@ -1231,8 +1202,8 @@ print(score)
 #     }
 
 # #### model initialization
-# from xgboost import XGBClassifier
-# model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42)
+from xgboost import XGBClassifier
+model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42)
 
 # #### grid search
 # cv_grid_xgb = GridSearchCV(
@@ -1246,7 +1217,7 @@ print(score)
 
 # #### train model
 # # model_xgb = cv_grid_xgb.fit(X_train, Y_train)
-# # model_xgb=model_xgb.fit(X_train, Y_train)
+model_xgb=model_xgb.fit(X_train, Y_train)
 
 # #### restrict features and model re-training
 # model_xgb=load_model()
@@ -1257,28 +1228,28 @@ print(score)
 # model_xgb = cv_grid_xgb.fit(X_train, Y_train)
 
 # #### performance evaluation
-# print('XGBoost')
-# print('training')
-# score=performance_scores(model_xgb, X_train, Y_train, compact=compact_score)
-# print(score)
+print('XGBoost')
+print('training')
+score=performance_scores(model_xgb, X_train, Y_train, compact=compact_score)
+print(score)
 
-# print('\ntest')
-# score=performance_scores(model_xgb, X_test, Y_test, compact=compact_score)
-# print(score)
+print('\ntest')
+score=performance_scores(model_xgb, X_test, Y_test, compact=compact_score)
+print(score)
 
         
 
-# # %%% SVM
-# from sklearn.svm import SVC
+# %% SVM
+from sklearn.svm import SVC
 
 # #### model initialization
-# model_svc = SVC(kernel='linear', C=1, class_weight='balanced', random_state=42)
+model_svc = SVC(kernel='linear', C=1, class_weight='balanced', random_state=42)
 
 # #### grid search
-# params_svc = [
-#                 {'C':np.arange(1,4,0.2), 'kernel':['rbf'], 'gamma':np.arange(0.1, 0.6, 0.02)},
-#                 {'C':np.arange(20,50, 2), 'kernel':['poly'], 'degree': [2] ,'gamma':np.concatenate((np.arange(0.001, 0.009, 0.002),np.arange(0.1, 0.6, 0.05)))} 
-#               ]
+params_svc = [
+                {'C':np.arange(1,4,0.2), 'kernel':['rbf'], 'gamma':np.arange(0.1, 0.6, 0.02)},
+                {'C':np.arange(20,50, 2), 'kernel':['poly'], 'degree': [2] ,'gamma':np.concatenate((np.arange(0.001, 0.009, 0.002),np.arange(0.1, 0.6, 0.05)))} 
+              ]
 
 # #### feature selection
 # # # RFE
@@ -1310,22 +1281,22 @@ print(score)
 # # X_test=X_test[cols]
 
 # #### train model
-# # model_svc = model_svc.fit(X_train, Y_train)
+model_svc = model_svc.fit(X_train, Y_train)
 # model_svc = cv_grid_svc.fit(X_train, Y_train)
 # # model_svc = cv_rnd_svc.fit(X_train, Y_train)
 
 
 # # model_svc=model_svc.fit(X_train, Y_train)   
 
-# #### performance evaluation
-# print('Support Vector Machine')
-# print('training')
-# score=performance_scores(model_svc, X_train, Y_train, compact=compact_score)
-# print(score)
+# performance evaluation
+print('Support Vector Machine')
+print('training')
+score=performance_scores(model_svc, X_train, Y_train, compact=compact_score)
+print(score)
 
-# print('\ntest')
-# score=performance_scores(model_svc, X_test, Y_test, compact=compact_score)
-# print(score)
+print('\ntest')
+score=performance_scores(model_svc, X_test, Y_test, compact=compact_score)
+print(score)
 
 
 
@@ -1397,10 +1368,16 @@ print(score)
 # score=performance_scores(model_KNN, X_test, Y_test, compact=compact_score)
 # print(score)
 
-# %% save/load model
+# %% save/load model and related data
 if save_model_bool:
     model_path=path_root/'models'/model_name
     save_model(model=model_xgb_optim, filename=model_path)
+    joblib.dump(scaler, path_root/'models'/'MinMaxScaler.pkl') # save scaler model
+    X_train.to_csv(path_root/'models'/'X_train.csv')
+    Y_train.to_csv(path_root/'models'/'Y_train.csv')
+    X_test.to_csv(path_root/'models'/'X_test.csv')
+    Y_test.to_csv(path_root/'models'/'Y_test.csv')
+
 
 # %% Error analysis
 # model=model_xgb

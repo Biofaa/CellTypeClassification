@@ -1055,12 +1055,12 @@ pc_df['cell_type']=df['cell_type']
 # plt.show()
 
 # %% composite KDE+PCA subplot
-palette=['#00b050', '#c00000']
+palette=['#c00000', '#00b050']
 
 # Creating a figure with a grid layout: 2 rows, 2 columns
 # Adjusted width_ratios so that the left column (for KDE of PC2) is wider
-fig = plt.figure(figsize=(6, 5), dpi=400)
-gs = fig.add_gridspec(2, 2, height_ratios=[1, 4], width_ratios=[1, 6], hspace=0.07, wspace=0.05)
+fig = plt.figure(figsize=(12, 6), dpi=400)
+gs = fig.add_gridspec(2, 2, height_ratios=[1, 4], width_ratios=[1, 7], hspace=0.07, wspace=0.05)
 
 # Scatter plot moved to the right
 ax_scatter = fig.add_subplot(gs[1, 1])
@@ -1069,7 +1069,6 @@ ax_scatter.set_xlabel('PC1')
 ax_scatter.set_ylabel('PC2')
 ax_scatter.legend(title='Cell type')
 ax_scatter.get_yaxis().set_visible(False)
-ax_scatter.set_aspect('equal')
 
 # KDE plot for PC1 above the scatter plot (no change needed here)
 i=0
@@ -1098,7 +1097,7 @@ ax_kde_pc2.invert_xaxis()
 # ax_scatter.set_ylabel('')
 
 # Setting an overall title for the figure
-# fig.suptitle('PCA Analysis: Scatter and KDE Plots', fontsize=16)
+fig.suptitle('PCA Analysis: Scatter and KDE Plots', fontsize=16)
 
 if save:
     plt.savefig(path_root/'results'/'PCA'/'PCA_KDE.svg', bbox_inches='tight')
@@ -1107,11 +1106,11 @@ if save:
 plt.show()
 
 # %% assess feature importance on PCA plot
-# hue='intensity_all_rel_whisker_high'
-# # hue='glucose'
-# pc_df[hue]=df[hue]
-# sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, marker='o', hue=hue, palette='flare', color='gray')
-# str_filename='PCA_'+hue+'.svg'
-# plt.legend(title=hue, loc='center right', bbox_to_anchor=(1.52, 0.5))
-# plt.savefig(path_root/'results'/'PCA'/str_filename, bbox_inches='tight')
-# plt.show()
+hue='intensity_all_rel_whisker_high'
+# hue='glucose'
+pc_df[hue]=df[hue]
+sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, marker='o', hue=hue, palette='flare', color='gray')
+str_filename='PCA_'+hue+'.svg'
+plt.legend(title=hue, loc='center right', bbox_to_anchor=(1.52, 0.5))
+plt.savefig(path_root/'results'/'PCA'/str_filename, bbox_inches='tight')
+plt.show()

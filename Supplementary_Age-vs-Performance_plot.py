@@ -7,18 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import flim_module as flim
 import seaborn as sns
-import re #for regular expressions
-import sklearn
-import sklearn.model_selection
-import os
-from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-from sklearn.model_selection import cross_validate
-from sklearn.metrics import make_scorer, precision_score, recall_score, classification_report, confusion_matrix 
-from sklearn.metrics import f1_score, balanced_accuracy_score, roc_auc_score, average_precision_score, matthews_corrcoef
-from sklearn.feature_selection import RFE, RFECV
-from sklearn.linear_model import ElasticNet
-import joblib
-from sklearn.decomposition import PCA
+from scipy import stats
 
 def load_R64_bkp(use_donor_DB=False):
     '''
@@ -933,185 +922,78 @@ def load_model(filename=-1):
     
     
 #%% config variables
-reduce_dataset=False
-save=True
-n_components=2 #plot does not work for !=2
+save=False
 plt.rcParams["font.family"] = "Arial"
+filename=path_root/'results'/'age vs roc_auc'/'age_vs_score.xlsx'
+x_label='Age'
+y_label='ROC_AUC'
+palette=['#c00000', '#00b050']
 
 # %% Load data
 
 # load dataset
-filename=path_root/'data'/'HI_features.dat'
-df=load_dat(filename)
+df=pd.read_excel(filename)
+df_lipo=pd.read_excel(path_root/'data'/'Lipofuscin.xlsx')
 
-# # create new dataset
-# df=load_R64(use_donor_DB=True)
-# save_dat(df, filename)
+#%%  plot data
+fig, ax = plt.subplots(1, 3, figsize=(15, 3), dpi=300)
 
-# # clean dataset by hand
-if reduce_dataset:
-    # load rows to exclude from csv/xlsx file
-    filename_todrop=path_root/'data'/'ErrorAnalysis_rowstodrop.csv'
-    df_todrop=pd.read_csv(filename_todrop)
-    df=pd.concat([df, df_todrop]).drop_duplicates(subset=list(df_todrop.columns), keep=False)
+#scatterplot
+# plt.figure(figsize=(5,4), dpi=300)
+sns.scatterplot(x=x_label, y=y_label, data=df, ax=ax[0], color='k')
 
-# %% pre-processing
+# Perform linear regression
+# df_tmp=df[df['ROC_AUC']>0.86]
+# slope, intercept, r_value, p_value, std_err = stats.linregress(df_tmp[x_label], df_tmp[y_label])
+slope, intercept, r_value, p_value, std_err = stats.linregress(df[x_label], df[y_label])
+ax[0].plot(df[x_label], intercept + slope*df[x_label], color='k')
 
-#### get x and y (extract only features)
-x,y=Get_XY_FromDataFrame(df, 'cell_type')
-x=x.iloc[:,3:]
-x=x.drop(labels='sex', axis=1)
+slope=np.round(slope, 6)
+intercept, r_value=np.round([intercept, r_value], 2)
+lbl_plt='y = '+str(slope)+'x + '+str(intercept)+'\nr = '+ str(r_value)
+plt.text(0.03, 0.95, lbl_plt, horizontalalignment='left', verticalalignment='top', transform=ax[0].transAxes)
 
-#### dataset splitting
-X_train, X_test, Y_train, Y_test = train_test_split(x, y)
 
-#### transform data: scaling, categorical features encoding etc
-X_train, Y_train = DataTransform(X_train, Y_train)
-X_test, Y_test = DataTransform(X_test, Y_test)
-X,Y=DataTransform(x, y)
+#### plot lipofusin vs Age
+x_label='Age'
+slope, intercept, r_value, p_value, std_err = stats.linregress(df_lipo[x_label], df_lipo['Alpha Area [%]'])
+ax[1].plot(df_lipo[x_label], intercept + slope*df_lipo[x_label], color=palette[0])
+slope=np.round(slope, 2)
+intercept, r_value=np.round([intercept, r_value], 2)
+lbl_plt='y = '+str(slope)+'x '+str(intercept)+'\nr = '+ str(r_value)
+plt.text(0.03, 0.95, lbl_plt, horizontalalignment='left', verticalalignment='top', transform=ax[1].transAxes, color=palette[0])
+slope, intercept, r_value, p_value, std_err = stats.linregress(df_lipo[x_label], df_lipo['Beta Area [%]'])
+ax[1].plot(df_lipo[x_label], intercept + slope*df_lipo[x_label], color=palette[1])
+slope=np.round(slope, 2)
+intercept, r_value=np.round([intercept, r_value], 2)
+lbl_plt='y = '+str(slope)+'x '+str(intercept)+'\nr = '+ str(r_value)
+plt.text(0.03, 0.80, lbl_plt, horizontalalignment='left', verticalalignment='top', transform=ax[1].transAxes, color=palette[1])
+ax[1].legend(['alpha', 'beta'], loc='lower right')
 
-#### scaling
-# Zscore
-# x=scaling.Zscore(x)
-# x=x.dropna()
-# y=y.loc[x.index]
+sns.scatterplot(x='Age', y='Alpha Area [%]', data=df_lipo, ax=ax[1], color=palette[0])
+sns.scatterplot(x='Age', y='Beta Area [%]', data=df_lipo, ax=ax[1], color=palette[1])
 
-# MinMaxScaler
-from sklearn.preprocessing import MinMaxScaler
-scaler=MinMaxScaler()
-X=pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
+ax[1].set_ylabel('Lipofuscin Area (%)')
 
-#### cross validation
-# from sklearn.model_selection import RepeatedStratifiedKFold
-# cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
+### plot lipofuscin vs BMI
+x_label='BMI'
+slope, intercept, r_value, p_value, std_err = stats.linregress(df_lipo[x_label], df_lipo['Alpha Area [%]'])
+ax[2].plot(df_lipo[x_label], intercept + slope*df_lipo[x_label], color=palette[0])
+slope=np.round(slope, 2)
+intercept, r_value=np.round([intercept, r_value], 2)
+lbl_plt='y = '+str(slope)+'x '+str(intercept)+'\nr = '+ str(r_value)
+plt.text(0.03, 0.95, lbl_plt, horizontalalignment='left', verticalalignment='top', transform=ax[2].transAxes, color=palette[0])
+slope, intercept, r_value, p_value, std_err = stats.linregress(df_lipo[x_label], df_lipo['Beta Area [%]'])
+ax[2].plot(df_lipo[x_label], intercept + slope*df_lipo[x_label], color=palette[1])
+slope=np.round(slope, 2)
+intercept, r_value=np.round([intercept, r_value], 2)
+lbl_plt='y = '+str(slope)+'x '+str(intercept)+'\nr = '+ str(r_value)
+plt.text(0.03, 0.80, lbl_plt, horizontalalignment='left', verticalalignment='top', transform=ax[2].transAxes, color=palette[1])
+ax[2].legend(['alpha', 'beta'], loc='lower right')
 
-#### Feature Selection
-# Multicollinearity
-# to_drop=MultiCollinearity.fit(X_train, 0.90)
-# X_train=MultiCollinearity.transform(X_train, to_drop)
-# X_test=MultiCollinearity.transform(X_test, to_drop)
+sns.scatterplot(x=x_label, y='Alpha Area [%]', data=df_lipo, ax=ax[2], color=palette[0])
+sns.scatterplot(x=x_label, y='Beta Area [%]', data=df_lipo, ax=ax[2], color=palette[1])
 
-# Elastic Net
-# coefs=MyElasticNet.fit(X_train, Y_train, cv)
-# X_train=MyElasticNet.transform(X_train, coefs)
-# X_test=MyElasticNet.transform(X_test, coefs)
+ax[2].set_ylabel('Lipofuscin Area (%)')
 
-# LASSO
-# coefs=MyLasso.fit(X_train, Y_train, cv)
-# X_train=MyLasso.transform(X_train, coefs)
-# X_test=MyLasso.transform(X_test, coefs)
-
-#### Balance classes
-# SMOTE
-# oversample = imblearn.over_sampling.SMOTE()
-# X_train, Y_train = oversample.fit_resample(X_train, Y_train)
-
-# %% PCA: choose number of components
-# n_components=np.size(X, axis=1)
-pca10_components=10
-pca10=PCA(n_components=pca10_components)
-pc_fit = pca10.fit_transform(X.values)
-
-# plot explained variance as function of number of components
-plt.figure(1, figsize=(14, 3))
-
-plt.bar(range(1,pca10_components+1,1), pca10.explained_variance_ratio_, alpha=0.5, align='center',
-        label='individual explained variance', color='gray')
-plt.step(range(1,pca10_components+1,1),pca10.explained_variance_ratio_.cumsum(), where='mid',
-          label='cumulative explained variance', color='gray')
-plt.ylabel('Explained variance ratio')
-plt.xlabel('Principal components')
-plt.legend(loc='best')
-# plt.axhline(y=0.7, color='r', linestyle='-') # 70% of  explained variance
-plt.tight_layout()
-plt.xticks(range(1,pca10_components+1,1), range(1,pca10_components+1,1))
-plt.savefig(path_root/'results'/'PCA'/'OptimalComponents.svg', bbox_inches='tight')
 plt.show()
-
-# %% PCA: perform PCA
-pca=PCA(n_components=n_components)
-pc = pca.fit_transform(X.values)
-columns=[]
-for i in range(1, n_components+1):
-    columns.append('PC'+str(i))
-pc_df=pd.DataFrame(pc, columns=columns)
-pc_df['cell_type']=df['cell_type']
-#save PCA df
-# pc_df.to_csv(path_root/'data'/'PCA2.csv')
-
-# %% 3D plot
-# from mpl_toolkits.mplot3d import Axes3D # 3D scatter plot
-# fig = plt.figure(figsize=(12,7))
-# ax = Axes3D(fig) 
-
-# cmap = {'alpha':'orange','beta':'green'}
-# ax.scatter(pc[:,0], pc[:,1], pc[:,2], c=[cmap[c] for c in  pc_df[hue].values],
-#            marker='o', s=20)
-
-# ax.set_xlabel('PC1')
-# ax.set_ylabel('PC2')
-# ax.set_zlabel('PC3')
-# ax.view_init(30,-110)
-# plt.show()
-
-# %% composite KDE+PCA subplot
-palette=['#00b050', '#c00000']
-
-# Creating a figure with a grid layout: 2 rows, 2 columns
-# Adjusted width_ratios so that the left column (for KDE of PC2) is wider
-fig = plt.figure(figsize=(6, 5), dpi=400)
-gs = fig.add_gridspec(2, 2, height_ratios=[1, 4], width_ratios=[1, 6], hspace=0.07, wspace=0.05)
-
-# Scatter plot moved to the right
-ax_scatter = fig.add_subplot(gs[1, 1])
-sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, ax=ax_scatter, marker='o', hue='cell_type', palette=palette)
-ax_scatter.set_xlabel('PC1')
-ax_scatter.set_ylabel('PC2')
-ax_scatter.legend(title='Cell type')
-ax_scatter.get_yaxis().set_visible(False)
-ax_scatter.set_aspect('equal')
-
-# KDE plot for PC1 above the scatter plot (no change needed here)
-i=0
-ax_kde_pc1 = fig.add_subplot(gs[0, 1], sharex=ax_scatter)
-for cell_type in pc_df['cell_type'].unique():
-    sns.kdeplot(pc_df[pc_df['cell_type'] == cell_type]['PC1'], ax=ax_kde_pc1, color=palette[i])
-    i=i+1
-ax_kde_pc1.set_ylabel('Density')
-ax_kde_pc1.set_xlabel('')  # Hide x-axis labels
-ax_kde_pc1.get_xaxis().set_visible(False)
-
-# KDE plot for PC2 moved to the left of the scatter plot
-ax_kde_pc2 = fig.add_subplot(gs[1, 0], sharey=ax_scatter)
-i=0
-for cell_type in pc_df['cell_type'].unique():
-    sns.kdeplot(pc_df[pc_df['cell_type'] == cell_type]['PC2'], ax=ax_kde_pc2, vertical=True, color=palette[i])
-    i=i+1
-ax_kde_pc2.set_xlabel('Density')
-ax_kde_pc2.set_ylabel('PC2')  
-
-# Invert the x-axis to flip the plot
-ax_kde_pc2.invert_xaxis()
-
-# Hide x and y labels of scatter plot to avoid duplication
-# ax_scatter.set_xlabel('')
-# ax_scatter.set_ylabel('')
-
-# Setting an overall title for the figure
-# fig.suptitle('PCA Analysis: Scatter and KDE Plots', fontsize=16)
-
-if save:
-    plt.savefig(path_root/'results'/'PCA'/'PCA_KDE.svg', bbox_inches='tight')
-
-# Show the plots
-plt.show()
-
-# %% assess feature importance on PCA plot
-# hue='intensity_all_rel_whisker_high'
-# # hue='glucose'
-# pc_df[hue]=df[hue]
-# sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, marker='o', hue=hue, palette='flare', color='gray')
-# str_filename='PCA_'+hue+'.svg'
-# plt.legend(title=hue, loc='center right', bbox_to_anchor=(1.52, 0.5))
-# plt.savefig(path_root/'results'/'PCA'/str_filename, bbox_inches='tight')
-# plt.show()

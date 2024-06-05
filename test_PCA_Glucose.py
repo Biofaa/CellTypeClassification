@@ -933,10 +933,13 @@ def load_model(filename=-1):
     
     
 #%% config variables
+plt.rcParams["font.family"] = "Arial"
+
 reduce_dataset=False
 save=True
 n_components=2 #plot does not work for !=2
-plt.rcParams["font.family"] = "Arial"
+hue='glucose'
+
 
 # %% Load data
 
@@ -1035,7 +1038,7 @@ columns=[]
 for i in range(1, n_components+1):
     columns.append('PC'+str(i))
 pc_df=pd.DataFrame(pc, columns=columns)
-pc_df['cell_type']=df['cell_type']
+pc_df[hue]=df[hue]
 #save PCA df
 # pc_df.to_csv(path_root/'data'/'PCA2.csv')
 
@@ -1055,7 +1058,7 @@ pc_df['cell_type']=df['cell_type']
 # plt.show()
 
 # %% composite KDE+PCA subplot
-palette=['#00b050', '#c00000']
+# palette=['#c00000', '#00b050']
 
 # Creating a figure with a grid layout: 2 rows, 2 columns
 # Adjusted width_ratios so that the left column (for KDE of PC2) is wider
@@ -1064,18 +1067,19 @@ gs = fig.add_gridspec(2, 2, height_ratios=[1, 4], width_ratios=[1, 6], hspace=0.
 
 # Scatter plot moved to the right
 ax_scatter = fig.add_subplot(gs[1, 1])
-sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, ax=ax_scatter, marker='o', hue='cell_type', palette=palette)
+sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, ax=ax_scatter, marker='o', hue=hue)
 ax_scatter.set_xlabel('PC1')
 ax_scatter.set_ylabel('PC2')
-ax_scatter.legend(title='Cell type')
+ax_scatter.legend(title=hue)
 ax_scatter.get_yaxis().set_visible(False)
 ax_scatter.set_aspect('equal')
+# plt.draw()
 
 # KDE plot for PC1 above the scatter plot (no change needed here)
 i=0
 ax_kde_pc1 = fig.add_subplot(gs[0, 1], sharex=ax_scatter)
-for cell_type in pc_df['cell_type'].unique():
-    sns.kdeplot(pc_df[pc_df['cell_type'] == cell_type]['PC1'], ax=ax_kde_pc1, color=palette[i])
+for hue_tmp in pc_df[hue].unique():
+    sns.kdeplot(pc_df[pc_df[hue] == hue_tmp]['PC1'], ax=ax_kde_pc1)
     i=i+1
 ax_kde_pc1.set_ylabel('Density')
 ax_kde_pc1.set_xlabel('')  # Hide x-axis labels
@@ -1084,8 +1088,8 @@ ax_kde_pc1.get_xaxis().set_visible(False)
 # KDE plot for PC2 moved to the left of the scatter plot
 ax_kde_pc2 = fig.add_subplot(gs[1, 0], sharey=ax_scatter)
 i=0
-for cell_type in pc_df['cell_type'].unique():
-    sns.kdeplot(pc_df[pc_df['cell_type'] == cell_type]['PC2'], ax=ax_kde_pc2, vertical=True, color=palette[i])
+for hue_tmp in pc_df[hue].unique():
+    sns.kdeplot(pc_df[pc_df[hue] == hue_tmp]['PC2'], ax=ax_kde_pc2, vertical=True)
     i=i+1
 ax_kde_pc2.set_xlabel('Density')
 ax_kde_pc2.set_ylabel('PC2')  
@@ -1101,7 +1105,8 @@ ax_kde_pc2.invert_xaxis()
 # fig.suptitle('PCA Analysis: Scatter and KDE Plots', fontsize=16)
 
 if save:
-    plt.savefig(path_root/'results'/'PCA'/'PCA_KDE.svg', bbox_inches='tight')
+    name_of_file='PCA_KDE_'+hue+'.svg'
+    plt.savefig(path_root/'results'/'PCA'/name_of_file, bbox_inches='tight')
 
 # Show the plots
 plt.show()
@@ -1113,5 +1118,6 @@ plt.show()
 # sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, marker='o', hue=hue, palette='flare', color='gray')
 # str_filename='PCA_'+hue+'.svg'
 # plt.legend(title=hue, loc='center right', bbox_to_anchor=(1.52, 0.5))
-# plt.savefig(path_root/'results'/'PCA'/str_filename, bbox_inches='tight')
+# if save:
+#     plt.savefig(path_root/'results'/'PCA'/str_filename, bbox_inches='tight')
 # plt.show()

@@ -937,8 +937,9 @@ compact_score=False #if false, you'll obtain a separate score for alpha and beta
 reduce_dataset=True
 xgb_feature_selection=True
 save_model_bool=True
-model_name='xgb_optuna_FeatureSelection_0.001.pkl'
-feature_threshold=0.001
+model_name='xgb_optuna_FeatureSelection_0.003.pkl'
+feature_threshold=0.003
+plt.rcParams["font.family"] = "Arial"
 
 # %% Load data
 
@@ -1048,6 +1049,19 @@ print(score)
 # %% plot feature importance
 xgb_features.columns=['importance score']
 xgb_features.sort_values(by='importance score', ascending=False, inplace=True)
-xgb_features.iloc[:9,:].plot(kind='bar', figsize=(11,2), width=0.3)
-plt.ylabel('feature importance (%)')
+# vertical barplot
+# xgb_features.iloc[:9,:].plot(kind='bar', figsize=(5,3), width=0.3)
+# horizontal barplot
+plt.barh(y=xgb_features.iloc[:9,:].index, width=xgb_features.iloc[:9,:]['importance score'].values, color='grey')
+plt.xlabel('feature importance (%)')
+plt.gca().set_box_aspect(0.7)
+plt.xticks(rotation=30, ha='right')
 plt.savefig(path_root/'results'/'optimal number of features'/'feature_importance.svg', bbox_inches='tight')
+plt.show()
+
+# %% boxplot of most important features
+# for i in xgb_features.iloc[:9,:].index:
+#         name_of_file=i+'.png'
+#         sns.boxplot(y=i, x='cell_type', data=df)
+#         plt.savefig(path_root/'results'/'optimal number of features'/'feature distribution'/name_of_file, bbox_inches='tight')
+#         plt.show()

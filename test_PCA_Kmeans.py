@@ -18,7 +18,7 @@ from sklearn.metrics import f1_score, balanced_accuracy_score, roc_auc_score, av
 from sklearn.feature_selection import RFE, RFECV
 from sklearn.linear_model import ElasticNet
 import joblib
-from sklearn.decomposition import PCA
+import imblearn
 
 def load_R64_bkp(use_donor_DB=False):
     '''
@@ -58,7 +58,7 @@ def load_R64_bkp(use_donor_DB=False):
         df_donor={
             'date': date,
             'islet': islet,
-            hue: cell_type,
+            'cell_type': cell_type,
             'cell_number': cell_number,
             'glucose': glucose,
             'sex': sex,
@@ -250,7 +250,7 @@ def load_R64(use_donor_DB=False):
         df_donor={
             'date': date,
             'islet': islet,
-            hue: cell_type,
+            'cell_type': cell_type,
             'cell_number': cell_number,
             'glucose': glucose,
             'sex': sex,
@@ -506,7 +506,7 @@ def CreateDonorDB():
         'filename':[],
         'date':[],
         'islet':[],
-        hue:[],
+        'cell_type':[],
         'cell_number':[],
         'glucose':[],
         'sex':[],
@@ -521,7 +521,7 @@ def CreateDonorDB():
         df['filename'].append(filename[i])
         df['date'].append(date)
         df['islet'].append(islet)
-        df[hue].append(cell_type)
+        df['cell_type'].append(cell_type)
         df['cell_number'].append(i)
         df['glucose'].append(re.findall('\d+', filename[i].split('_')[0])[-1]+'mM')
         df['sex'].append(sex)
@@ -818,13 +818,13 @@ def DataTransform(x, y):
     # if not os.path.exists('C:/Users/Fabio/Desktop/boxplot_'+xlabel):
     #     os.mkdir('C:/Users/Fabio/Desktop/boxplot_'+xlabel)
     # for i in list(df.columns)[6:]:
-    #     sns.boxplot(data=df_s, x=xlabel, y=i, hue=hue)
+    #     sns.boxplot(data=df_s, x=xlabel, y=i, hue='cell_type')
     #     flim.decode.savefigure(name='/boxplot_'+xlabel+'/boxplot_'+i,save=-1)
     #     plt.show()
     
-    # df_s[hue]=df_s[hue].replace({0: 'alpha', 1:'beta'})
+    # df_s['cell_type']=df_s['cell_type'].replace({0: 'alpha', 1:'beta'})
     # for i in list(df_s.iloc[:,10:].columns):
-    #     sns.boxplot(data=df_s, x=hue, y=i)
+    #     sns.boxplot(data=df_s, x='cell_type', y=i)
     #     flim.decode.savefigure(name='/boxplot/boxplot_'+i, save=-1)
     #     plt.show()
     return x, y
@@ -933,185 +933,127 @@ def load_model(filename=-1):
     
     
 #%% config variables
-reduce_dataset=False
-save=True
-n_components=2 #plot does not work for !=2
-plt.rcParams["font.family"] = "Arial"
+compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
+reduce_dataset=True
+xgb_feature_selection=True
+save_model_bool=True
+model_name='xgb_optuna_FeatureSelection_div0.pkl'
+feature_threshold=0.001
+filename='PCA2.csv'
+centroids=10
 
 # %% Load data
+X=pd.read_csv(path_root/'data'/filename, index_col=0)
+cell_types=X.pop('cell_type')
 
-# load dataset
-filename=path_root/'data'/'HI_features.dat'
-df=load_dat(filename)
+#%% k-Means: elbow method
 
-# # create new dataset
-# df=load_R64(use_donor_DB=True)
-# save_dat(df, filename)
+# elbow method
+from sklearn.cluster import KMeans
+from sklearn import metrics
+from scipy.spatial.distance import cdist
 
-# # clean dataset by hand
-if reduce_dataset:
-    # load rows to exclude from csv/xlsx file
-    filename_todrop=path_root/'data'/'ErrorAnalysis_rowstodrop.csv'
-    df_todrop=pd.read_csv(filename_todrop)
-    df=pd.concat([df, df_todrop]).drop_duplicates(subset=list(df_todrop.columns), keep=False)
+N_centroids = range(1, 60)
+roc_auc=[]
 
-# %% pre-processing
+distortions=[]
+inertias=[]
 
-#### get x and y (extract only features)
-x,y=Get_XY_FromDataFrame(df, 'cell_type')
-x=x.iloc[:,3:]
-x=x.drop(labels='sex', axis=1)
+Y=cell_types.replace(['alpha', 'beta'], [0, 1])
+Y_kmeans={}
+kmeans_labels={}
+j=0
 
-#### dataset splitting
-X_train, X_test, Y_train, Y_test = train_test_split(x, y)
+for i in N_centroids:
+    kmeans=KMeans(n_clusters=i, random_state=42).fit(X)
+    kmeans_labels[str(i)]=kmeans.labels_
+    a1=np.multiply(kmeans.labels_, Y)
+    a2=np.where(a1!=0,1,0)
+    Y_kmeans[str(i)]=a2
+    roc_auc.append(roc_auc_score(Y, Y_kmeans[str(i)]))
+    j=j+1
+    distortions.append(sum(np.min(cdist(X, kmeans.cluster_centers_,
+                                    'euclidean'), axis=1)) / X.shape[0])
+    inertias.append(kmeans.inertia_)
 
-#### transform data: scaling, categorical features encoding etc
-X_train, Y_train = DataTransform(X_train, Y_train)
-X_test, Y_test = DataTransform(X_test, Y_test)
-X,Y=DataTransform(x, y)
-
-#### scaling
-# Zscore
-# x=scaling.Zscore(x)
-# x=x.dropna()
-# y=y.loc[x.index]
-
-# MinMaxScaler
-from sklearn.preprocessing import MinMaxScaler
-scaler=MinMaxScaler()
-X=pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
-
-#### cross validation
-# from sklearn.model_selection import RepeatedStratifiedKFold
-# cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
-
-#### Feature Selection
-# Multicollinearity
-# to_drop=MultiCollinearity.fit(X_train, 0.90)
-# X_train=MultiCollinearity.transform(X_train, to_drop)
-# X_test=MultiCollinearity.transform(X_test, to_drop)
-
-# Elastic Net
-# coefs=MyElasticNet.fit(X_train, Y_train, cv)
-# X_train=MyElasticNet.transform(X_train, coefs)
-# X_test=MyElasticNet.transform(X_test, coefs)
-
-# LASSO
-# coefs=MyLasso.fit(X_train, Y_train, cv)
-# X_train=MyLasso.transform(X_train, coefs)
-# X_test=MyLasso.transform(X_test, coefs)
-
-#### Balance classes
-# SMOTE
-# oversample = imblearn.over_sampling.SMOTE()
-# X_train, Y_train = oversample.fit_resample(X_train, Y_train)
-
-# %% PCA: choose number of components
-# n_components=np.size(X, axis=1)
-pca10_components=10
-pca10=PCA(n_components=pca10_components)
-pc_fit = pca10.fit_transform(X.values)
-
-# plot explained variance as function of number of components
-plt.figure(1, figsize=(14, 3))
-
-plt.bar(range(1,pca10_components+1,1), pca10.explained_variance_ratio_, alpha=0.5, align='center',
-        label='individual explained variance', color='gray')
-plt.step(range(1,pca10_components+1,1),pca10.explained_variance_ratio_.cumsum(), where='mid',
-          label='cumulative explained variance', color='gray')
-plt.ylabel('Explained variance ratio')
-plt.xlabel('Principal components')
-plt.legend(loc='best')
-# plt.axhline(y=0.7, color='r', linestyle='-') # 70% of  explained variance
-plt.tight_layout()
-plt.xticks(range(1,pca10_components+1,1), range(1,pca10_components+1,1))
-plt.savefig(path_root/'results'/'PCA'/'OptimalComponents.svg', bbox_inches='tight')
+# plot elbow
+plt.figure(figsize=(10,2))
+plt.plot(N_centroids, distortions)
+# xlabels=np.arange(N_centroids[0], N_centroids[-1], 5)
+# plt.xticks(xlabels, xlabels+1)
+plt.title('elbow method')
+plt.xlabel('number of centroids')
+plt.ylabel('WCSS')
+plt.plot(centroids, distortions[centroids-1], 'or')
+plt.savefig(path_root/'results'/'kmeans'/'elbow.svg', bbox_inches='tight')
 plt.show()
 
-# %% PCA: perform PCA
-pca=PCA(n_components=n_components)
-pc = pca.fit_transform(X.values)
-columns=[]
-for i in range(1, n_components+1):
-    columns.append('PC'+str(i))
-pc_df=pd.DataFrame(pc, columns=columns)
-pc_df['cell_type']=df['cell_type']
-#save PCA df
-# pc_df.to_csv(path_root/'data'/'PCA2.csv')
+#%% k-means: calculate Gini purity for each centroid
+df_labels=pd.Series(kmeans_labels[str(centroids)])
 
-# %% 3D plot
-# from mpl_toolkits.mplot3d import Axes3D # 3D scatter plot
-# fig = plt.figure(figsize=(12,7))
-# ax = Axes3D(fig) 
+def GiniImpurity(X):
+    labels=X.unique()
+    gini=0
+    for i in labels:
+        gini=gini+(np.divide(np.sum(X==i), np.size(X))**2)
+    gini=1-gini
+    return gini
 
-# cmap = {'alpha':'orange','beta':'green'}
-# ax.scatter(pc[:,0], pc[:,1], pc[:,2], c=[cmap[c] for c in  pc_df[hue].values],
-#            marker='o', s=20)
+gini={}
 
-# ax.set_xlabel('PC1')
-# ax.set_ylabel('PC2')
-# ax.set_zlabel('PC3')
-# ax.view_init(30,-110)
-# plt.show()
+for cluster in range(0,centroids):
+    labels=df_labels[df_labels==cluster]
+    Y_tmp=Y.loc[labels.index]
+    gini[str(cluster)]=GiniImpurity(Y_tmp)
 
-# %% composite KDE+PCA subplot
-palette=['#00b050', '#c00000']
-
-# Creating a figure with a grid layout: 2 rows, 2 columns
-# Adjusted width_ratios so that the left column (for KDE of PC2) is wider
-fig = plt.figure(figsize=(6, 5), dpi=400)
-gs = fig.add_gridspec(2, 2, height_ratios=[1, 4], width_ratios=[1, 6], hspace=0.07, wspace=0.05)
-
-# Scatter plot moved to the right
-ax_scatter = fig.add_subplot(gs[1, 1])
-sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, ax=ax_scatter, marker='o', hue='cell_type', palette=palette)
-ax_scatter.set_xlabel('PC1')
-ax_scatter.set_ylabel('PC2')
-ax_scatter.legend(title='Cell type')
-ax_scatter.get_yaxis().set_visible(False)
-ax_scatter.set_aspect('equal')
-
-# KDE plot for PC1 above the scatter plot (no change needed here)
-i=0
-ax_kde_pc1 = fig.add_subplot(gs[0, 1], sharex=ax_scatter)
-for cell_type in pc_df['cell_type'].unique():
-    sns.kdeplot(pc_df[pc_df['cell_type'] == cell_type]['PC1'], ax=ax_kde_pc1, color=palette[i])
-    i=i+1
-ax_kde_pc1.set_ylabel('Density')
-ax_kde_pc1.set_xlabel('')  # Hide x-axis labels
-ax_kde_pc1.get_xaxis().set_visible(False)
-
-# KDE plot for PC2 moved to the left of the scatter plot
-ax_kde_pc2 = fig.add_subplot(gs[1, 0], sharey=ax_scatter)
-i=0
-for cell_type in pc_df['cell_type'].unique():
-    sns.kdeplot(pc_df[pc_df['cell_type'] == cell_type]['PC2'], ax=ax_kde_pc2, vertical=True, color=palette[i])
-    i=i+1
-ax_kde_pc2.set_xlabel('Density')
-ax_kde_pc2.set_ylabel('PC2')  
-
-# Invert the x-axis to flip the plot
-ax_kde_pc2.invert_xaxis()
-
-# Hide x and y labels of scatter plot to avoid duplication
-# ax_scatter.set_xlabel('')
-# ax_scatter.set_ylabel('')
-
-# Setting an overall title for the figure
-# fig.suptitle('PCA Analysis: Scatter and KDE Plots', fontsize=16)
-
-if save:
-    plt.savefig(path_root/'results'/'PCA'/'PCA_KDE.svg', bbox_inches='tight')
-
-# Show the plots
+gini=pd.Series(gini)
+gini.plot(kind='bar', figsize=(10,2)).set_xticklabels(np.arange(1, centroids+1), rotation=0)
+plt.xlabel('cluster')
+plt.ylabel('Gini index')
+# plt.title('Cluster heterogeneity')
+plt.savefig(path_root/'results'/'kmeans'/'gini vs cluster.svg', bbox_inches='tight')
 plt.show()
 
-# %% assess feature importance on PCA plot
-# hue='intensity_all_rel_whisker_high'
-# # hue='glucose'
-# pc_df[hue]=df[hue]
-# sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, marker='o', hue=hue, palette='flare', color='gray')
-# str_filename='PCA_'+hue+'.svg'
-# plt.legend(title=hue, loc='center right', bbox_to_anchor=(1.52, 0.5))
-# plt.savefig(path_root/'results'/'PCA'/str_filename, bbox_inches='tight')
+print('Gini avg: ', np.round(np.mean(gini), 2))
+print('Gini std: ', np.round(np.std(gini), 2))
+ 
+# plt.plot(N_centroids, roc_auc)
+# plt.xlabel('number of centroids')
+# plt.ylabel('ROC AUC')
 # plt.show()
+# sns.scatterplot('UMAP1', 'UMAP2', data=X, hue=Y_kmeans['42'])
+
+# %% KNN on UMAP
+
+# from sklearn.neighbors import KNeighborsClassifier
+
+# cell_types.replace(['alpha', 'beta'], [0, 1], inplace=True)
+
+# # initialize model
+# model_KNN = KNeighborsClassifier()
+
+# # set hyperparameters
+# params_KNN = [{'n_neighbors': np.arange(3, 21, 1), 'weights': ['uniform', 'distance']}]
+
+# # initialize grid search
+# cv_grid_KNN = GridSearchCV(estimator = model_KNN,  
+#                             param_grid = params_KNN,
+#                             scoring=make_scorer(roc_auc_score),
+#                             cv = cv,
+#                             verbose=0)
+
+# # split dataset
+
+# # train model
+# model_KNN = cv_grid_KNN.fit(reduced_df[['UMAP1', 'UMAP2']], cell_types)
+# # model_KNN.fit(X_train, Y_train)
+
+# # performance evaluation
+# print('KNN')
+# print('training')
+# score=performance_scores(model_KNN, reduced_df[['UMAP1', 'UMAP2']], cell_types, compact=compact_score)
+# print(score)
+
+# print('\ntest')
+# score=performance_scores(model_KNN, reduced_df[['UMAP1', 'UMAP2']], cell_types, compact=compact_score)
+# print(score)

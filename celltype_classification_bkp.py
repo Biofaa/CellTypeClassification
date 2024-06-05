@@ -1,5 +1,4 @@
 # %% Libraries and functions
-import sys
 from pathlib import Path
 path_root=Path.cwd()
 import pandas as pd
@@ -18,7 +17,7 @@ from sklearn.metrics import f1_score, balanced_accuracy_score, roc_auc_score, av
 from sklearn.feature_selection import RFE, RFECV
 from sklearn.linear_model import ElasticNet
 import joblib
-from sklearn.decomposition import PCA
+import imblearn
 
 def load_R64_bkp(use_donor_DB=False):
     '''
@@ -58,7 +57,7 @@ def load_R64_bkp(use_donor_DB=False):
         df_donor={
             'date': date,
             'islet': islet,
-            hue: cell_type,
+            'cell_type': cell_type,
             'cell_number': cell_number,
             'glucose': glucose,
             'sex': sex,
@@ -250,7 +249,7 @@ def load_R64(use_donor_DB=False):
         df_donor={
             'date': date,
             'islet': islet,
-            hue: cell_type,
+            'cell_type': cell_type,
             'cell_number': cell_number,
             'glucose': glucose,
             'sex': sex,
@@ -506,7 +505,7 @@ def CreateDonorDB():
         'filename':[],
         'date':[],
         'islet':[],
-        hue:[],
+        'cell_type':[],
         'cell_number':[],
         'glucose':[],
         'sex':[],
@@ -521,7 +520,7 @@ def CreateDonorDB():
         df['filename'].append(filename[i])
         df['date'].append(date)
         df['islet'].append(islet)
-        df[hue].append(cell_type)
+        df['cell_type'].append(cell_type)
         df['cell_number'].append(i)
         df['glucose'].append(re.findall('\d+', filename[i].split('_')[0])[-1]+'mM')
         df['sex'].append(sex)
@@ -818,13 +817,13 @@ def DataTransform(x, y):
     # if not os.path.exists('C:/Users/Fabio/Desktop/boxplot_'+xlabel):
     #     os.mkdir('C:/Users/Fabio/Desktop/boxplot_'+xlabel)
     # for i in list(df.columns)[6:]:
-    #     sns.boxplot(data=df_s, x=xlabel, y=i, hue=hue)
+    #     sns.boxplot(data=df_s, x=xlabel, y=i, hue='cell_type')
     #     flim.decode.savefigure(name='/boxplot_'+xlabel+'/boxplot_'+i,save=-1)
     #     plt.show()
     
-    # df_s[hue]=df_s[hue].replace({0: 'alpha', 1:'beta'})
+    # df_s['cell_type']=df_s['cell_type'].replace({0: 'alpha', 1:'beta'})
     # for i in list(df_s.iloc[:,10:].columns):
-    #     sns.boxplot(data=df_s, x=hue, y=i)
+    #     sns.boxplot(data=df_s, x='cell_type', y=i)
     #     flim.decode.savefigure(name='/boxplot/boxplot_'+i, save=-1)
     #     plt.show()
     return x, y
@@ -933,14 +932,19 @@ def load_model(filename=-1):
     
     
 #%% config variables
-reduce_dataset=False
-save=True
-n_components=2 #plot does not work for !=2
-plt.rcParams["font.family"] = "Arial"
+compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
+reduce_dataset=True
+xgb_feature_selection=False
+save_model_bool=False
+salzberg=False
+model_name='xgb_Salzberg_0.003.pkl'
+feature_threshold=0.003
 
 # %% Load data
+#----------------------------------------------
 
-# load dataset
+# filename=flim.decode.getfile('dat')
+# filename='G:/My Drive/PhD/CAPTUR3D_personal/00 Progetti/beta cell recognize/HI_features.dat'
 filename=path_root/'data'/'HI_features.dat'
 df=load_dat(filename)
 
@@ -955,6 +959,65 @@ if reduce_dataset:
     df_todrop=pd.read_csv(filename_todrop)
     df=pd.concat([df, df_todrop]).drop_duplicates(subset=list(df_todrop.columns), keep=False)
 
+# %% Exploratory Data Analysis
+
+# pairplot
+# df_pp=df.sort_values(by='cell_type', ascending=False)
+# sns.pairplot(data=df_pp, hue='cell_type')
+
+# # check missing values
+# df.isna().sum() # -> only cells with zero lipofuscin display missing values
+
+# # boxplot to assess xlabel variability
+# if not os.path.exists('C:/Users/Fabio/Desktop/boxplot'):
+#     os.mkdir('C:/Users/Fabio/Desktop/boxplot')
+# for i in list(df.columns)[10:]:
+#     sns.boxplot(data=df, x='cell_type', y=i)
+#     flim.decode.savefigure(name='/boxplot/boxplot_'+i,save=-1)
+#     plt.show()
+
+
+# df['donor']=df['date'].astype(str)+'_'+df['islet']
+
+# xlabel='donor'
+# if not os.path.exists('C:/Users/Fabio/Desktop/boxplot_'+xlabel):
+#     os.mkdir('C:/Users/Fabio/Desktop/boxplot_'+xlabel)
+# for i in list(df.columns)[6:]:
+#     plt.figure(figsize=(25, 4))
+#     sns.boxplot(data=df, x=xlabel, y=i, hue='cell_type')
+#     flim.decode.savefigure(name='/boxplot_'+xlabel+'/boxplot_'+i,save=-1)
+#     plt.show()
+
+
+    
+# # violin plot
+# celltype='beta'
+# sns.violinplot(data=df[df['cell_type']==celltype], x=xlabel, y='oxphos', hue="glucose", split=True)
+# plt.title(celltype+' cells')
+# flim.decode.savefigure(name=celltype,save=-1)
+
+# # check variable distribution (normality, skewness)
+# if not os.path.exists('C:/Users/Fabio/Desktop/hist'):
+#     os.mkdir('C:/Users/Fabio/Desktop/hist')
+# for i in list(df.columns)[6:]:
+#     sns.kdeplot(df, x=i, hue='cell_type')
+#     # sns.histplot(df, x=i, hue='cell_type')
+#     plt.ylabel(i)
+#     flim.decode.savefigure(name='/hist/hist_'+i,save=-1)
+#     plt.show()
+
+# # check variable distribution using kde
+# if not os.path.exists('C:/Users/Fabio/Desktop/kde'):
+#     os.mkdir('C:/Users/Fabio/Desktop/kde')
+# for i in list(df.columns)[6:]:
+#     sns.kdeplot(data=df, x=i, hue="cell_type")
+#     plt.ylabel(i)
+#     flim.decode.savefigure(name='/kde/kde_'+i,save=-1)
+#     plt.show()
+
+# size vs intensity
+# sns.scatterplot(data=df, x='cell_area', y='intensity_all_rel_mean', hue='cell_type')
+
 # %% pre-processing
 
 #### get x and y (extract only features)
@@ -968,7 +1031,12 @@ X_train, X_test, Y_train, Y_test = train_test_split(x, y)
 #### transform data: scaling, categorical features encoding etc
 X_train, Y_train = DataTransform(X_train, Y_train)
 X_test, Y_test = DataTransform(X_test, Y_test)
-X,Y=DataTransform(x, y)
+
+#### drop almost all features
+# cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std']
+# cols=['g_barycenter_std', 'g_CV', 'g_IQR', 'g_std', 'cell_circularity', 'g_99', 'g_CI_95_max', 'g_max', 'g_mean', 'g_mode', 'g_whisker_high', 'intensity_cytoplasm_rel_CV', 'lipofuscin_area_rel', 's_mode']
+# X_train=X_train[cols]
+# X_test=X_test[cols]
 
 #### scaling
 # Zscore
@@ -979,11 +1047,15 @@ X,Y=DataTransform(x, y)
 # MinMaxScaler
 from sklearn.preprocessing import MinMaxScaler
 scaler=MinMaxScaler()
-X=pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
+X_train=pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
+X_test=pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
+
+# save scaler model
+joblib.dump(scaler, path_root/'models'/'MinMaxScaler.pkl')
 
 #### cross validation
-# from sklearn.model_selection import RepeatedStratifiedKFold
-# cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
+from sklearn.model_selection import RepeatedStratifiedKFold
+cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
 
 #### Feature Selection
 # Multicollinearity
@@ -1003,115 +1075,489 @@ X=pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
 
 #### Balance classes
 # SMOTE
-# oversample = imblearn.over_sampling.SMOTE()
-# X_train, Y_train = oversample.fit_resample(X_train, Y_train)
+oversample = imblearn.over_sampling.SMOTE()
+X_train, Y_train = oversample.fit_resample(X_train, Y_train)
 
-# %% PCA: choose number of components
-# n_components=np.size(X, axis=1)
-pca10_components=10
-pca10=PCA(n_components=pca10_components)
-pc_fit = pca10.fit_transform(X.values)
+# SMOTE result
+# cols=['glucose', 'BMI', 'insulin_SI', 'g_barycenter_std', 'cell_circularity', 'g_min', 'g_max', 'g_std', 'g_CV', 'g_99', 'g_IQR', 'g_CI_95_max', 's_CI_95_min', 'g_har2min', 'g_har2CV', 'g_har250', 'g_har2CI_95_min', 's_har2max', 's_har2whisker_low', 's_har2CI_95_min', 's_har2CI_99_max', 'intensity_all_rel_mean', 'intensity_all_rel_50', 'intensity_all_rel_75', 'intensity_all_rel_CI_67_max', 'intensity_cytoplasm_rel_mean', 'intensity_cytoplasm_rel_std', 'intensity_cytoplasm_rel_CV', 'intensity_cytoplasm_rel_25', 'intensity_cytoplasm_rel_50', 'intensity_cytoplasm_rel_75', 'intensity_cytoplasm_rel_99', 'intensity_cytoplasm_rel_whisker_low', 'intensity_cytoplasm_rel_whisker_high', 'intensity_cytoplasm_rel_CI_67_max', 'intensity_cytoplasm_rel_CI_95_max', 'intensity_cytoplasm_rel_CI_99_max', 'intensity_lipofuscin_rel_mean', 'intensity_lipofuscin_rel_CV', 'intensity_lipofuscin_rel_25', 'intensity_lipofuscin_rel_50']  
 
-# plot explained variance as function of number of components
-plt.figure(1, figsize=(14, 3))
+if salzberg == True:
+    np.random.shuffle(Y_train.values)
 
-plt.bar(range(1,pca10_components+1,1), pca10.explained_variance_ratio_, alpha=0.5, align='center',
-        label='individual explained variance', color='gray')
-plt.step(range(1,pca10_components+1,1),pca10.explained_variance_ratio_.cumsum(), where='mid',
-          label='cumulative explained variance', color='gray')
-plt.ylabel('Explained variance ratio')
-plt.xlabel('Principal components')
-plt.legend(loc='best')
-# plt.axhline(y=0.7, color='r', linestyle='-') # 70% of  explained variance
-plt.tight_layout()
-plt.xticks(range(1,pca10_components+1,1), range(1,pca10_components+1,1))
-plt.savefig(path_root/'results'/'PCA'/'OptimalComponents.svg', bbox_inches='tight')
-plt.show()
+# %% Unsupervised learning
 
-# %% PCA: perform PCA
-pca=PCA(n_components=n_components)
-pc = pca.fit_transform(X.values)
-columns=[]
-for i in range(1, n_components+1):
-    columns.append('PC'+str(i))
-pc_df=pd.DataFrame(pc, columns=columns)
-pc_df['cell_type']=df['cell_type']
-#save PCA df
-# pc_df.to_csv(path_root/'data'/'PCA2.csv')
 
-# %% 3D plot
-# from mpl_toolkits.mplot3d import Axes3D # 3D scatter plot
-# fig = plt.figure(figsize=(12,7))
-# ax = Axes3D(fig) 
+# %% Supervised learning
 
-# cmap = {'alpha':'orange','beta':'green'}
-# ax.scatter(pc[:,0], pc[:,1], pc[:,2], c=[cmap[c] for c in  pc_df[hue].values],
-#            marker='o', s=20)
+# %% XGBoost optimized
+from xgboost import XGBClassifier
+from sklearn.model_selection import cross_val_score
+import optuna
 
-# ax.set_xlabel('PC1')
-# ax.set_ylabel('PC2')
-# ax.set_zlabel('PC3')
-# ax.view_init(30,-110)
-# plt.show()
+if xgb_feature_selection:
+    # load original xgb model
+    model_path=path_root/'models'/'xgb_optuna.pkl'
+    model_xgb_old=load_model(model_path)
+    
+    # select most important features
+    xgb_features=pd.DataFrame(model_xgb_old.feature_importances_, index=list(x.columns))
+    if feature_threshold==0:
+        xgb_best_features=list(xgb_features[xgb_features.values!=0].index)
+    else:        
+        xgb_best_features=list(xgb_features[xgb_features.values>=feature_threshold].index)
+    
+    # cut dataset features
+    x=x[xgb_best_features]
+    X_train=X_train[xgb_best_features]
+    X_test=X_test[xgb_best_features]
+    
+#define an objective function to minimize loss using optuna
+def objective(trial):
+        """
+        Objective function for Optuna study.
+        """
 
-# %% composite KDE+PCA subplot
-palette=['#00b050', '#c00000']
+        params = {
+            # 'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear', 'dart']),
+            'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear']),
+            'eta': trial.suggest_float('eta',0.01,1),
+            'learning_rate': trial.suggest_float('learning_rate', 0.001, 0.3),
+            'n_estimators': trial.suggest_int('n_estimators', 500,2000,log=True),
+            'max_depth': trial.suggest_int('max_depth', 1, 20),
+            'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
+            'subsample': trial.suggest_float('subsample', 0.5, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
+            'gamma': trial.suggest_float('gamma', 0.0, 1.0),
+            'lambda': trial.suggest_float('lambda',0.5,3),
+            'num_parallel_tree': 5,
+            }
+        
+        model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42, **params)
+        
+        score = cross_val_score(model_xgb, X_train, Y_train, cv=cv, scoring=make_scorer(roc_auc_score)).mean()
+        
+        return score
+    
+# define the optuna study
+study = optuna.create_study(direction='maximize', pruner=optuna.pruners.BasePruner)
+study.optimize(objective, n_trials=300)
 
-# Creating a figure with a grid layout: 2 rows, 2 columns
-# Adjusted width_ratios so that the left column (for KDE of PC2) is wider
-fig = plt.figure(figsize=(6, 5), dpi=400)
-gs = fig.add_gridspec(2, 2, height_ratios=[1, 4], width_ratios=[1, 6], hspace=0.07, wspace=0.05)
+#get best parameters
+best_params = study.best_params
 
-# Scatter plot moved to the right
-ax_scatter = fig.add_subplot(gs[1, 1])
-sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, ax=ax_scatter, marker='o', hue='cell_type', palette=palette)
-ax_scatter.set_xlabel('PC1')
-ax_scatter.set_ylabel('PC2')
-ax_scatter.legend(title='Cell type')
-ax_scatter.get_yaxis().set_visible(False)
-ax_scatter.set_aspect('equal')
+#train model with best parameters
+model_xgb_optim = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42, **best_params)
 
-# KDE plot for PC1 above the scatter plot (no change needed here)
-i=0
-ax_kde_pc1 = fig.add_subplot(gs[0, 1], sharex=ax_scatter)
-for cell_type in pc_df['cell_type'].unique():
-    sns.kdeplot(pc_df[pc_df['cell_type'] == cell_type]['PC1'], ax=ax_kde_pc1, color=palette[i])
-    i=i+1
-ax_kde_pc1.set_ylabel('Density')
-ax_kde_pc1.set_xlabel('')  # Hide x-axis labels
-ax_kde_pc1.get_xaxis().set_visible(False)
+model_xgb_optim.fit(X_train, Y_train)
 
-# KDE plot for PC2 moved to the left of the scatter plot
-ax_kde_pc2 = fig.add_subplot(gs[1, 0], sharey=ax_scatter)
-i=0
-for cell_type in pc_df['cell_type'].unique():
-    sns.kdeplot(pc_df[pc_df['cell_type'] == cell_type]['PC2'], ax=ax_kde_pc2, vertical=True, color=palette[i])
-    i=i+1
-ax_kde_pc2.set_xlabel('Density')
-ax_kde_pc2.set_ylabel('PC2')  
+#performance evaluation
+print('XGBoost')
+print('training')
+score=performance_scores(model_xgb_optim, X_train, Y_train, compact=compact_score)
+print(score)
 
-# Invert the x-axis to flip the plot
-ax_kde_pc2.invert_xaxis()
+print('\ntest')
+score=performance_scores(model_xgb_optim, X_test, Y_test, compact=compact_score)
+print(score)
 
-# Hide x and y labels of scatter plot to avoid duplication
-# ax_scatter.set_xlabel('')
-# ax_scatter.set_ylabel('')
+# # %%% Logistic Regression
+# from sklearn.linear_model import LogisticRegression
+# #### cross validation
+# params_lr = [{
+#     'solver': ['newton-cg', 'lbfgs', 'sag'],
+#     'C': [0.3, 0.5, 0.7, 1, 10, 100, 1000],
+#     'penalty': ['l2']
+#     },{
+#     'solver': ['liblinear','saga'],
+#     'C': [0.3, 0.5, 0.7, 1, 10, 100, 1000],
+#     'penalty': ['l1','l2']
+# }]
 
-# Setting an overall title for the figure
-# fig.suptitle('PCA Analysis: Scatter and KDE Plots', fontsize=16)
+# #### assess chosen hyperparameter effect on precision
+# # score_alpha_train=[]
+# # score_beta_train=[]
+# # score_alpha_test=[]
+# # score_beta_test=[]
+# # # C_range=[0.001, 0.1, 1, 10, 100, 1000, 10000, 100000]
+# # C_range=range(500, 5000, 100)
 
-if save:
-    plt.savefig(path_root/'results'/'PCA'/'PCA_KDE.svg', bbox_inches='tight')
+# # for i in C_range:
+# #     model_lr = LogisticRegression(C=i, class_weight='balanced', random_state=42, max_iter=1000)
+# #     model_lr.fit(X_train, Y_train)
+# #     score_alpha_train.append(precision_score(Y_train, model_lr.predict(X_train), average=None)[0])
+# #     score_beta_train.append(precision_score(Y_train, model_lr.predict(X_train), average=None)[1])
+# #     score_alpha_test.append(precision_score(Y_test, model_lr.predict(X_test), average=None)[0])
+# #     score_beta_test.append(precision_score(Y_test, model_lr.predict(X_test), average=None)[1])
+ 
+# # df_score=pd.DataFrame({'alpha_train':score_alpha_train, 'beta_train':score_beta_train, 'alpha_test':score_alpha_test, 'beta_test':score_beta_test})
+# # df_score.index=C_range
 
-# Show the plots
-plt.show()
+# # df_score.plot(logx=True, style=['--r', '--g', 'r', 'g'])
+# # plt.xlabel('C')
+# # plt.ylabel('Precision')
 
-# %% assess feature importance on PCA plot
-# hue='intensity_all_rel_whisker_high'
-# # hue='glucose'
-# pc_df[hue]=df[hue]
-# sns.scatterplot(x='PC1', y='PC2',  data=pc_df, alpha=0.98, marker='o', hue=hue, palette='flare', color='gray')
-# str_filename='PCA_'+hue+'.svg'
-# plt.legend(title=hue, loc='center right', bbox_to_anchor=(1.52, 0.5))
-# plt.savefig(path_root/'results'/'PCA'/str_filename, bbox_inches='tight')
-# plt.show()
+# #### model initialization
+# model_lr = LogisticRegression(class_weight='balanced', random_state=42, solver='sag', max_iter=1000)
+
+# #### grid search
+# cv_grid_lr = GridSearchCV(
+#     estimator=model_lr,
+#     param_grid=params_lr,
+#     n_jobs=-2,
+#     cv = cv, #cross validation
+#     scoring=make_scorer(roc_auc_score)
+# )
+
+# #### train model
+# model_lr = cv_grid_lr.fit(X_train, Y_train)
+# # model_lr.fit(X_train, Y_train)
+
+# #### performance evaluation
+# print('Logistic Regression')
+# print('training')
+# # performance_testing(model_lr, X_test, Y_test)
+# # performance_testing(model_lr_cv, X_test, Y_test)
+# score=performance_scores(model_lr, X_train, Y_train, compact=compact_score)
+# print(score)
+
+# print('\ntest')
+# score=performance_scores(model_lr, X_test, Y_test, compact=compact_score)
+# print(score)
+# # %%% XGBoost
+
+# #### cross validation
+# # Hyper-parameters set 
+# params_xgb = {
+#     'max_depth': range(2, 8, 1),
+#     'n_estimators': range(1, np.size(X_train.columns)),
+#     'learning_rate': [0.0001, 0.001, 0.01, 0.1, 0.2, 0.3]
+#     }
+
+# #### model initialization
+# from xgboost import XGBClassifier
+# model_xgb = XGBClassifier(use_label_encoder=False, class_weight='balanced', objective="binary:logistic", random_state=42)
+
+# #### grid search
+# cv_grid_xgb = GridSearchCV(
+#     estimator=model_xgb,
+#     param_grid=params_xgb,
+#     n_jobs=-2,
+#     cv = cv,
+#     verbose=True,
+#     scoring=make_scorer(roc_auc_score)
+# )
+
+# #### train model
+# # model_xgb = cv_grid_xgb.fit(X_train, Y_train)
+# # model_xgb=model_xgb.fit(X_train, Y_train)
+
+# #### restrict features and model re-training
+# model_xgb=load_model()
+# cols=list(X_train.iloc[:,model_xgb.best_estimator_.feature_importances_!=0].columns)
+# # cols=model_xgb.best_estimator_.features
+# X_train=X_train[cols]
+# X_test=X_test[cols]
+# model_xgb = cv_grid_xgb.fit(X_train, Y_train)
+
+# #### performance evaluation
+# print('XGBoost')
+# print('training')
+# score=performance_scores(model_xgb, X_train, Y_train, compact=compact_score)
+# print(score)
+
+# print('\ntest')
+# score=performance_scores(model_xgb, X_test, Y_test, compact=compact_score)
+# print(score)
+
+        
+
+# # %%% SVM
+# from sklearn.svm import SVC
+
+# #### model initialization
+# model_svc = SVC(kernel='linear', C=1, class_weight='balanced', random_state=42)
+
+# #### grid search
+# params_svc = [
+#                 {'C':np.arange(1,4,0.2), 'kernel':['rbf'], 'gamma':np.arange(0.1, 0.6, 0.02)},
+#                 {'C':np.arange(20,50, 2), 'kernel':['poly'], 'degree': [2] ,'gamma':np.concatenate((np.arange(0.001, 0.009, 0.002),np.arange(0.1, 0.6, 0.05)))} 
+#               ]
+
+# #### feature selection
+# # # RFE
+# # model_svc = RFE(
+# #     estimator=model_svc,
+# #     step=1,
+# # )
+
+
+
+# cv_grid_svc = GridSearchCV(estimator = model_svc,  
+#                             param_grid = params_svc,
+#                             scoring=make_scorer(roc_auc_score),
+#                             cv = cv,
+#                             verbose=0,
+#                             n_jobs=-2
+#                             )
+
+
+# # cv_rnd_svc = RandomizedSearchCV(estimator = model_svc,  
+# #                             param_grid = params_svc,
+# #                             scoring=make_scorer(f1_score),
+# #                             cv = cv,
+# #                             verbose=0)
+
+
+# # cols= ['glucose', 'BMI', 'insulin_SI', 'g_barycenter', 's_barycenter', 'g_barycenter_std', 's_barycenter_std', 'cell_area', 'cell_perimeter', 'cell_circularity', 'oxphos', 'lipofuscin_area_rel', 'g_har2_barycenter', 's_har2_barycenter', 'g_har2_barycenter_std', 's_har2_barycenter_std', 'g_min', 'g_max', 'g_mean', 'g_mode', 'g_CV', 'g_25', 'g_50', 'g_75', 'g_99', 'g_IQR', 'g_whisker_low', 'g_whisker_high', 'g_CI_67_min', 'g_CI_67_max', 'g_CI_95_min', 'g_CI_95_max', 'g_CI_99_min', 'g_CI_99_max', 's_min', 's_max', 's_mode', 's_CV', 's_50', 's_75', 's_99', 's_IQR', 's_whisker_high', 's_CI_67_min', 's_CI_67_max', 's_CI_95_min', 's_CI_95_max', 's_CI_99_min', 's_CI_99_max', 'g_har2min', 'g_har2max', 'g_har2mode', 'g_har2CV', 'g_har225', 'g_har250', 'g_har275', 'g_har299', 'g_har2IQR', 'g_har2whisker_low', 'g_har2whisker_high', 'g_har2CI_67_min', 'g_har2CI_67_max', 'g_har2CI_95_min', 'g_har2CI_95_max', 'g_har2CI_99_min', 'g_har2CI_99_max', 's_har2min', 's_har2max', 's_har2mean', 's_har2mode', 's_har2CV', 's_har225', 's_har250', 's_har275', 's_har299', 's_har2IQR', 's_har2whisker_low', 's_har2whisker_high', 's_har2CI_67_max', 's_har2CI_95_min', 's_har2CI_95_max', 's_har2CI_99_min', 's_har2CI_99_max', 'intensity_all_rel_min', 'intensity_all_rel_max', 'intensity_all_rel_mean', 'intensity_all_rel_mode', 'intensity_all_rel_CV', 'intensity_all_rel_25', 'intensity_all_rel_50', 'intensity_all_rel_75', 'intensity_all_rel_99', 'intensity_all_rel_IQR', 'intensity_all_rel_whisker_low', 'intensity_all_rel_whisker_high', 'intensity_all_rel_CI_67_min', 'intensity_all_rel_CI_67_max', 'intensity_all_rel_CI_95_min', 'intensity_all_rel_CI_95_max', 'intensity_all_rel_CI_99_min', 'intensity_cytoplasm_rel_mean', 'intensity_cytoplasm_rel_std', 'intensity_cytoplasm_rel_CV', 'intensity_cytoplasm_rel_25', 'intensity_cytoplasm_rel_75', 'intensity_cytoplasm_rel_IQR', 'intensity_cytoplasm_rel_whisker_low', 'intensity_cytoplasm_rel_whisker_high', 'intensity_cytoplasm_rel_CI_67_min', 'intensity_cytoplasm_rel_CI_67_max', 'intensity_cytoplasm_rel_CI_95_max', 'intensity_cytoplasm_rel_CI_99_min', 'intensity_cytoplasm_rel_CI_99_max', 'intensity_lipofuscin_rel_mean', 'intensity_lipofuscin_rel_mode', 'intensity_lipofuscin_rel_std', 'intensity_lipofuscin_rel_CV', 'intensity_lipofuscin_rel_25', 'intensity_lipofuscin_rel_50', 'intensity_lipofuscin_rel_IQR', 'intensity_lipofuscin_rel_whisker_low', 'intensity_lipofuscin_rel_whisker_high', 'intensity_lipofuscin_rel_CI_67_min', 'intensity_lipofuscin_rel_CI_67_max', 'intensity_lipofuscin_rel_CI_99_min']
+# # X_train=X_train[cols]
+# # X_test=X_test[cols]
+
+# #### train model
+# # model_svc = model_svc.fit(X_train, Y_train)
+# model_svc = cv_grid_svc.fit(X_train, Y_train)
+# # model_svc = cv_rnd_svc.fit(X_train, Y_train)
+
+
+# # model_svc=model_svc.fit(X_train, Y_train)   
+
+# #### performance evaluation
+# print('Support Vector Machine')
+# print('training')
+# score=performance_scores(model_svc, X_train, Y_train, compact=compact_score)
+# print(score)
+
+# print('\ntest')
+# score=performance_scores(model_svc, X_test, Y_test, compact=compact_score)
+# print(score)
+
+
+
+# # %%%% assess chosen hyperparameter effect on precision
+# # from sklearn.svm import SVC
+# # score_alpha_train=[]
+# # score_beta_train=[]
+# # score_alpha_test=[]
+# # score_beta_test=[]
+# # gamma_range = np.concatenate((
+# #     np.arange(0.001, 0.009, 0.001), 
+# #     np.arange(0.01, 0.09, 0.01), 
+# #     np.arange(0.1, 0.9, 0.1),
+# #     np.arange(1, 9, 1),
+# #     np.arange(10, 90, 10),
+# #     [100, 1000])
+# #     )
+
+# # # C_range = np.concatenate((np.arange(0.01, 0.09, 0.01), 
+# # #                   np.arange(0.1, 0.9, 0.1),
+# # #                   np.arange(1, 9, 1),
+# # #                   np.arange(10, 90, 10),
+# # #                   [100, 1000])
+# # #                   )
+
+# # for i in gamma_range:
+# #     model_svc = SVC(C=30, gamma=i, kernel='poly', degree=2, random_state=42)
+# #     model_svc.fit(X_train, Y_train)
+# #     score_alpha_train.append(precision_score(Y_train, model_svc.predict(X_train), average=None)[0])
+# #     score_beta_train.append(precision_score(Y_train, model_svc.predict(X_train), average=None)[1])
+# #     score_alpha_test.append(precision_score(Y_test, model_svc.predict(X_test), average=None)[0])
+# #     score_beta_test.append(precision_score(Y_test, model_svc.predict(X_test), average=None)[1])
+ 
+# # df_score=pd.DataFrame({'alpha_train':score_alpha_train, 'beta_train':score_beta_train, 'alpha_test':score_alpha_test, 'beta_test':score_beta_test})
+# # df_score.index=gamma_range
+
+# # df_score.plot(logx=True, style=['--r', '--g', 'r', 'g'])
+# # plt.xlabel('gamma')
+# # plt.ylabel('Precision')
+
+
+# %% KNN
+# from sklearn.neighbors import KNeighborsClassifier
+
+# # initialize model
+# model_KNN = KNeighborsClassifier()
+
+# # set hyperparameters
+# params_KNN = [{'n_neighbors': np.arange(5, 100, 2), 'weights': ['uniform', 'distance']}]
+
+# # initialize grid search
+# cv_grid_KNN = GridSearchCV(estimator = model_KNN,  
+#                             param_grid = params_KNN,
+#                             scoring=make_scorer(roc_auc_score),
+#                             cv = cv,
+#                             verbose=0)
+
+# # train model
+# model_KNN = cv_grid_KNN.fit(X_train, Y_train)
+# model_KNN.fit(X_train, Y_train)
+
+# # performance evaluation
+# print('KNN')
+# print('training')
+# score=performance_scores(model_KNN, X_train, Y_train, compact=compact_score)
+# print(score)
+
+# print('\ntest')
+# score=performance_scores(model_KNN, X_test, Y_test, compact=compact_score)
+# print(score)
+
+# %% save/load model and related data
+if save_model_bool:
+    model_path=path_root/'models'/model_name
+    save_model(model=model_xgb_optim, filename=model_path)
+
+# %% Error analysis
+# model=model_xgb
+
+# Y_pred=model.predict(X_test)
+# # # create misclassified alpha dataframe
+# Y_pred=pd.Series(Y_pred, index=Y_test.index)
+# Y_error=pd.concat([Y_test, Y_pred], axis=1)
+# Y_error.columns=['test', 'pred']
+
+
+# #merge ID
+# Y_error.index=Y_pred.index
+# a=df.loc[Y_error.index]
+# Y_error=pd.concat([a.iloc[:,:5], Y_error], axis=1)
+# Y_error=Y_error[Y_error['test']!=Y_error['pred']]
+# Y_error[['test', 'pred']]=Y_error[['test', 'pred']].replace([0,1],['alpha', 'beta'])
+
+# Y_error=df.iloc[:,:5].merge(Y_error, how='right')
+
+# Y_error=Y_error[np.logical_xor(Y_error['test'],Y_error['pred'])]
+# Y_error=Y_error[Y_error['test']=='alpha']
+# Y_error=Y_error[Y_error['pred']=='beta']
+
+# Y_error=Y_error[np.logical_xor(Y_error['test'],Y_error['pred'])]
+# Y_error[['test', 'pred']]=Y_error[['test', 'pred']].replace([0,1],['alpha', 'beta'])
+# df_error=df.loc[Y_error.index]
+
+# m_alpha=Y_error[Y_error['pred']==1].iloc[:,-1].count()/np.size(Y_error, axis=0)
+# m_beta=Y_error[Y_error['pred']==0].iloc[:,-1].count()/np.size(Y_error, axis=0)
+
+
+# %% ensemble voting classfier
+# load xgb and svc models
+# print('load XGBoost:')
+# path_xgb="G:/My Drive/PhD/CAPTUR3D_personal/00 Progetti/beta cell recognize/saved models/xgb_SMOTE_125features.pkl"
+# model_xgb=load_model(path_xgb) #xgb
+# print('load SVC model:')
+# path_svc="G:/My Drive/PhD/CAPTUR3D_personal/00 Progetti/beta cell recognize/saved models/svc_125features.pkl"
+# model_svc=load_model(path_svc) #svc
+
+# # select 125 features (from xgb embedded feature selection algorithm)
+# cols= ['glucose', 'BMI', 'insulin_SI', 'g_barycenter', 's_barycenter', 'g_barycenter_std', 's_barycenter_std', 'cell_area', 'cell_perimeter', 'cell_circularity', 'oxphos', 'lipofuscin_area_rel', 'g_har2_barycenter', 's_har2_barycenter', 'g_har2_barycenter_std', 's_har2_barycenter_std', 'g_min', 'g_max', 'g_mean', 'g_mode', 'g_CV', 'g_25', 'g_50', 'g_75', 'g_99', 'g_IQR', 'g_whisker_low', 'g_whisker_high', 'g_CI_67_min', 'g_CI_67_max', 'g_CI_95_min', 'g_CI_95_max', 'g_CI_99_min', 'g_CI_99_max', 's_min', 's_max', 's_mode', 's_CV', 's_50', 's_75', 's_99', 's_IQR', 's_whisker_high', 's_CI_67_min', 's_CI_67_max', 's_CI_95_min', 's_CI_95_max', 's_CI_99_min', 's_CI_99_max', 'g_har2min', 'g_har2max', 'g_har2mode', 'g_har2CV', 'g_har225', 'g_har250', 'g_har275', 'g_har299', 'g_har2IQR', 'g_har2whisker_low', 'g_har2whisker_high', 'g_har2CI_67_min', 'g_har2CI_67_max', 'g_har2CI_95_min', 'g_har2CI_95_max', 'g_har2CI_99_min', 'g_har2CI_99_max', 's_har2min', 's_har2max', 's_har2mean', 's_har2mode', 's_har2CV', 's_har225', 's_har250', 's_har275', 's_har299', 's_har2IQR', 's_har2whisker_low', 's_har2whisker_high', 's_har2CI_67_max', 's_har2CI_95_min', 's_har2CI_95_max', 's_har2CI_99_min', 's_har2CI_99_max', 'intensity_all_rel_min', 'intensity_all_rel_max', 'intensity_all_rel_mean', 'intensity_all_rel_mode', 'intensity_all_rel_CV', 'intensity_all_rel_25', 'intensity_all_rel_50', 'intensity_all_rel_75', 'intensity_all_rel_99', 'intensity_all_rel_IQR', 'intensity_all_rel_whisker_low', 'intensity_all_rel_whisker_high', 'intensity_all_rel_CI_67_min', 'intensity_all_rel_CI_67_max', 'intensity_all_rel_CI_95_min', 'intensity_all_rel_CI_95_max', 'intensity_all_rel_CI_99_min', 'intensity_cytoplasm_rel_mean', 'intensity_cytoplasm_rel_std', 'intensity_cytoplasm_rel_CV', 'intensity_cytoplasm_rel_25', 'intensity_cytoplasm_rel_75', 'intensity_cytoplasm_rel_IQR', 'intensity_cytoplasm_rel_whisker_low', 'intensity_cytoplasm_rel_whisker_high', 'intensity_cytoplasm_rel_CI_67_min', 'intensity_cytoplasm_rel_CI_67_max', 'intensity_cytoplasm_rel_CI_95_max', 'intensity_cytoplasm_rel_CI_99_min', 'intensity_cytoplasm_rel_CI_99_max', 'intensity_lipofuscin_rel_mean', 'intensity_lipofuscin_rel_mode', 'intensity_lipofuscin_rel_std', 'intensity_lipofuscin_rel_CV', 'intensity_lipofuscin_rel_25', 'intensity_lipofuscin_rel_50', 'intensity_lipofuscin_rel_IQR', 'intensity_lipofuscin_rel_whisker_low', 'intensity_lipofuscin_rel_whisker_high', 'intensity_lipofuscin_rel_CI_67_min', 'intensity_lipofuscin_rel_CI_67_max', 'intensity_lipofuscin_rel_CI_99_min']
+# X_train=X_train[cols]
+# X_test=X_test[cols]
+
+# # train ensemble classifier
+# from sklearn.ensemble import VotingClassifier
+
+# eclf=VotingClassifier(estimators=[('xgb', model_xgb), ('svc', model_svc)], 
+#                       n_jobs=-2, voting='soft')
+# eclf=eclf.fit(X_train, Y_train)
+
+# # assess score
+# print('Ensemble Voting Classifier')
+# print('training')
+# score=performance_scores(eclf, X_train, Y_train, compact=compact_score)
+# print(score)
+
+# print('\ntest')
+# score=performance_scores(eclf, X_test, Y_test, compact=compact_score)
+# print(score)
+
+# %% quick score computing
+# model_xgb=load_model()
+ 
+# #### performance evaluation
+# print('XGBoost')
+# print('training')
+# ascore=performance_scores(model_xgb, X_train, Y_train, compact=compact_score).T
+# print(ascore)
+
+# print('\ntest')
+# ascore=performance_scores(model_xgb, X_test, Y_test, compact=compact_score).T
+# print(ascore)
+
+# %% barplot of feature importance
+# threshold=0.01 #with 0.01, selects the 10 best features
+
+# print('choose a model to load (.pkl)')
+# model_xgb=load_model()
+# x_axis=list(X_train.iloc[:,model_xgb.best_estimator_.feature_importances_>threshold].columns)
+# y_axis=model_xgb.best_estimator_.feature_importances_[model_xgb.best_estimator_.feature_importances_>threshold]
+# a=pd.Series(y_axis, index=x_axis)
+# a.sort_values(ascending=False, inplace=True)
+# a.plot(kind='bar', rot=30, figsize=(10,2))
+# flim.decode.savefigure(transparent=False)
+# print(np.sum(a.values))
+
+# %% plot of cumulative feature importance vs number of features
+
+
+# %% debug lipofuscin area calculus
+# g,s,intensity, filename=flim.decode.import_R64()
+# thr=[]
+# intensity_thr=[]
+# thr=flim.LipofuscinThresholdCalculus(intensity)
+# for i in range(0, np.size(filename)):
+#     intensity_thr_tmp=np.where(intensity[i,:,:]<thr[i], intensity[i,:,:], 0)
+#     intensity_thr.append(intensity_thr_tmp)
+#     # build image
+#     plt.subplot(121)
+#     plt.imshow(intensity[i,:,:], cmap='gray')
+#     plt.subplot(122)
+#     plt.imshow(intensity_thr_tmp, cmap='gray')
+#     flim.decode.savefigure(name=filename[i], save=-1)
+#     print('figure ', i, ' of ', np.size(filename))
+
+# # %% EDA figures
+# sns.barplot(y='lipofuscin_area_rel', x='cell_type', data=df)
+# sns.boxplot(y='lipofuscin_area_rel', x='cell_type', data=df)
+# # scatterplot: size vs autofluo 
+# sns.scatterplot(y='intensity_all_rel_mean', x='cell_area', hue='cell_type',data=df)
+# flim.decode.savefigure('size_vs_autofluo', save=-1)
+
+# # assess lipofuscin quantity
+# sns.barplot(y='lipofuscin_area_rel', x='islet', hue='cell_type',data=df)
+# sns.boxplot(y='lipofuscin_area_rel', x='cell_type',data=df)
+
+# #violin plot
+# x_label='date'
+# y_label='lipofuscin_area_rel'
+# sns.violinplot(x=x_label, y=y_label, data=df, hue='cell_type', split=True)
+# flim.decode.savefigure('violin_'+y_label, save=-1)
+
+# # pairplot
+# cols=['cell_type','g_IQR', 'g_CV', 'g_barycenter_std', 'g_std', 'intensity_all_rel_std', 'intensity_cytoplasm_rel_CV']
+# sns.pairplot(data=df[cols], hue='cell_type')
+# flim.decode.savefigure('pairplot', save=-1)
+
+# y_label=['cell_area', 'cell_perimeter', 'cell_circularity']
+# j=0
+# fig, ax = plt.subplots(3,1, figsize=(3,10))
+# for i in y_label:
+#     sns.boxplot(y=i, x='cell_type', data=df, ax=ax[j])
+#     j=j+1
+# flim.decode.savefigure('boxplot_morphology', save=-1)
+
+# # 2 vs 16 mM: scatterplot
+# # create x without scaling
+# # plot
+# df2=df.iloc[:,9:]
+# df2=df2.drop(index=76)
+# df2['glucose']=df['glucose']
+# xvals=df2[df2.glucose=='2mM'].drop(labels='glucose', axis=1)
+# yvals=df2[df2.glucose=='16mM'].drop(labels='glucose', axis=1)
+# plt.scatter(x=xvals, y=yvals)
+# plt.plot([-4000, 6000], [-4000, 6000], c='k') # plot bisector line
+
+# # 2 vs 16 mM: heatmap
+
+# # assess scaled values
+# x_n, y_n=DataTransform(x, y)
+# x_n=pd.DataFrame(scaler.transform(x), columns=x.columns)
+# xvals_n=x_n[x_n.glucose==0].drop(labels='glucose', axis=1)
+# yvals_n=x_n[x_n.glucose==1].drop(labels='glucose', axis=1)
+    

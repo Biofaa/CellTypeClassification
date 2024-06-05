@@ -939,6 +939,7 @@ xgb_feature_selection=True
 save_model_bool=True
 model_name='xgb_optuna_FeatureSelection_div0.pkl'
 feature_threshold=0.001
+plt.rcParams["font.family"] = "Arial"
 
 # %% Load data
 
@@ -1093,10 +1094,10 @@ for i in N_centroids:
 
 # plot elbow
 plt.figure(figsize=(10,2))
-plt.plot(N_centroids, distortions)
+plt.plot(N_centroids, distortions, 'k')
 # xlabels=np.arange(N_centroids[0], N_centroids[-1], 5)
 # plt.xticks(xlabels, xlabels+1)
-plt.title('elbow method')
+# plt.title('elbow method')
 plt.xlabel('number of centroids')
 plt.ylabel('WCSS')
 c=10 #number of desired centroids
@@ -1105,7 +1106,7 @@ plt.savefig(path_root/'results'/'kmeans'/'elbow.svg', bbox_inches='tight')
 plt.show()
 
 #%% k-means: calculate Gini purity for each centroid
-centroids=20 #initialize the number of centroids you want to analyse
+centroids=10 #initialize the number of centroids you want to analyse
 df_labels=pd.Series(kmeans_labels[str(centroids)])
 
 def GiniImpurity(X):
@@ -1124,10 +1125,10 @@ for cluster in range(0,centroids):
     gini[str(cluster)]=GiniImpurity(Y_tmp)
 
 gini=pd.Series(gini)
-gini.plot(kind='bar', figsize=(10,2)).set_xticklabels(np.arange(1, centroids+1))
+gini.plot(kind='bar', figsize=(10,2), color='gray', rot=0).set_xticklabels(np.arange(1, centroids+1))
 plt.xlabel('cluster')
 plt.ylabel('Gini index')
-plt.title('Cluster heterogeneity')
+# plt.title('Cluster heterogeneity')
 plt.savefig(path_root/'results'/'kmeans'/'gini vs cluster.svg', bbox_inches='tight')
 plt.show()
 
