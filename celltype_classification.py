@@ -939,12 +939,12 @@ def load_model(filename=-1):
 #%% config variables
 compact_score=False #if false, you'll obtain a separate score for alpha and beta cells
 reduce_dataset=True
-xgb_feature_selection=False
+xgb_feature_selection=True
 save_model_bool=True
 salzberg=False
 # model_name='xgb_Salzberg_0.003.pkl'
-model_name='xgb_optuna.pkl'
-feature_threshold=0.003
+model_name='xgb_optuna_FeatureSelection_001.pkl'
+feature_threshold=0.001
 
 # %% Load data
 #----------------------------------------------
@@ -1098,7 +1098,7 @@ import optuna
 
 if xgb_feature_selection:
     # load original xgb model
-    model_path=path_root/'models'/'xgb_optuna.pkl'
+    model_path=path_root/'models'/'xgb_optuna'/'xgb_optuna.pkl'
     model_xgb_old=load_model(model_path)
     
     # select most important features
@@ -1130,7 +1130,7 @@ def objective(trial):
             'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
             'gamma': trial.suggest_float('gamma', 0.0, 1.0),
             'lambda': trial.suggest_float('lambda',0.5,3),
-            'num_parallel_tree': 5,
+            # 'num_parallel_tree': 5,
             }
         
         model_xgb = XGBClassifier(use_label_encoder=False, objective="binary:logistic", random_state=42, **params)
@@ -1151,7 +1151,7 @@ model_xgb_optim = XGBClassifier(use_label_encoder=False, class_weight='balanced'
 
 model_xgb_optim.fit(X_train, Y_train)
 
-#performance evaluation
+# performance evaluation
 print('XGBoost')
 print('training')
 score=performance_scores(model_xgb_optim, X_train, Y_train, compact=compact_score)
@@ -1191,7 +1191,7 @@ print('\ntest')
 score=performance_scores(model_lr, X_test, Y_test, compact=compact_score)
 print(score)
 
-# # %% XGBoost
+# %% XGBoost
 
 # #### cross validation
 # # Hyper-parameters set 

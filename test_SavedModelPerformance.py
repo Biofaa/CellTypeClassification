@@ -937,7 +937,7 @@ def load_model(filename=-1):
 reduce_dataset=True
 save=False
 plt.rcParams["font.family"] = "Arial"
-model_name='xgb_optuna_FeatureSelection_0.003'
+model_name='xgb_optuna'
 
 # %% Load data
 
@@ -946,8 +946,10 @@ filename=path_root/'data'/'HI_features.dat'
 df=load_dat(filename)
 
 # load model
+model_path=path_root/'models'/model_name
 model_name=model_name+'.pkl'
-model=load_model(path_root/'models'/model_name)
+model=load_model(model_path/model_name)
+scaler=joblib.load(model_path/'MinMaxScaler.pkl')
 
 # # clean dataset by hand
 if reduce_dataset:
@@ -962,18 +964,21 @@ le=LabelEncoder()
 df['glucose']=le.fit_transform(df['glucose'])
 
 roc_auc=[]
-scaler=joblib.load(path_root/'models'/'MinMaxScaler.pkl')
 
 
     
 #### get x and y (extract only features)
-x,y=Get_XY_FromDataFrame(df, 'cell_type')
-x=x.iloc[:,3:]
-x=x.drop(labels='sex', axis=1)
+# x,y=Get_XY_FromDataFrame(df, 'cell_type')
+# x=x.iloc[:,3:]
+# x=x.drop(labels='sex', axis=1)
 
-# preprocessing
-X=pd.DataFrame(scaler.transform(x), columns=x.columns)
-X=X[model.get_booster().feature_names]
+# # preprocessing
+# X=pd.DataFrame(scaler.transform(x), columns=x.columns)
+# X=X[model.get_booster().feature_names]
+
+X=pd.read_csv(model_path/'X_test.csv', index_col=0)
+Y=pd.read_csv(model_path/'Y_test.csv', index_col=0)
+
 
 #%% compute score
 # from sklearn.model_selection import cross_val_score
