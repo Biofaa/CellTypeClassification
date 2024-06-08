@@ -644,15 +644,6 @@ def performance_scores(model, x, y, compact=False):
             }
         
         df=pd.DataFrame(scores, index=np.arange(0, y.drop_duplicates().count()))
-
-    # precision=precision_score(y, Y_predict, average=None)
-    # recall=precision_score(y, Y_predict)
-    # f1=f1_score(y, Y_predict)
-    # balanced_accuracy=balanced_accuracy_score(y, Y_predict)
-    # roc_auc=roc_auc_score(y, Y_predict)
-    # mcc=matthews_corrcoef(y, Y_predict)
-    
-    # df=pd.DataFrame(scores, index=np.arange(0, y.drop_duplicates().count()))
     df=np.round(df, 2).T
     return df
     
@@ -1123,14 +1114,15 @@ def objective(trial):
             'booster': trial.suggest_categorical('booster', ['gbtree', 'gblinear']),
             'eta': trial.suggest_float('eta',0.01,1),
             'learning_rate': trial.suggest_float('learning_rate', 0.001, 0.3),
-            'n_estimators': trial.suggest_int('n_estimators', 500,2000,log=True),
+            # 'n_estimators': trial.suggest_int('n_estimators', 500,2000,log=True),
+            'n_estimators': trial.suggest_int('n_estimators', 100,1000,log=True),
             'max_depth': trial.suggest_int('max_depth', 1, 20),
             'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
             'subsample': trial.suggest_float('subsample', 0.5, 1.0),
-            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.1, 1.0),
             'gamma': trial.suggest_float('gamma', 0.0, 1.0),
             'lambda': trial.suggest_float('lambda',0.5,3),
-            # 'num_parallel_tree': 5,
+            'num_parallel_tree': 5,
             }
         
         model_xgb = XGBClassifier(use_label_encoder=False, objective="binary:logistic", random_state=42, **params)
@@ -1157,9 +1149,9 @@ print('training')
 score=performance_scores(model_xgb_optim, X_train, Y_train, compact=compact_score)
 print(score)
 
-print('\ntest')
-score=performance_scores(model_xgb_optim, X_test, Y_test, compact=compact_score)
-print(score)
+# print('\ntest')
+# score=performance_scores(model_xgb_optim, X_test, Y_test, compact=compact_score)
+# print(score)
 
 # %% Logistic Regression
 from sklearn.linear_model import LogisticRegression
@@ -1260,13 +1252,13 @@ params_svc = [
 
 
 
-# cv_grid_svc = GridSearchCV(estimator = model_svc,  
-#                             param_grid = params_svc,
-#                             scoring=make_scorer(roc_auc_score),
-#                             cv = cv,
-#                             verbose=0,
-#                             n_jobs=-2
-#                             )
+cv_grid_svc = GridSearchCV(estimator = model_svc,  
+                            param_grid = params_svc,
+                            scoring=make_scorer(roc_auc_score),
+                            cv = cv,
+                            verbose=0,
+                            n_jobs=-2
+                            )
 
 
 # # cv_rnd_svc = RandomizedSearchCV(estimator = model_svc,  
@@ -1372,7 +1364,7 @@ print(score)
 if save_model_bool:
     model_path=path_root/'models'/model_name
     save_model(model=model_xgb_optim, filename=model_path)
-    joblib.dump(scaler, path_root/'models'/'MinMaxScaler.pkl') # save scaler model
+    joblib.dump(value=scaler, filename=path_root/'models'/'MinMaxScaler.pkl') # save scaler model
     X_train.to_csv(path_root/'models'/'X_train.csv')
     Y_train.to_csv(path_root/'models'/'Y_train.csv')
     X_test.to_csv(path_root/'models'/'X_test.csv')

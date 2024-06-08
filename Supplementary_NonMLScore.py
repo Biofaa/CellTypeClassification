@@ -77,6 +77,7 @@ plt.show()
 #### plot distribution of best feature
 best_feature=list(score[score['roc_auc']==score['roc_auc'].max()].feature)[0]
 sns.histplot(x=best_feature, data=df, hue='cell_type')
+plt.legend(['alpha', 'beta'])
 plt.show()
 
 precision=[]

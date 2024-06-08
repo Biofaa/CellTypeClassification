@@ -937,7 +937,7 @@ def load_model(filename=-1):
 reduce_dataset=True
 save=False
 plt.rcParams["font.family"] = "Arial"
-model_name='xgb_optuna'
+model_name='xgb_optuna_FeatureSelection_001'
 
 # %% Load data
 
@@ -981,22 +981,19 @@ Y=pd.read_csv(model_path/'Y_test.csv', index_col=0)
 
 
 #%% compute score
-# from sklearn.model_selection import cross_val_score
-# from sklearn.model_selection import RepeatedStratifiedKFold
-# cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=1)
-
-Y_test=model.predict(X)
-# score = cross_val_score(model, X, Y_test, cv=cv, scoring=make_scorer(roc_auc_score)).mean()
-# print('score: ', score)
-
 print('XGBoost')
 # print('training')
 # score=performance_scores(model_xgb_optim, X_train, Y_train, compact=compact_score)
 # print(score)
 
 print('\ntest')
-score=roc_auc_score(y, Y_test)
+score=performance_scores(model, X, Y['cell_type'], compact=False)
 print(score)
+
+#%% additional information
+# training parameters
+print('n_estimators: ', model.get_num_boosting_rounds())
+a=model.get_xgb_params()
 
 
 
