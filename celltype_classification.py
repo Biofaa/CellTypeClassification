@@ -934,8 +934,8 @@ xgb_feature_selection=True
 save_model_bool=True
 salzberg=False
 # model_name='xgb_Salzberg_0.003.pkl'
-model_name='xgb_optuna_FeatureSelection_003.pkl'
-feature_threshold=0.003
+model_name='xgb_optuna_FeatureSelection_001.pkl'
+feature_threshold=0.001
 
 # %% Load data
 #----------------------------------------------
